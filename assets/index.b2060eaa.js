@@ -1,0 +1,1 @@
+import{_ as r}from"http://47.93.229.170:8081/assets/index.b9cd0b61.js";import{o,i as e}from"http://47.93.229.170:8081/assets/vendor.2c746b60.js";var n=r({},[["render",function(r,n){return o(),e("div",null,"404")}]]);export{n as default};
