@@ -22,7 +22,7 @@ const adapter = new LocalStorage<Data>('micro-admin')
 const db = new LowWithLodash(adapter)
 
 // 已有配置
-const BaseData = JSON.parse(localStorage.getItem('micro-admin'))
+const BaseData = JSON.parse(localStorage.getItem('micro-admin')|| '')
 db.data = BaseData || {
     system: {},
     database: {}

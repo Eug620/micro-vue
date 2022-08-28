@@ -2,7 +2,7 @@
  * @Author: eug yyh3531@163.com
  * @Date: 2022-08-28 11:52:07
  * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-08-28 19:05:23
+ * @LastEditTime: 2022-08-28 19:42:45
  * @FilePath: /micro-chat/src/components/mc-particulars-comment/index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -128,7 +128,7 @@ const isAuthor = (id: string) => {
   //   return "is-author"
 };
 
-const commentTree: any[] = ref([]);
+const commentTree:any  = ref([]);
 const refCommentTree: any = ref(null);
 const expandedKeys: any = ref([]);
 const isVisibleDrawer = ref(false);

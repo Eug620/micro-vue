@@ -77,7 +77,7 @@ export const useDBStore = defineStore({
             basis = 'fullPath',
             user = false
         } = {}) {
-            const route = useRoute()
+            const route:any = useRoute()
             return getDatabase({
                 path: `$page.${route[basis]}`,
                 user,
@@ -94,7 +94,7 @@ export const useDBStore = defineStore({
             basis = 'fullPath',
             user = false
         } = {}) {
-            const route = useRoute()
+            const route:any = useRoute()
             return getDatabase({
                 path: `$page.${route[basis]}`,
                 user,
@@ -113,8 +113,8 @@ export const useDBStore = defineStore({
             instance,
             basis = 'fullPath',
             user = false
-        }) {
-            const route = useRoute()
+        }:any) {
+            const route:any = useRoute()
 
             return getDatabase({
                 path: `$page.${route[basis]}.$data`,
@@ -134,8 +134,8 @@ export const useDBStore = defineStore({
             instance,
             basis = 'fullPath',
             user = false
-        }) {
-            const route = useRoute()
+        }:any) {
+            const route:any = useRoute()
 
             return dbGet({
                 path: `$page.${route[basis]}.$data`,
@@ -153,7 +153,7 @@ export const useDBStore = defineStore({
             basis = 'fullPath',
             user = false
         }) {
-            const route = useRoute()
+            const route:any = useRoute()
 
             return getDatabase({
                 path: `$page.${route[basis]}.$data`,

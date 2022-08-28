@@ -1,6 +1,6 @@
 /* eslint-disable */
 // import store from '@/store'
-import axios, { AxiosRequestConfig } from 'axios'
+import axios from 'axios'
 // import { Message } from 'element-ui'
 // import util from '@/libs/util'
 // import loading from '@/libs/util.loading'
@@ -18,7 +18,7 @@ function errorCreate(msg: any, path: any) {
 }
 
 // 记录和显示错误
-function errorLog(error: Error, path: any) {
+function errorLog(error: Error, path?: any) {
   // 添加到日志
   // store.dispatch('d2admin/log/push', {
   //   message: '数据请求异常',
@@ -59,7 +59,7 @@ function errorLog(error: Error, path: any) {
 
   }
 }
-console.log( import.meta.env.VITE_APP_BASE_API, ' import.meta.env.VITE_APP_API');
+// console.log( import.meta.env.VITE_APP_BASE_API, ' import.meta.env.VITE_APP_API');
 
 // 创建一个 axios 实例
 const service = axios.create({
@@ -68,16 +68,16 @@ const service = axios.create({
   timeout: 10 * 60 * 1000, // 请求超时时间
 })
 
-interface ServiceRequestConfig extends AxiosRequestConfig {
-  service?: string
-}
+// interface ServiceRequestConfig extends AxiosRequestConfig {
+//   service?: string
+// }
 
 /* eggjs 默认值，可修改 */
 const xsrfCookieName = 'csrfToken';
 const xsrfHeaderName = 'x-csrf-token';
 // 请求拦截器
 service.interceptors.request.use(
-  (config: ServiceRequestConfig) => {
+  (config: any) => {
     if (config.service) {
       config.baseURL = API_SERVICE_ENUM[config.service]
     }

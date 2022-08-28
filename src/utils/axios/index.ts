@@ -18,7 +18,7 @@ function errorCreate(msg: any, path: any) {
 }
 
 // 记录和显示错误
-function errorLog(error: Error, path: any) {
+function errorLog(error: Error, path?: any) {
   // 添加到日志
   // store.dispatch('d2admin/log/push', {
   //   message: '数据请求异常',
@@ -85,7 +85,7 @@ const xsrfCookieName = 'csrfToken';
 const xsrfHeaderName = 'x-csrf-token';
 // 请求拦截器
 service.interceptors.request.use(
-  (config: ServiceRequestConfig) => {
+  (config: any) => {
     if (config.service) {
       config.baseURL = API_SERVICE_ENUM[config.service]
     }

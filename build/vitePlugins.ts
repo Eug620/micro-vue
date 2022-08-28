@@ -1,7 +1,7 @@
 /* 
  * @Author       : Eug
  * @Date         : 2022-03-28 14:57:09
- * @LastEditTime: 2022-08-28 03:41:51
+ * @LastEditTime: 2022-08-28 19:41:45
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /github/micro-vue/build/vitePlugins.ts
@@ -56,9 +56,9 @@ export const microCustomPlugin = (): PluginOption => {
     writeBundle(options, bundle) {
       for (const chunkName in bundle) {
         if (Object.prototype.hasOwnProperty.call(bundle, chunkName)) {
-          const chunk = bundle[chunkName]
+          const chunk:any = bundle[chunkName]
           if (chunk.fileName && chunk.fileName.endsWith('.js')) {
-            chunk['code'] = chunk['code'].replace(/(from|import\()(\s*['"])(\.\.?\/)/g, (all, $1, $2, $3) => {
+            chunk['code'] = chunk['code'].replace(/(from|import\()(\s*['"])(\.\.?\/)/g, (all:any, $1:any, $2:any, $3:any) => {
               return all.replace($3, new URL($3, basePath))
             })
             const fullPath = join(options.dir, chunk.fileName)
