@@ -2,7 +2,7 @@
  * @Author: eug yyh3531@163.com
  * @Date: 2022-07-14 22:24:52
  * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-08-28 03:55:45
+ * @LastEditTime: 2022-08-28 19:13:56
  * @FilePath: /micro-chat/src/main.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -10,6 +10,8 @@ import '@/index.css';
 import { createApp } from 'vue'
 import App from './App.vue'
 import '@/assets/styles/index.scss';
+import 'nprogress/nprogress.css';
+
 // arco-design
 // import ArcoVue from '@arco-design/web-vue';
 // import '@arco-design/web-vue/dist/arco.css';

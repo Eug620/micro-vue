@@ -7,10 +7,13 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AAffix: typeof import('@arco-design/web-vue')['Affix']
     AAvatar: typeof import('@arco-design/web-vue')['Avatar']
     AButton: typeof import('@arco-design/web-vue')['Button']
     ACard: typeof import('@arco-design/web-vue')['Card']
     ACol: typeof import('@arco-design/web-vue')['Col']
+    AComment: typeof import('@arco-design/web-vue')['Comment']
+    ACrard: typeof import('@arco-design/web-vue')['Crard']
     ADescriptions: typeof import('@arco-design/web-vue')['Descriptions']
     ADivider: typeof import('@arco-design/web-vue')['Divider']
     ADrawer: typeof import('@arco-design/web-vue')['Drawer']
@@ -33,12 +36,15 @@ declare module '@vue/runtime-core' {
     ARadioGroup: typeof import('@arco-design/web-vue')['RadioGroup']
     ARow: typeof import('@arco-design/web-vue')['Row']
     ASpace: typeof import('@arco-design/web-vue')['Space']
+    ASpin: typeof import('@arco-design/web-vue')['Spin']
     AStatistic: typeof import('@arco-design/web-vue')['Statistic']
     ASwitch: typeof import('@arco-design/web-vue')['Switch']
     ATable: typeof import('@arco-design/web-vue')['Table']
     ATabPane: typeof import('@arco-design/web-vue')['TabPane']
     ATabs: typeof import('@arco-design/web-vue')['Tabs']
     ATag: typeof import('@arco-design/web-vue')['Tag']
+    ATextarea: typeof import('@arco-design/web-vue')['Textarea']
+    ATree: typeof import('@arco-design/web-vue')['Tree']
     ATypographyText: typeof import('@arco-design/web-vue')['TypographyText']
     BaseDrawDown: typeof import('./src/components/base-draw-down/index.vue')['default']
     BaseEditInfo: typeof import('./src/components/base-edit-info/index.vue')['default']
@@ -47,6 +53,7 @@ declare module '@vue/runtime-core' {
     BaseSwitch: typeof import('./src/components/base-switch/index.vue')['default']
     BaseUserInfo: typeof import('./src/components/base-user-info/index.vue')['default']
     McContainer: typeof import('./src/components/mc-container/index.vue')['default']
+    McParticularsComment: typeof import('./src/components/mc-particulars-comment/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
