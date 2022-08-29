@@ -49,7 +49,7 @@ import {
   IconClockCircle,
   IconUser,
 } from "@arco-design/web-vue/es/icon";
-import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
+import { onBeforeRouteLeave, useRouter } from "vue-router";
 interface NewestType {
   author?: string;
   count?: number;
@@ -79,21 +79,23 @@ const useGetArticle = async () => {
 };
 useGetArticle();
 const useUnregisterEvent = () => {
-  refNewestContainer.value?.parentElement?.removeEventListener(
+  refNewestContainer.value?.parentElement.parentElement?.removeEventListener(
     "scroll",
     useScrollFunction
   );
 };
 const useRegisterEvent = () => {
-  refNewestContainer.value?.parentElement?.addEventListener(
+  refNewestContainer.value?.parentElement.parentElement?.addEventListener(
     "scroll",
     useScrollFunction
   );
 };
 const useSetScrollTop = () => {
-  refNewestContainer.value.parentElement.scrollTop = scrollTop.value;
+  refNewestContainer.value.parentElement.parentElement.scrollTop = scrollTop.value;
 };
-
+onMounted(() => {
+  useRegisterEvent();
+})
 onActivated(() => {
   useRegisterEvent();
   if (scrollTop.value) useSetScrollTop();
