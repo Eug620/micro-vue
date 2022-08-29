@@ -2,7 +2,7 @@
  * @Author: eug yyh3531@163.com
  * @Date: 2022-07-14 22:24:52
  * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-08-29 13:09:58
+ * @LastEditTime: 2022-08-29 13:12:41
  * @FilePath: /micro-chat/src/main.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -63,7 +63,7 @@ function unmount() {
 // 注册了此事件说明是微前端环境，否则说明是子项目环境
 if (window.eventCenterForMicroVue) {
     console.log('微前端环境');
-    window.eventCenterForMicroVue.dispatch({ callback: getLinks })
+    // window.eventCenterForMicroVue.dispatch({ callback: getLinks })
 } else {
     console.log('子项目环境');
 }
