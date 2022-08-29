@@ -2,7 +2,7 @@
  * @Author: eug yyh3531@163.com
  * @Date: 2022-07-14 22:24:52
  * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-08-28 19:13:56
+ * @LastEditTime: 2022-08-29 13:09:58
  * @FilePath: /micro-chat/src/main.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -65,7 +65,6 @@ if (window.eventCenterForMicroVue) {
     console.log('微前端环境');
     window.eventCenterForMicroVue.dispatch({ callback: getLinks })
 } else {
-    getLinks()
     console.log('子项目环境');
 }
 
@@ -77,16 +76,3 @@ if (window.__MICRO_APP_ENVIRONMENT__) {
     // 非微前端环境直接渲染
     mount()
 }
-
-function getLinks(): void {
-    // 如果没有挂载此链接就创建一个
-    if (!window.returnCitySN) {
-        const script = document.createElement('script')
-        script.src = 'https://pv.sohu.com/cityjson?ie=utf-8'
-        const head = document.querySelector('head')
-        head?.appendChild(script)
-    }
-}
-
-
-
