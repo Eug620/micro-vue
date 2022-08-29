@@ -22,11 +22,16 @@ const adapter = new LocalStorage<Data>('micro-admin')
 const db = new LowWithLodash(adapter)
 
 // 已有配置
-const BaseData = JSON.parse(localStorage.getItem('micro-admin')|| '')
-db.data = BaseData || {
+db.data = {
     system: {},
     database: {}
 }
+const BaseData:string | null = localStorage.getItem('micro-admin')
+if (BaseData !== null) {
+    db.data= JSON.parse(BaseData)
+}
+// const BaseData = JSON.parse(localStorage.getItem('micro-admin'))
+
 db.write()
 
 export default db
