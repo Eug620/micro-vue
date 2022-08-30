@@ -1,7 +1,7 @@
 /*
  * @Author       : Eug
  * @Date         : 2022-03-23 17:01:37
- * @LastEditTime: 2022-08-28 14:56:51
+ * @LastEditTime: 2022-08-30 14:48:23
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /github/micro-vue/vite.config.ts
@@ -78,8 +78,8 @@ export default ({ mode }) => defineConfig({
     terserOptions: {
       compress: {
         //生产环境时移除console
-        drop_console: true,
-        drop_debugger: true,
+        // drop_console: true,
+        // drop_debugger: true,
       },
     },
   },
