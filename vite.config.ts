@@ -1,7 +1,7 @@
 /*
  * @Author       : Eug
  * @Date         : 2022-03-23 17:01:37
- * @LastEditTime: 2022-08-30 14:48:23
+ * @LastEditTime: 2022-08-30 15:58:31
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /github/micro-vue/vite.config.ts
@@ -58,10 +58,21 @@ export default ({ mode }) => defineConfig({
     }),
   ],
   resolve:{
-    alias: {
-      '@': resolve(__dirname, 'src'),
-      'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js'
-    },
+    alias: [
+      {
+        find: '@',
+        replacement: resolve(__dirname, 'src'),
+      },
+      {
+        find: 'vue-i18n',
+        replacement: 'vue-i18n/dist/vue-i18n.cjs.js',
+      },
+      {
+        find: "@vue/runtime-core",
+        replacement: "@vue/runtime-core/dist/runtime-core.esm-bundler.js",
+      },
+
+    ],
   },
   build: {
     assetsDir: 'assets',
