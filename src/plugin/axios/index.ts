@@ -81,11 +81,12 @@ service.interceptors.request.use(
     if (config.service) {
       config.baseURL = API_SERVICE_ENUM[config.service]
     }
-    console.log(config.baseURL,'baseURL')
     // store.dispatch('d2admin/tags/toggle', true)
     // 在请求发送之前做一些处理
     // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
     config.headers['Base-Version'] = import.meta.env.VITE_APP_VERSION
+    console.log(import.meta.env.VITE_APP_VERSION,'baseURL')
+
     /* header 中添加 csrfToken */
     config.headers[xsrfHeaderName] = Cookies.get(xsrfCookieName);
     if (useUserStore().getToken) {

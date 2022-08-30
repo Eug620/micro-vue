@@ -54,10 +54,8 @@ export function pathInit({
 }:DatabaseParsm) {
     const uuid = 'ghost-uuid'
     const currentPath = `${dbName}.${user ? `user.${uuid}` : 'public'}${path ? `.${path}` : ''}`
-    console.log(currentPath);
     
     const value = db.chain.get(currentPath).value()
-    console.log(value);
     
     if (!(value !== undefined && validator(value))) {
         db.chain.set(currentPath, defaultValue)
