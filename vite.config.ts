@@ -1,7 +1,7 @@
 /*
  * @Author       : Eug
  * @Date         : 2022-03-23 17:01:37
- * @LastEditTime: 2022-08-31 18:07:18
+ * @LastEditTime: 2022-08-31 18:24:44
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /github/micro-vue/vite.config.ts
@@ -76,14 +76,14 @@ export default ({ mode }) => defineConfig({
     dedupe: ['vue'],
   },
   build: {
-    rollupOptions: {
-      external: ['vue'],
-      output: {
-        globals: {
-          vue: 'Vue',
-        },
-      },
-    },
+    // rollupOptions: {
+    //   external: ['vue'],
+    //   output: {
+    //     globals: {
+    //       vue: 'Vue',
+    //     },
+    //   },
+    // },
     assetsDir: 'assets',
     //设置为 false 来禁用将构建后的文件写入磁盘
     write: true,
