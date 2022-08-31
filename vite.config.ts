@@ -1,7 +1,7 @@
 /*
  * @Author       : Eug
  * @Date         : 2022-03-23 17:01:37
- * @LastEditTime: 2022-08-30 15:58:31
+ * @LastEditTime: 2022-08-31 17:35:30
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /github/micro-vue/vite.config.ts
@@ -71,8 +71,9 @@ export default ({ mode }) => defineConfig({
         find: "@vue/runtime-core",
         replacement: "@vue/runtime-core/dist/runtime-core.esm-bundler.js",
       },
-
+      
     ],
+    dedupe: ['vue'],
   },
   build: {
     assetsDir: 'assets',
