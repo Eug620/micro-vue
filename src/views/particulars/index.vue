@@ -7,33 +7,35 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <!-- <mc-container class="particulars-container"> -->
-  <a-card hoverable :bordered="false">
-    <a-spin
-      class="particulars-container"
-      :loading="isLoading"
-      :tip="loadingTip"
-      style="width: 100%; min-height: 80%"
-    >
+  <a-spin
+    class="particulars-container-spin"
+    :loading="isLoading"
+    :tip="loadingTip"
+    style="width:100%;"
+  >
+    <mc-container class="particulars-container">
+      <!-- <a-card hoverable class="particulars-container"  :bordered="false"> -->
       <div
         v-html="marked.parse(ArticleInfo.content || '')"
         id="particulars-container-content"
       ></div>
-    </a-spin>
-  </a-card>
-  <!-- </mc-container> -->
-  <a-card  hoverable :bordered="false" style="margin-top:10px;">
-    <mc-particulars-comment :ArticleInfo="ArticleInfo"/>
+      <!-- </a-card> -->
+    </mc-container>
+  </a-spin>
+  <a-card hoverable :bordered="false" style="margin-top: 10px">
+    <mc-particulars-comment
+      ref="refMcParticularsComment"
+      :ArticleInfo="ArticleInfo"
+    />
   </a-card>
 </template>
 
 <script lang="ts" setup>
 import ServerApi from "@/api";
-import { reactive, UnwrapNestedRefs, nextTick } from "vue-demi";
+import { reactive, UnwrapNestedRefs, nextTick, ref } from "vue-demi";
 import { useRoute } from "vue-router";
 import { marked } from "marked";
 import hljs from "highlight.js";
-import { ref } from "vue";
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -51,8 +53,7 @@ marked.setOptions({
 
 const route = useRoute();
 const isLoading = ref(true);
-const loadingTip = ref("This may take a while...");
-
+const loadingTip = ref("loading...");
 const { id } = route.params;
 interface ArticleInfoType {
   author?: string;

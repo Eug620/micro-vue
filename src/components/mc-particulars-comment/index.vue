@@ -8,6 +8,13 @@
 -->
 <template>
   <div class="mc-particulars-comment">
+    <h2 style="display:inline-block;font-size:1.5em;" v-if="ArticleInfo">
+    [ {{ArticleInfo.title}} · {{ArticleInfo.user_name}} ] :  {{ArticleInfo.page_views}} 
+    </h2>
+      <a-button type="text" style="float:right;" @click="useCommentAuthor"> 
+      回复
+    </a-button> 
+  <a-divider />
     <div
       v-for="comment in commentTree"
       :key="comment.id"
@@ -88,11 +95,10 @@
     </div>
   </div>
   <a-drawer
-    popup-container=".mc-particulars-comment"
     :visible="isVisibleDrawer"
     @ok="useComment"
     placement="bottom"
-    @cancel="isVisibleDrawer = false"
+    @cancel="useDrawerCancel"
   >
     <template #title> {{ toTarget.title }} </template>
     <a-textarea
@@ -101,12 +107,6 @@
       allow-clear
     />
   </a-drawer>
-
-  <a-affix :offsetBottom="300" class="mc-particulars-comment-affix">
-    <a-button type="primary" shape="circle"  size="large" @click="useCommentAuthor">
-      <IconMessage size="20"/>
-    </a-button>
-  </a-affix>
 </template>
 
 <script setup lang="ts">
@@ -143,6 +143,11 @@ const useGetComment = async () => {
   } catch (error) {}
 };
 useGetComment();
+
+const useDrawerCancel = () => {
+  isVisibleDrawer.value = false
+  toTarget.content = ''
+}
 
 const useCommentAuthor = () => {
     toTarget.title =  `回复: ${props.ArticleInfo.user_name}`;
