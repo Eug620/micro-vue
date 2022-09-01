@@ -36,7 +36,6 @@ let history: any = null
 
 // 将渲染操作放入 mount 函数
 function mount() {
-
     app = createApp(App)
     app.use(i18n);
     app.use(pinia)
@@ -44,9 +43,7 @@ function mount() {
     // app.use(ArcoVueIcon)
     router = useInitRouter(app)
     app.use(router)
-    // installComponents(app)
     app.mount('#app-vue')
-
     console.log('微应用micro-vue渲染了')
 }
 

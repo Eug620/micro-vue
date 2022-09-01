@@ -1,9 +1,5 @@
 /* eslint-disable */
-// import store from '@/store'
 import axios from 'axios'
-// import { Message } from 'element-ui'
-// import util from '@/libs/util'
-// import loading from '@/libs/util.loading'
 import { API_SERVICE_ENUM } from '@/settings'
 import { useUserStore } from  '@/store/modules/user'
 import { Notification } from '@arco-design/web-vue'
@@ -39,12 +35,6 @@ function errorLog(error: Error, path?: any) {
   }
 
   // 显示提示
-  // Message({
-  //   message: errorMsg,
-  //   type: 'error',
-  //   duration: 5 * 1000
-  // })
-
   Notification.error({
     content: errorMsg,
     title: path || 'Error',

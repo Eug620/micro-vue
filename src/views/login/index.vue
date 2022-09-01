@@ -2,12 +2,13 @@
  * @Author: eug yyh3531@163.com
  * @Date: 2022-08-25 14:52:51
  * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-08-28 04:00:24
+ * @LastEditTime: 2022-09-01 15:02:34
  * @FilePath: /micro-base/src/pages/menu.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-    <a-card title="User">
+  <div class="chat-login">
+    <a-card title="User" class="chat-login-container">
       <template #extra>
         <template v-if="!userStore.isLogin">
           <a-radio-group v-model="position" type="button">
@@ -30,6 +31,7 @@
         <base-user-info v-model:value="isInfoEdit"/>
       </template>
     </a-card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -41,5 +43,11 @@ const isInfoEdit = ref(false)
 </script>
 
 <style lang="scss">
-
+.chat-login{
+  height: 100vh;
+  background-color: rgb(var(--gray-2));
+  color: rgb(var(--gray-10));
+  padding: 10px;
+  box-sizing: border-box;
+}
 </style>

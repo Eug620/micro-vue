@@ -3,7 +3,7 @@
  * @Author: eug yyh3531@163.com
  * @Date: 2022-08-27 19:04:27
  * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-08-28 19:32:34
+ * @LastEditTime: 2022-09-01 17:23:15
  * @FilePath: /micro-base/src/components/base-sign-up/index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -44,11 +44,13 @@ import ServerApi from '@/api';
 import { useUserStore } from '@/store/modules/user';
 import { storeToRefs } from 'pinia';
 import { Notification } from '@arco-design/web-vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const userStore = useUserStore();
 const { getInfo } = storeToRefs(userStore);
 const loading = ref(false)
-
+const router = useRouter()
+const route = useRoute()
 enum FormType {
   InfoEdit = 'InfoEdit',
   SignUp = 'SignUp', // 注册
@@ -107,6 +109,17 @@ const useSubmit = async () => {
         emit('update:type', FormType.SignIn)
       } else {
         emit('submitSuccess',)
+        console.log('logins',route.query.redirect);
+        const redirect:any  = route.query.redirect
+        if (redirect) {
+          router.push({
+            path: decodeURIComponent(redirect)
+          })
+        } else {
+          router.push({
+            name: 'dashboard'
+          })
+        }
       }
     } else {
       Notification.error({

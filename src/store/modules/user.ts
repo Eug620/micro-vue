@@ -2,15 +2,18 @@
  * @Author: eug yyh3531@163.com
  * @Date: 2022-08-27 00:22:07
  * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-08-28 19:34:23
+ * @LastEditTime: 2022-09-01 17:16:39
  * @FilePath: /micro-base/src/store/modules/user.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import { defineStore } from 'pinia';
+import { defineStore, storeToRefs } from 'pinia';
 import { useDBStore } from '@/store/modules/db'
 import { DataBaseName } from '@/enums/database';
 import ServerApi from '@/api';
 import { Notification } from '@arco-design/web-vue';
+import { useRouteStore } from '@/store/modules/route'
+
+
 export const useUserStore = defineStore({
     id: 'user',
     state: () => ({
@@ -18,18 +21,28 @@ export const useUserStore = defineStore({
         info: null
     }),
     getters: {
-        getToken(store:any):any {
+        getRouteOptions(store: any): any {
+            return {
+                router: store.router,
+                route: store.route
+            }
+        },
+        getToken(store: any): any {
             return store.info?.token
         },
-        getInfo(store:any):any {
+        getInfo(store: any): any {
             return store.info || {}
         }
     },
     actions: {
         logout() {
+            const { getRouter } = storeToRefs(useRouteStore())
             this.setInfo({})
+            getRouter.value.push({
+                name: 'login'
+            })
         },
-        login(params?:any) {
+        login(params?: any) {
             return new Promise(async (resolove, reject) => {
                 try {
                     let res: any = await ServerApi.UserLogin(params);
@@ -48,7 +61,7 @@ export const useUserStore = defineStore({
                 }
             })
         },
-        load() {
+        reload() {
             const db = useDBStore()
             this.info = db.get({
                 dbName: DataBaseName.SYSTEM,
@@ -58,7 +71,7 @@ export const useUserStore = defineStore({
             })
             this.isLogin = this.info?.token ? true : false
         },
-        setInfo(info?:any) {
+        setInfo(info?: any) {
             const db = useDBStore()
             this.info = info
             this.isLogin = this.info?.token ? true : false
