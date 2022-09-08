@@ -21,13 +21,17 @@ const systemStore = useSystemStore()
 const userStore = useUserStore()
 const routeStore =  useRouteStore()
 
-const router = useRouter()
-const route = useRoute()
 // 配置信息
 systemStore.reload()
 // 用户信息
 userStore.reload()
-routeStore.setRouteOptions(router,route)
+try {
+  const router = useRouter()
+  const route = useRoute()
+  routeStore.setRouteOptions(router,route)
+} catch (error) {
+  console.log('getRouter Error', error);
+}
 </script>
 
 <style scoped lang="scss">
