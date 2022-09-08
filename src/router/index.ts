@@ -36,9 +36,12 @@ export const useInitRouter = (app: any) => {
             if (!menuStore.isLoad) { // 已登陆-未加载路由
                 console.log('未加载Reload routes.....');
                 let asyncRoutes: any = await menuStore.GenerateRoutes()
+                console.log('取到路由信息：', asyncRoutes);
                 const layout = routes.find(r => r.path === '/')
                 layout.children = [...asyncRoutes]
+                console.log('添加路由信息：', layout);
                 router.addRoute(layout)
+                console.log('添加路由信息完成！！！', router);
                 menuStore.isLoad = true
                 if (to.name === 'login') {
                     next(from.path)
