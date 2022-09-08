@@ -42,7 +42,9 @@ function mount() {
     // app.use(ArcoVue)
     // app.use(ArcoVueIcon)
     router = useInitRouter(app)
+    console.log('取出router');
     app.use(router)
+    console.log('使用router');
     app.mount('#app-vue')
     console.log('微应用micro-vue渲染了')
 }

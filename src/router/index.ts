@@ -28,7 +28,7 @@ export const useInitRouter = (app: any) => {
     const router = createRouter({ history, routes })
 
     router.beforeEach(async (to, from, next: Function) => {
-        if (!NProgress.isStarted() && !window.eventCenterForMicroVue) {
+        if (!NProgress.isStarted()) {
             NProgress.start();
         }
         console.log('[Router]:beforeEach', to.name, from.name);
@@ -64,13 +64,10 @@ export const useInitRouter = (app: any) => {
 
     router.afterEach(_ => {
         console.log('[Router]:afterEach');
-        if (!window.eventCenterForMicroVue) {
-            NProgress.done();
-        }
+        NProgress.done();
     })
-    router.isReady().then(res => {
-        console.log('[Router]:isReady');
-    })
-
+    // router.isReady().then(res => {
+    //     console.log('[Router]:isReady');
+    // })
     return router
 }
