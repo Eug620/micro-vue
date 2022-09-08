@@ -15,7 +15,6 @@ import { DataBaseName, DATABASEPUBLIC } from '@/enums/database';
 import { markRaw } from 'vue';
 const customMenus = [
     // 日志 刷新 重定向...
-    
     {
         path: '/newest',
         name: 'newest',
@@ -93,10 +92,8 @@ export const useMenus = defineStore({
                 const defaultConfig = db.get({ dbName: DataBaseName.SYSTEM, defaultValue: {} })
                 if (!defaultConfig[DATABASEPUBLIC.ASYNCMENU]){
                     // 本地没有菜单信息 --> 走接口获取
-                    console.log('GenerateRoutes: 本地没有菜单信息，接口去获取');
                     this.setMenus()
                 } else {
-                    console.log('GenerateRoutes: 本地有菜单信息，取出直接用');
                     // 有菜单信息 --> 走本地信息
                     this.menu = markRaw(JSON.parse(defaultConfig[DATABASEPUBLIC.ASYNCMENU]))
                 }

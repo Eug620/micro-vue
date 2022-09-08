@@ -9,6 +9,7 @@
 <template>
   <mc-container>
     <h3>dashboard</h3>
+    {{ $t('message.hello') }}
   </mc-container>
 </template>
 

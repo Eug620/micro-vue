@@ -22,7 +22,7 @@ import 'nprogress/nprogress.css';
 import { useInitRouter } from './router'
 // import installComponents from './components/installComponents';
 
-// import i18n from '@/locales/i18n';
+import i18n from '@/locales/i18n';
 
 
 
@@ -37,7 +37,7 @@ let history: any = null
 // 将渲染操作放入 mount 函数
 function mount() {
     app = createApp(App)
-    // app.use(i18n);
+    app.use(i18n);
     app.use(pinia)
     // app.use(ArcoVue)
     // app.use(ArcoVueIcon)

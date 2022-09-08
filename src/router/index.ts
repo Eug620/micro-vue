@@ -28,20 +28,16 @@ export const useInitRouter = (app: any) => {
     const router = createRouter({ history, routes })
 
     router.beforeEach(async (to, from, next: Function) => {
-        if (!NProgress.isStarted()) {
+        if (!NProgress.isStarted() && !window.eventCenterForMicroVue) {
             NProgress.start();
         }
         console.log('[Router]:beforeEach', to.name, from.name);
         if (userStore.isLogin) { // 已登陆
             if (!menuStore.isLoad) { // 已登陆-未加载路由
-                console.log('未加载Reload routes.....');
                 let asyncRoutes: any = await menuStore.GenerateRoutes()
-                console.log('取到路由信息：', asyncRoutes);
                 const layout = routes.find(r => r.path === '/')
                 layout.children = [...asyncRoutes]
-                console.log('添加路由信息：', layout);
                 router.addRoute(layout)
-                console.log('添加路由信息完成！！！', router);
                 menuStore.isLoad = true
                 if (to.name === 'login') {
                     next(from.path)
@@ -68,7 +64,9 @@ export const useInitRouter = (app: any) => {
 
     router.afterEach(_ => {
         console.log('[Router]:afterEach');
-        NProgress.done();
+        if (!window.eventCenterForMicroVue) {
+            NProgress.done();
+        }
     })
     router.isReady().then(res => {
         console.log('[Router]:isReady');
