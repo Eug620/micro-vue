@@ -1,7 +1,7 @@
 /*
  * @Author       : Eug
  * @Date         : 2022-04-26 14:24:28
- * @LastEditTime: 2022-08-25 14:53:51
+ * @LastEditTime: 2022-09-17 00:09:32
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /micro-base/src/locales/lang/ja.ts
@@ -18,4 +18,11 @@ export default {
     menu: 'menu',
     notFound: '見出されない',
   },
+  btn: {
+    signIn: '上陸',
+    signUp: '登録',
+    editInfo: '情報の編集',
+    signOut: 'ログアウト',
+    drawDown: 'ログアウト',
+  }
 };

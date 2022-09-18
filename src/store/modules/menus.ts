@@ -2,7 +2,7 @@
  * @Author: eug yyh3531@163.com
  * @Date: 2022-08-14 23:11:02
  * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-09-01 17:18:19
+ * @LastEditTime: 2022-09-18 05:36:33
  * @FilePath: /micro-chat/src/store/modules/menus.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -21,7 +21,7 @@ const customMenus = [
         redirect: '',
         meta: {
             keepAlive: true,
-            title: '实时',
+            title: 'newest',
             auth: true,
             isEle: true,
             affix: true,
@@ -35,7 +35,7 @@ const customMenus = [
         redirect: '',
         meta: {
             keepAlive: false,
-            title: '文章详情',
+            title: 'particulars',
             isEle: false,
             auth: true,
             affix: true,
@@ -64,13 +64,27 @@ const customMenus = [
         redirect: '',
         meta: {
             keepAlive: true,
-            title: '相关',
+            title: 'about',
             isEle: true,
             auth: true,
             affix: true,
             icon: 'IconFaceSmileFill'
         },
         component: 'views/about/index'
+    },
+    {
+        path: '/confabulate',
+        name: 'confabulate',
+        redirect: '',
+        meta: {
+            keepAlive: true,
+            title: 'confabulate',
+            isEle: true,
+            auth: true,
+            affix: true,
+            icon: 'IconFaceSmileFill'
+        },
+        component: 'views/confabulate/index'
     },
 ]
 export const useMenus = defineStore({

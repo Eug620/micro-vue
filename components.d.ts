@@ -32,6 +32,7 @@ declare module '@vue/runtime-core' {
     BaseEditInfo: typeof import('./src/components/base-edit-info/index.vue')['default']
     BaseSignForm: typeof import('./src/components/base-sign-form/index.vue')['default']
     BaseSignOut: typeof import('./src/components/base-sign-out/index.vue')['default']
+    BaseSvgIcon: typeof import('./src/components/base-svg-icon/index.vue')['default']
     BaseSwitch: typeof import('./src/components/base-switch/index.vue')['default']
     BaseUserInfo: typeof import('./src/components/base-user-info/index.vue')['default']
     McContainer: typeof import('./src/components/mc-container/index.vue')['default']

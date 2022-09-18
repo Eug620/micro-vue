@@ -1,7 +1,7 @@
 /*
  * @Author       : Eug
  * @Date         : 2022-03-23 17:01:37
- * @LastEditTime: 2022-09-01 10:46:51
+ * @LastEditTime: 2022-09-18 05:31:50
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /github/micro-vue/vite.config.ts
@@ -12,7 +12,9 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 import { configCompressPlugin, microCustomPlugin } from './build/vitePlugins'
 import Components from 'unplugin-vue-components/vite';
 import { ArcoResolver } from 'unplugin-vue-components/resolvers';
-const { resolve } = require('path')
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+const path = require('path')
+const { resolve } = path
 const getEnvFn = (mode, target) => {
   return loadEnv(mode, process.cwd())[target]
 }
@@ -55,6 +57,24 @@ export default ({ mode }) => defineConfig({
     // configCompressPlugin('gzip', true)
     Components({
       resolvers: [ArcoResolver()],
+    }),
+    createSvgIconsPlugin({
+      // 指定需要缓存的图标文件夹
+      iconDirs: [path.resolve(process.cwd(), './src/assets/icons')],
+      // 指定symbolId格式
+      symbolId: 'icon-[dir]-[name]',
+
+      /**
+       * 自定义插入位置
+       * @default: body-last
+       */
+      // inject?: 'body-last' | 'body-first'
+
+      /**
+       * custom dom id
+       * @default: __svg__icons__dom__
+       */
+      // customDomId: '__svg__icons__dom__',
     }),
   ],
   resolve:{
@@ -126,5 +146,6 @@ export default ({ mode }) => defineConfig({
   //调整控制台输出的级别 'info' | 'warn' | 'error' | 'silent'
   logLevel: 'info',
   //设为 false 可以避免 Vite 清屏而错过在终端中打印某些关键信息
-  clearScreen: true
+  // clearScreen: true
+  clearScreen: false
 })

@@ -1,7 +1,7 @@
 /*
  * @Author       : Eug
  * @Date         : 2022-04-26 14:23:43
- * @LastEditTime: 2022-08-25 14:53:55
+ * @LastEditTime: 2022-09-17 00:11:30
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
  * @FilePath     : /micro-base/src/locales/lang/zh.ts
@@ -18,4 +18,11 @@ export default {
     menu: '菜单',
     notFound: '404',
   },
+  btn: {
+    signIn: '登陆',
+    signUp: '注册',
+    editInfo: '编辑',
+    signOut: '登出',
+    drawDown: '注销',
+  }
 };
