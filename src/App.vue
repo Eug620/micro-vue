@@ -16,19 +16,17 @@
 import { useUserStore } from '@/store/modules/user'
 import { useSystemStore } from '@/store/modules/app'
 import { useRouteStore } from '@/store/modules/route'
-import { useSocketStore } from '@/store/modules/socket'
 import { useRoute, useRouter } from 'vue-router'
+
 const systemStore = useSystemStore()
 const userStore = useUserStore()
 const routeStore =  useRouteStore()
-const socketStore = useSocketStore()
 
 // 配置信息
 systemStore.reload()
 // 用户信息
 userStore.reload()
-// websocket
-socketStore.initSocket()
+
 try {
   const router = useRouter()
   const route = useRoute()

@@ -8,18 +8,54 @@
 -->
 <template>
   <mc-container>
-    <h3>当前发送对象: {{ activeTo ? activeTo : "广播" }}</h3>
-    <a-button @click="() => (activeTo = '')">切换为广播</a-button>
-    <a-input v-model="sendMessage"></a-input>
-    <a-button @click="useClick">发送</a-button>
-    <p
-      :style="{color: activeTo === message.id ? 'red' : '' }"
-      v-for="(message, idx) in messageList"
-      :key="idx"
-      @click="useClient(message)"
-    >
-      [点击发送给此人]{{ message.msg }}
-    </p>
+    <a-tabs default-active-key="1">
+      <a-tab-pane key="1" title="All">
+        <div v-for="room in rooms" :key="room.id">
+          {{ room.name }}
+          <a-button @click="useJoinRooms(room)">Join</a-button>
+        </div>
+      </a-tab-pane>
+      <a-tab-pane key="2" title="Mine">
+        <div v-for="room in roomsByOwn" :key="room.id">
+          {{ room.name }}
+          <a-button @click="useToRoomInformation(room)">Start</a-button>
+          <template v-if="room.author === userStore.getInfo.id">
+            <a-button @click="useDeleteRooms(room)">Delete</a-button>
+            (My)
+          </template>
+        </div>
+      </a-tab-pane>
+
+      <template #extra>
+        <a-button @click="useCreateRooms">Create Room</a-button>
+      </template>
+    </a-tabs>
+
+    <a-modal :mask-closable="false" v-model:visible="visibleCreate">
+      <template #title> Create Room </template>
+      <a-form auto-label-width ref="refForm" :model="formRoom">
+        <a-form-item field="name" :rules="formRoomRules.name" label="Name: ">
+          <a-input
+            v-model="formRoom.name"
+            placeholder="please enter your Room name..."
+          />
+        </a-form-item>
+        <a-form-item
+          field="describe"
+          :rules="formRoomRules.describe"
+          label="Describe: "
+        >
+          <a-input
+            v-model="formRoom.describe"
+            placeholder="please enter your Room describe..."
+          />
+        </a-form-item>
+      </a-form>
+      <template #footer>
+        <a-button @click="useCancelCreate">Cancel</a-button>
+        <a-button type="primary" @click="useConfirmCreate">Confirm</a-button>
+      </template>
+    </a-modal>
   </mc-container>
 </template>
 
@@ -27,59 +63,114 @@
 import ServerApi from "@/api";
 import { useSocketStore } from "@/store/modules/socket";
 import { useUserStore } from "@/store/modules/user";
-import { Ref, ref } from "vue-demi";
+import { reactive, Ref, ref, nextTick } from "vue-demi";
+import { Notification } from "@arco-design/web-vue";
+import { useRouter } from "vue-router";
 const SocketStore = useSocketStore();
 const userStore = useUserStore();
-const sendMessage = ref("");
-const messageList: Ref<any[]> = ref([]);
-const activeTo = ref("");
 
-const baseTarge = "rooms";
+const visibleCreate = ref(false);
 
-const useClient = (v: any) => {
-  activeTo.value = v.id;
-};
-
-interface MsgInterface {
-  data: {
-    payload: {
-      message: string;
-    };
-  };
-  meta: {
-    client: string;
-  };
-}
-SocketStore.useMonitor(baseTarge, (msg: MsgInterface) => {
-  console.log("🪧 :", msg);
-  messageList.value.push({
-    id: msg.meta.client,
-    msg: `${msg.meta.client}:${msg.data.payload.message}`,
-  });
+const formRoom = reactive({
+  name: "",
+  describe: "",
 });
-SocketStore.useMonitor(userStore.getInfo.id, (msg: MsgInterface) => {
-  console.log("💻 :", msg);
-  messageList.value.push({
-    id: msg.meta.client,
-    msg: `${msg.meta.client}:${msg.data.payload.message}`,
-  });
+const formRoomRules = reactive({
+  name: [
+    { required: true, message: "name is required" },
+    { minLength: 5, message: "must be greater than 5 characters" },
+  ],
+  describe: [
+    { required: true, message: "describe is required" },
+    { minLength: 5, message: "must be greater than 5 characters" },
+  ],
 });
+const refForm: any = ref(null);
 
 SocketStore.useMonitor("online", (msg: any) => {
   console.log("🔗 :", msg);
 });
 
-const useClick = () => {
-  //     messageList.value.push({
-  //     id: userStore.getInfo.id,
-  //     msg: `${userStore.getInfo.id}:${sendMessage.value}`
-  //   })
-  SocketStore.useEmit("confabulate", {
-    // target: "c067c55a-d3d9-4cff-b672-231b98e8ec7e",
-    target: activeTo.value || baseTarge,
-    // target: 'online',
-    payload: { message: sendMessage.value },
+const rooms: Ref<any[]> = ref([]);
+const useGetRoomsAll = async () => {
+  try {
+    let res = await ServerApi.RoomsAll();
+    console.log(res);
+    if (res.code === 200) {
+      rooms.value = res.data;
+    }
+  } catch (error) {}
+};
+useGetRoomsAll();
+
+const roomsByOwn: Ref<any[]> = ref([]);
+const useGetRoomsOwn = async () => {
+  try {
+    let res = await ServerApi.RoomsOwnRoom();
+    console.log(res);
+    if (res.code === 200) {
+      roomsByOwn.value = res.data;
+    }
+  } catch (error) {}
+};
+
+useGetRoomsOwn();
+
+const useJoinRooms = async ({ id }: any) => {
+  try {
+    let res = await ServerApi.RoomsJoin({ room_id: id });
+    console.log(res);
+    if (res.code === 200) {
+      Notification.success("Join Success!");
+      useGetRoomsOwn();
+    }
+  } catch (error) {}
+};
+const router = useRouter();
+const useToRoomInformation = ({ id }: any) => {
+  router.push({
+    name: "roomInformation",
+    params: { id },
   });
+};
+const useDeleteRooms = async ({ id }: any) => {
+  try {
+    let res = await ServerApi.RoomsDelete({ id });
+    if (res.code === 200) {
+      Notification.success("Delete Success!");
+      useGetRoomsAll();
+      useGetRoomsOwn();
+    }
+  } catch (error) {}
+};
+const useSublimCreate = async () => {
+  try {
+    let res = await ServerApi.RoomsCreate(formRoom);
+    if (res.code === 200) {
+      Notification.success("Create Success!");
+      visibleCreate.value = false;
+      formRoom.name = "";
+      formRoom.describe = "";
+      useGetRoomsAll();
+      useGetRoomsOwn();
+    }
+  } catch (error) {}
+};
+
+const useCreateRooms = () => {
+  visibleCreate.value = true;
+};
+const useConfirmCreate = () => {
+  refForm.value.validate((err: any, res: any) => {
+    if (err) {
+      Notification.error("Field is Required!");
+    } else {
+      useSublimCreate();
+    }
+  });
+};
+const useCancelCreate = () => {
+  visibleCreate.value = false;
 };
 </script>
 

@@ -12,6 +12,7 @@ import { DataBaseName } from '@/enums/database';
 import ServerApi from '@/api';
 import { Notification } from '@arco-design/web-vue';
 import { useRouteStore } from '@/store/modules/route'
+import { useSocketStore } from '@/store/modules/socket'
 
 
 export const useUserStore = defineStore({
@@ -49,6 +50,7 @@ export const useUserStore = defineStore({
                     if (res.data) {
                         this.setInfo({ ...res.data, token: res.token })
                         resolove(res)
+                        this.reloadSocket()
                     } else {
                         Notification.error({
                             title: 'Login',
@@ -70,6 +72,14 @@ export const useUserStore = defineStore({
                 user: true,
             })
             this.isLogin = this.info?.token ? true : false
+            if (this.isLogin) {
+                this.reloadSocket()
+            }
+        },
+        reloadSocket() {
+            // websocket
+            const socketStore = useSocketStore()
+            socketStore.initSocket()
         },
         setInfo(info?: any) {
             const db = useDBStore()

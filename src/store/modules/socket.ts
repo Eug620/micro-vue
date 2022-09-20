@@ -17,6 +17,8 @@ export const useSocketStore = defineStore({
     actions: {
         initSocket() {
             const userStore = useUserStore();
+            console.log('initSocket: UserID-->' + userStore.getInfo.id);
+            
             this.socket = io("http://47.93.229.170:5000", {
                 transports: ["websocket"],
                 query: {

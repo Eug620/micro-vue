@@ -86,6 +86,20 @@ const customMenus = [
         },
         component: 'views/confabulate/index'
     },
+    {
+        path: '/roomInformation/:id',
+        name: 'roomInformation',
+        redirect: '',
+        meta: {
+            keepAlive: false,
+            title: 'roomInformation',
+            isEle: false,
+            auth: true,
+            affix: true,
+            icon: 'IconFire'
+        },
+        component: 'views/roomInformation/index'
+    },
 ]
 export const useMenus = defineStore({
     id: 'menus',
