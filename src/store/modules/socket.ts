@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-09-22 16:44:18
+ * @LastEditTime : 2022-09-22 18:45:42
  * @FilePath     : /micro-vue/src/store/modules/socket.ts
  * @Description  : filename
  * 
@@ -19,6 +19,7 @@ interface MsgInterface {
         };
     };
     meta: {
+        timestamp: string;
         client: string;
         clientName: string
     };
@@ -41,7 +42,7 @@ export const useSocketStore = defineStore({
             this.socket = io(
                 // 'http://127.0.0.1:5000'
                 "http://47.93.229.170:5000"
-                ,{
+                , {
                     transports: ["websocket"],
                     query: {
                         room: 'wtf',
@@ -105,6 +106,7 @@ export const useSocketStore = defineStore({
                             this.rooms[room.id]['messageCount']++
                         }
                         this.rooms[room.id]['messageList'].push({
+                            timestamp:  res.meta.timestamp,
                             id: res.meta.client,
                             name: res.meta.clientName,
                             message: res.data.payload.message,
@@ -114,7 +116,9 @@ export const useSocketStore = defineStore({
             })
         },
         useResetRoomCount(id: string) {
-            this.rooms[id]['messageCount'] = 0
+            if (this.rooms[id]) {
+                this.rooms[id]['messageCount'] = 0
+            }
         },
         useEmitRoomMessage(id: string, message: string) {
             this.useEmit('confabulate', {
@@ -124,6 +128,9 @@ export const useSocketStore = defineStore({
         },
         useGetRoomMessageList(id: string) {
             return this.rooms[id]['messageList']
+        },
+        useGetRoomInfo(id: string) {
+            return this.rooms[id]['info']
         }
     }
 })

@@ -1,40 +1,65 @@
 <template>
-  <mc-container>
-    <a-tabs default-active-key="1">
-      <a-tab-pane key="1" title="All">
+  <mc-container class="confabulate-container">
+    <a-tabs default-active-key="mine">
+      <a-tab-pane key="mine" title="我的" class="confabulate-container-tab-mine">
         <a-list>
-          <a-list-item v-for="room in rooms" :key="room.id">
-            {{ room.name }}
-            <a-button
-              type="primary"
-              style="float: right"
-              @click="useJoinRooms(room)"
-              >Join</a-button
-            >
+          <a-list-item v-for="(room, id) in SocketStore.getRooms" :key="id">
+            <a-row align="center">
+              <a-col :span="8">
+                <div class="confabulate-container-tab-mine-room-name">
+                  {{ room.info.name }}
+                </div>
+              </a-col>
+              <a-col :span="16">
+                <div class="confabulate-container-tab-mine-action">
+                    <a-button
+                      v-if="room.info.author === userStore.getInfo.id"
+                      class="confabulate-container-tab-mine-action-delete"
+                      type="primary"
+                      status="danger"
+                      @click="useDeleteRooms(id)"
+                      style="margin-right: 10px"
+                      >删除</a-button
+                    >
+                  <a-badge :count="room.messageCount">
+                    <a-button type="primary" @click="useToRoomInformation(id)"
+                      >进入</a-button
+                    >
+                  </a-badge>
+                </div>
+              </a-col>
+            </a-row>
+
+            <a-space align="center">
+              <div style="flex: 1"></div>
+            </a-space>
           </a-list-item>
         </a-list>
       </a-tab-pane>
-      <a-tab-pane key="2" title="Mine">
+      <a-tab-pane key="all" title="全部" class="confabulate-container-tab-all">
         <a-list>
-          <a-list-item v-for="(room, id) in SocketStore.getRooms" :key="id">
-            {{ room.info.name }}
-            <div style="float: right">
-              <template v-if="room.info.author === userStore.getInfo.id">
-                (My)
-                <a-button
-                  type="primary"
-                  status="danger"
-                  @click="useDeleteRooms(id)"
-                  style="margin-right: 10px"
-                  >Delete</a-button
-                >
-              </template>
-              <a-badge :count="room.messageCount">
-                <a-button type="primary" @click="useToRoomInformation(id)"
-                  >Start</a-button
-                >
-              </a-badge>
-            </div>
+          <a-list-item v-for="room in rooms" :key="room.id">
+            <a-row align="center">
+              <a-col :span="8">
+                <div class="confabulate-container-tab-all-room-name">
+                  {{ room.name }}
+
+                </div>
+              </a-col>
+              <a-col :span="16">
+                <div class="confabulate-container-tab-all-action">
+
+                  <a-button
+                    type="primary"
+                    style="float: right"
+                    v-if="!compMyRooms.includes(room.id)"
+                    @click="useJoinRooms(room)"
+                    >Join</a-button
+                  >
+                </div>
+              </a-col>
+          </a-row>
+            
           </a-list-item>
         </a-list>
       </a-tab-pane>
@@ -76,13 +101,17 @@
 import ServerApi from "@/api";
 import { useSocketStore } from "@/store/modules/socket";
 import { useUserStore } from "@/store/modules/user";
-import { reactive, Ref, ref, nextTick } from "vue-demi";
+import { reactive, Ref, ref, nextTick, computed } from "vue-demi";
 import { Notification } from "@arco-design/web-vue";
 import { useRouter } from "vue-router";
 const SocketStore = useSocketStore();
 const userStore = useUserStore();
 
 const visibleCreate = ref(false);
+
+const compMyRooms = computed(() => {
+  return Object.keys(SocketStore.rooms) || [];
+});
 
 const formRoom = reactive({
   name: "",
@@ -193,5 +222,23 @@ const useCancelCreate = () => {
   .arco-modal {
     width: 100%;
   }
+}
+.confabulate-container{
+
+  &-tab-mine,
+  &-tab-all{
+    &-room-name{
+      font-weight: 700;
+    }
+
+    &-action{
+      float: right;
+
+      &-delete{
+        margin-right: 10px;
+      }
+    }
+  }
+
 }
 </style>
