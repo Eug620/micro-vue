@@ -1,3 +1,30 @@
 @import './base.scss';
 @import './custom.scss';
 @import './nprogress.scss';
+
+// 滚动条样式
+// ::-webkit-scrollbar-thumb,
+// ::-webkit-scrollbar {
+//   height: 0;
+//   width: 0;
+// }
+
+// ::-webkit-scrollbar-corner,
+// /* 滚动条角落 */
+// ::-webkit-scrollbar-thumb,
+// ::-webkit-scrollbar-button,
+// ::-webkit-scrollbar-track {
+//   border-radius: 0px;
+// }
+
+// ::-webkit-scrollbar-corner,
+// ::-webkit-scrollbar-track {
+//   /* 滚动条轨道 */
+//   background-color: rgba(180, 160, 120, 0.1);
+//   box-shadow: inset 0 0 1px rgba(180, 160, 120, 0.5);
+// }
+
+// ::-webkit-scrollbar-thumb {
+//   /* 滚动条手柄 */
+//   background-color: #00adb5;
+// }
