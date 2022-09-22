@@ -128,8 +128,6 @@ const useGetRoomsOwn = async () => {
   } catch (error) {}
 };
 
-useGetRoomsOwn();
-
 const useJoinRooms = async ({ id }: any) => {
   try {
     let res = await ServerApi.RoomsJoin({ room_id: id });

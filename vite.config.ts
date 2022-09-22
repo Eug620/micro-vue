@@ -4,7 +4,7 @@
  * @LastEditTime: 2022-09-21 10:04:37
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
- * @FilePath     : /github/micro-vue/vite.config.ts
+ * @FilePath     : /micro-vue/vite.config.ts
  */
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -37,8 +37,8 @@ export default ({ mode }) => defineConfig({
         rewrite: path => path.replace(/^\/api/, '')
       },
       '/dev_base_api': {
-        // target: 'http://127.0.0.1:5000',
-        target: 'http://47.93.229.170:5000',
+        target: 'http://127.0.0.1:5000',
+        // target: 'http://47.93.229.170:5000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/dev_base_api/, '')
       }

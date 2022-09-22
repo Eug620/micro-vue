@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-09-22 11:46:29
+ * @LastEditTime : 2022-09-22 16:40:11
  * @FilePath     : /micro-vue/src/views/roomInformation/index.vue
  * @Description  : filename
  * 
@@ -12,15 +12,15 @@
   <mc-container>
     <h1>roomInformation</h1>
     <a-input v-model="sendMessage" @press-enter="useClick">
-       <template #append>
-           <IconSend @click="useClick"/>
-      </template></a-input>
+      <template #append>
+        <IconSend @click="useClick" /> </template
+    ></a-input>
     <p
-      :class="{'the-householder': userStore.getInfo.id === message.id  }"
+      :class="{ 'the-householder': userStore.getInfo.id === message.id }"
       v-for="(message, idx) in comRenderMessage"
       :key="idx"
     >
-      {{ message.message }}
+      {{ message.name }}: {{ message.message }}
     </p>
   </mc-container>
 </template>
@@ -31,7 +31,7 @@ import { useUserStore } from "@/store/modules/user";
 import { computed, ref, Ref } from "vue-demi";
 import { useRoute } from "vue-router";
 
-import { IconSend } from '@arco-design/web-vue/es/icon';
+import { IconSend } from "@arco-design/web-vue/es/icon";
 const sendMessage = ref("");
 const messageList: Ref<any[]> = ref([]);
 const SocketStore = useSocketStore();
@@ -40,17 +40,17 @@ const router = useRoute();
 const { id }: any = router.params;
 
 const comRenderMessage = computed(() => {
-  return SocketStore.useGetRoomMessageList(id)
-})
-SocketStore.useResetRoomCount(id)
+  return SocketStore.useGetRoomMessageList(id);
+});
+SocketStore.useResetRoomCount(id);
 const useClick = () => {
-  SocketStore.useEmitRoomMessage(id, sendMessage.value );
+  SocketStore.useEmitRoomMessage(id, sendMessage.value);
   sendMessage.value = "";
 };
 </script>
 
 <style lang="scss">
-.the-householder{
-    color: rgb(var(--primary-6));
+.the-householder {
+  color: rgb(var(--primary-6));
 }
 </style>

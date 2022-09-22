@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-09-22 11:45:13
+ * @LastEditTime : 2022-09-22 16:44:18
  * @FilePath     : /micro-vue/src/store/modules/socket.ts
  * @Description  : filename
  * 
@@ -11,6 +11,7 @@
 import { defineStore } from "pinia";
 import io from "socket.io-client";
 import { useUserStore } from "@/store/modules/user";
+import ServerApi from "@/api";
 interface MsgInterface {
     data: {
         payload: {
@@ -19,6 +20,7 @@ interface MsgInterface {
     };
     meta: {
         client: string;
+        clientName: string
     };
 }
 export const useSocketStore = defineStore({
@@ -36,19 +38,21 @@ export const useSocketStore = defineStore({
         initSocket() {
             const userStore = useUserStore();
             console.log('initSocket: UserID-->' + userStore.getInfo.id);
-
-            this.socket = io("http://47.93.229.170:5000", {
-                transports: ["websocket"],
-                query: {
-                    room: 'wtf',
-                    id: 'hhhh',
-                    token: userStore.getToken,
-                    userId: userStore.getInfo.id,
-                },
-                reconnection: false, //启用重新连接
-                // forceBase64: true, // 内容加密
-                // withCredentials: true
-            });
+            this.socket = io(
+                // 'http://127.0.0.1:5000'
+                "http://47.93.229.170:5000"
+                ,{
+                    transports: ["websocket"],
+                    query: {
+                        room: 'wtf',
+                        id: 'hhhh',
+                        token: userStore.getToken,
+                        userId: userStore.getInfo.id,
+                    },
+                    reconnection: false, //启用重新连接
+                    // forceBase64: true, // 内容加密
+                    // withCredentials: true
+                });
             this.socket.on("connect", () => {
                 console.log("😄 :: connect success");
             });
@@ -68,6 +72,16 @@ export const useSocketStore = defineStore({
                 }, 2000);
             };
             this.socket.io.on("close", tryReconnect);
+
+            const useGetRoomsOwn = async () => {
+                try {
+                    let res = await ServerApi.RoomsOwnRoom();
+                    if (res.code === 200) {
+                        this.initRooms(res.data);
+                    }
+                } catch (error) { }
+            };
+            useGetRoomsOwn()
         },
         useMonitor(...arg: any) {
             this.socket.on(...arg)
@@ -76,6 +90,7 @@ export const useSocketStore = defineStore({
             this.socket.emit(...arg)
         },
         initRooms(rooms: any[]) {
+            const userStore = useUserStore();
             rooms.forEach((room: any) => {
                 if (!this.rooms[room.id]) {
                     this.rooms[room.id] = {
@@ -85,10 +100,14 @@ export const useSocketStore = defineStore({
                     }
                     this.useMonitor(room.id, (res: MsgInterface) => {
                         console.log("💻 :", res);
-                        this.rooms[room.id]['messageCount']++
+                        // 自己发的信息无需新增
+                        if (res.meta.client !== userStore.getInfo.id) {
+                            this.rooms[room.id]['messageCount']++
+                        }
                         this.rooms[room.id]['messageList'].push({
                             id: res.meta.client,
-                            message: `${res.meta.client} :   ${res.data.payload.message}`,
+                            name: res.meta.clientName,
+                            message: res.data.payload.message,
                         });
                     })
                 }
