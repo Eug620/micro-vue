@@ -1,29 +1,42 @@
-<!--
- * @Author: eug yyh3531@163.com
- * @Date: 2022-09-18 05:33:53
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-09-19 10:53:44
- * @FilePath: /micro-vue/src/views/confabulate/index.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <mc-container>
     <a-tabs default-active-key="1">
       <a-tab-pane key="1" title="All">
-        <div v-for="room in rooms" :key="room.id">
-          {{ room.name }}
-          <a-button @click="useJoinRooms(room)">Join</a-button>
-        </div>
+        <a-list>
+          <a-list-item v-for="room in rooms" :key="room.id">
+            {{ room.name }}
+            <a-button
+              type="primary"
+              style="float: right"
+              @click="useJoinRooms(room)"
+              >Join</a-button
+            >
+          </a-list-item>
+        </a-list>
       </a-tab-pane>
       <a-tab-pane key="2" title="Mine">
-        <div v-for="room in roomsByOwn" :key="room.id">
-          {{ room.name }}
-          <a-button @click="useToRoomInformation(room)">Start</a-button>
-          <template v-if="room.author === userStore.getInfo.id">
-            <a-button @click="useDeleteRooms(room)">Delete</a-button>
-            (My)
-          </template>
-        </div>
+        <a-list>
+          <a-list-item v-for="(room, id) in SocketStore.getRooms" :key="id">
+            {{ room.info.name }}
+            <div style="float: right">
+              <template v-if="room.info.author === userStore.getInfo.id">
+                (My)
+                <a-button
+                  type="primary"
+                  status="danger"
+                  @click="useDeleteRooms(id)"
+                  style="margin-right: 10px"
+                  >Delete</a-button
+                >
+              </template>
+              <a-badge :count="room.messageCount">
+                <a-button type="primary" @click="useToRoomInformation(id)"
+                  >Start</a-button
+                >
+              </a-badge>
+            </div>
+          </a-list-item>
+        </a-list>
       </a-tab-pane>
 
       <template #extra>
@@ -109,7 +122,8 @@ const useGetRoomsOwn = async () => {
     let res = await ServerApi.RoomsOwnRoom();
     console.log(res);
     if (res.code === 200) {
-      roomsByOwn.value = res.data;
+      // roomsByOwn.value = res.data;
+      SocketStore.initRooms(res.data);
     }
   } catch (error) {}
 };
@@ -127,13 +141,15 @@ const useJoinRooms = async ({ id }: any) => {
   } catch (error) {}
 };
 const router = useRouter();
-const useToRoomInformation = ({ id }: any) => {
+const useToRoomInformation = (id: any) => {
+  console.log(id);
+
   router.push({
     name: "roomInformation",
     params: { id },
   });
 };
-const useDeleteRooms = async ({ id }: any) => {
+const useDeleteRooms = async (id: any) => {
   try {
     let res = await ServerApi.RoomsDelete({ id });
     if (res.code === 200) {
