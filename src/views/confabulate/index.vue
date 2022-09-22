@@ -189,4 +189,9 @@ const useCancelCreate = () => {
 </script>
 
 <style lang="scss">
+@media screen and (max-width: 600px) {
+  .arco-modal {
+    width: 100%;
+  }
+}
 </style>
