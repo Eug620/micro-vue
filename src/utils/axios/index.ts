@@ -146,6 +146,7 @@ service.interceptors.response.use(
           /// 需要去退出到登录页
           // [ 示例 ] 其它和后台约定的 code
           errorCreate(dataAxios.msg,response.config.url)
+          useUserStore().logout()
           break
         default:
           // 不是正确的 code
