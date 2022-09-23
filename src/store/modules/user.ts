@@ -42,6 +42,7 @@ export const useUserStore = defineStore({
             getRouter.value.push({
                 name: 'login'
             })
+            this.removeSocket()
         },
         login(params?: any) {
             return new Promise(async (resolove, reject) => {
@@ -80,6 +81,11 @@ export const useUserStore = defineStore({
             // websocket
             const socketStore = useSocketStore()
             socketStore.initSocket()
+        },
+        removeSocket() {
+            // websocket
+            const socketStore = useSocketStore()
+            socketStore.closeSocket()
         },
         setInfo(info?: any) {
             const db = useDBStore()

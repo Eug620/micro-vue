@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-09-22 18:45:42
+ * @LastEditTime : 2022-09-23 10:14:55
  * @FilePath     : /micro-vue/src/store/modules/socket.ts
  * @Description  : filename
  * 
@@ -83,6 +83,9 @@ export const useSocketStore = defineStore({
                 } catch (error) { }
             };
             useGetRoomsOwn()
+        },
+        closeSocket() {
+            this.socket.close()
         },
         useMonitor(...arg: any) {
             this.socket.on(...arg)

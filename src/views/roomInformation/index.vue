@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-09-22 18:46:17
+ * @LastEditTime : 2022-09-23 10:12:05
  * @FilePath     : /micro-vue/src/views/roomInformation/index.vue
  * @Description  : filename
  * 
@@ -15,6 +15,7 @@
     <a-input v-model="sendMessage" @press-enter="useClick">
       <template #append> <IconSend @click="useClick" /> </template
     ></a-input>
+  <a-button @click="useClose">click</a-button>
     <a-timeline :reverse="false">
       <a-timeline-item
         :label="useTransformSecond(message.timestamp)"
@@ -55,6 +56,9 @@ const useClick = () => {
   SocketStore.useEmitRoomMessage(id, sendMessage.value);
   sendMessage.value = "";
 };
+const useClose = () => {
+  SocketStore.socket.close()
+}
 </script>
 
 <style lang="scss">
