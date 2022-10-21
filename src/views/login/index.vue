@@ -1,35 +1,23 @@
 <!--
- * @Author: eug yyh3531@163.com
- * @Date: 2022-08-25 14:52:51
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-09-01 15:02:34
- * @FilePath: /micro-base/src/pages/menu.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-08-31 15:08:14
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2022-10-21 18:36:28
+ * @FilePath     : /micro-vue/src/views/login/index.vue
+ * @Description  : filename
+ * 
+ * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
 -->
 <template>
   <div class="chat-login">
     <a-card title="User" class="chat-login-container">
       <template #extra>
-        <template v-if="!userStore.isLogin">
-          <a-radio-group v-model="position" type="button">
-            <a-radio value="SignIn">Sign in</a-radio>
-            <a-radio value="SignUp">Sign up</a-radio>
-          </a-radio-group>
-        </template>
-        <template v-else>
-          <base-edit-info  v-model:value="isInfoEdit" @update:value="isInfoEdit"/>
-          <a-divider direction="vertical" />
-          <base-sign-out/>
-          <a-divider direction="vertical" />
-          <base-draw-down/>
-        </template>
+        <a-radio-group v-model="position" type="button">
+          <a-radio value="SignIn">Sign in</a-radio>
+          <a-radio value="SignUp">Sign up</a-radio>
+        </a-radio-group>
       </template>
-      <template v-if="!userStore.isLogin">
-        <base-sign-form v-model:type="position"/>
-      </template>
-      <template v-else>
-        <base-user-info v-model:value="isInfoEdit"/>
-      </template>
+      <base-sign-form v-model:type="position"/>
     </a-card>
   </div>
 </template>
@@ -45,9 +33,18 @@ const isInfoEdit = ref(false)
 <style lang="scss">
 .chat-login{
   height: 100vh;
+  width: 100vw;
   background-color: rgb(var(--gray-2));
   color: rgb(var(--gray-10));
   padding: 10px;
   box-sizing: border-box;
+  position: relative;
+  &-container{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 </style>

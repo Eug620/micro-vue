@@ -128,6 +128,7 @@ service.interceptors.response.use(
         case 401:
           /// 需要去退出到登录页
           // [ 示例 ] 其它和后台约定的 code
+          useUserStore().logout()
           errorCreate(dataAxios.msg,response.config.url)
           break
         default:

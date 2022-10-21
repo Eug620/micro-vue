@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-09-23 10:12:05
+ * @LastEditTime : 2022-10-21 18:19:35
  * @FilePath     : /micro-vue/src/views/roomInformation/index.vue
  * @Description  : filename
  * 
@@ -31,6 +31,7 @@
 
 <script lang='ts' setup>
 import { useSocketStore } from "@/store/modules/socket";
+// import { useSocketStore } from "@/store/modules/resetSocket";
 import { useUserStore } from "@/store/modules/user";
 import { computed, ref, Ref } from "vue-demi";
 import { useRoute } from "vue-router";

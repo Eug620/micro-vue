@@ -100,6 +100,7 @@
 <script setup lang="ts">
 import ServerApi from "@/api";
 import { useSocketStore } from "@/store/modules/socket";
+// import { useSocketStore } from "@/store/modules/resetSocket";
 import { useUserStore } from "@/store/modules/user";
 import { reactive, Ref, ref, nextTick, computed } from "vue-demi";
 import { Notification } from "@arco-design/web-vue";
@@ -131,6 +132,12 @@ const refForm: any = ref(null);
 
 SocketStore.useMonitor("online", (msg: any) => {
   console.log("🔗 :", msg);
+  Notification.info({
+    content: msg.message,
+    title: msg.action,
+    position: 'bottomRight',
+    duration: 5000
+  })
 });
 
 const rooms: Ref<any[]> = ref([]);
