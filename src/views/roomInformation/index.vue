@@ -2,30 +2,45 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-10-21 18:19:35
+ * @LastEditTime : 2022-10-26 14:45:23
  * @FilePath     : /micro-vue/src/views/roomInformation/index.vue
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
 -->
 <template>
-  <mc-container>
-    <h1>{{ comRenderInfo.name }}</h1>
-    <p>{{ comRenderInfo.describe }}</p>
-    <a-input v-model="sendMessage" @press-enter="useClick">
-      <template #append> <IconSend @click="useClick" /> </template
-    ></a-input>
-  <a-button @click="useClose">click</a-button>
-    <a-timeline :reverse="false">
-      <a-timeline-item
-        :label="useTransformSecond(message.timestamp)"
-        :class="{ 'the-householder': userStore.getInfo.id === message.id }"
-        v-for="(message, idx) in comRenderMessage"
-        :key="idx"
-      >
-        {{ message.name }}: {{ message.message }}</a-timeline-item
-      >
-    </a-timeline>
+  <mc-container :title="comRenderInfo?.name" :extra="comRenderInfo?.describe">
+    <div class="roomInformation-container">
+      <div class="roomInformation-container-list">
+        <a-comment
+          v-for="(message, idx) in comRenderMessage"
+          :key="idx"
+          :author="message.name"
+          :datetime="useTransformSecond(message.timestamp)"
+        >
+        <template #content>
+          <p v-html="message.message"></p>
+        </template>
+          <template #avatar>
+            <a-avatar>
+              <img
+                alt="avatar"
+                src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
+              />
+            </a-avatar>
+          </template>
+        </a-comment>
+      </div>
+      <div class="roomInformation-container-footer">
+        <!-- <a-input v-model="sendMessage" @press-enter="useClick" >
+          <template #append>
+            <IconSend @click="useClick" />
+          </template>
+        </a-input> -->
+        <a-textarea placeholder="Please enter something" v-model="sendMessage" allow-clear/>
+        <a-button @click="useClick">send</a-button>
+      </div>
+    </div>
   </mc-container>
 </template>
 
@@ -58,12 +73,32 @@ const useClick = () => {
   sendMessage.value = "";
 };
 const useClose = () => {
-  SocketStore.socket.close()
-}
+  SocketStore.socket.close();
+};
 </script>
 
 <style lang="scss">
 .the-householder {
   color: rgb(var(--primary-6));
+}
+.roomInformation-container {
+  width: 100%;
+  height: calc(100vh - 78px - 46px - 32px);
+  display: flex;
+  flex-direction: column;
+
+  &-list {
+    flex: 1;
+    overflow: scroll;
+  }
+
+  &-footer {
+    height: 30%;
+    // border-top: 1px solid var(--color-neutral-3);
+    display: flex;
+    .arco-btn{
+      height: 100%;
+    }
+  }
 }
 </style>

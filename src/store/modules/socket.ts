@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-09-23 10:14:55
+ * @LastEditTime : 2022-10-26 14:12:34
  * @FilePath     : /micro-vue/src/store/modules/socket.ts
  * @Description  : filename
  * 
@@ -130,10 +130,10 @@ export const useSocketStore = defineStore({
             })
         },
         useGetRoomMessageList(id: string) {
-            return this.rooms[id]['messageList']
+            return this.rooms[id]?.messageList
         },
         useGetRoomInfo(id: string) {
-            return this.rooms[id]['info']
+            return this.rooms[id]?.info
         }
     }
 })
