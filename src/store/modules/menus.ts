@@ -1,11 +1,3 @@
-/*
- * @Author: eug yyh3531@163.com
- * @Date: 2022-08-14 23:11:02
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-09-18 05:36:33
- * @FilePath: /micro-chat/src/store/modules/menus.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 import { filterAsnycRouter } from '@/importRoutercom';
 import { initRoutes } from '@/router/routes';
 import { defineStore } from 'pinia'
@@ -118,14 +110,14 @@ export const useMenus = defineStore({
                 // 向后端请求路由数据
                 const db = useDBStore()
                 const defaultConfig = db.get({ dbName: DataBaseName.SYSTEM, defaultValue: {} })
-                if (!defaultConfig[DATABASEPUBLIC.ASYNCMENU]){
+                if (!defaultConfig[DATABASEPUBLIC.ASYNCMENU]) {
                     // 本地没有菜单信息 --> 走接口获取
                     this.setMenus()
                 } else {
                     // 有菜单信息 --> 走本地信息
                     this.menu = markRaw(JSON.parse(defaultConfig[DATABASEPUBLIC.ASYNCMENU]))
                 }
-                
+
                 let accessedRoutes = filterAsnycRouter(this.menu);
                 accessedRoutes = initRoutes.concat(accessedRoutes)
                 // accessedRoutes.push({ path: "*", redirect: "/404", hidden: true });

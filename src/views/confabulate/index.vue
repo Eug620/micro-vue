@@ -144,7 +144,6 @@ const rooms: Ref<any[]> = ref([]);
 const useGetRoomsAll = async () => {
   try {
     let res = await ServerApi.RoomsAll();
-    console.log(res);
     if (res.code === 200) {
       rooms.value = res.data;
     }
@@ -156,7 +155,6 @@ const roomsByOwn: Ref<any[]> = ref([]);
 const useGetRoomsOwn = async () => {
   try {
     let res = await ServerApi.RoomsOwnRoom();
-    console.log(res);
     if (res.code === 200) {
       // roomsByOwn.value = res.data;
       SocketStore.initRooms(res.data);
@@ -167,7 +165,6 @@ const useGetRoomsOwn = async () => {
 const useJoinRooms = async ({ id }: any) => {
   try {
     let res = await ServerApi.RoomsJoin({ room_id: id });
-    console.log(res);
     if (res.code === 200) {
       Notification.success("Join Success!");
       useGetRoomsOwn();
@@ -176,8 +173,6 @@ const useJoinRooms = async ({ id }: any) => {
 };
 const router = useRouter();
 const useToRoomInformation = (id: any) => {
-  console.log(id);
-
   router.push({
     name: "roomInformation",
     params: { id },

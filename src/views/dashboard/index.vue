@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-16 23:52:04
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-10-25 14:51:53
+ * @LastEditTime : 2022-10-27 10:25:51
  * @FilePath     : /micro-vue/src/views/dashboard/index.vue
  * @Description  : filename
  * 
@@ -26,7 +26,7 @@
     width: 100%;
     height: 100%;
     color: rgba(0, 0, 0, 0);
-    font-size: 200px;
+    font-size: 10rem;
     font-weight: 900;
     text-align: center;
     background: url("https://farm5.staticflickr.com/4273/34378170890_3901a0ac25_k.jpg?momo_cache_bg_uuid=99cbab77-d2d1-4c69-be97-8ba21a5eb59a")
