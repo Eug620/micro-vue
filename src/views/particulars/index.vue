@@ -1,10 +1,12 @@
 <!--
- * @Author: eug yyh3531@163.com
- * @Date: 2022-08-28 07:37:20
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-08-28 18:09:29
- * @FilePath: /micro-chat/src/views/particulars/index.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-09-01 09:46:19
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2022-12-30 14:19:09
+ * @FilePath     : /micro-vue/src/views/particulars/index.vue
+ * @Description  : filename
+ * 
+ * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
 -->
 <template>
   <a-spin
@@ -36,7 +38,7 @@ import { reactive, UnwrapNestedRefs, nextTick, ref } from "vue-demi";
 import { useRoute } from "vue-router";
 import { marked } from "marked";
 import hljs from "highlight.js";
-
+const str = "### 1222\n\n```js\n    const count = 12;\n```"
 marked.setOptions({
   renderer: new marked.Renderer(),
   gfm: true,

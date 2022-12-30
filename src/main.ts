@@ -1,10 +1,12 @@
 /*
- * @Author: eug yyh3531@163.com
- * @Date: 2022-07-14 22:24:52
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-09-17 00:27:24
- * @FilePath: /micro-chat/src/main.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-09-16 23:52:04
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2022-12-30 17:13:10
+ * @FilePath     : /micro-vue/src/main.ts
+ * @Description  : filename
+ * 
+ * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
  */
 import '@/index.css';
 import { createApp } from 'vue'
@@ -12,7 +14,8 @@ import App from './App.vue'
 import '@/assets/styles/index.scss';
 import 'nprogress/nprogress.css';
 import 'virtual:svg-icons-register'
-
+import 'bytemd/dist/index.css'
+import 'default-passive-events'
 // arco-design
 // import ArcoVue from '@arco-design/web-vue';
 // import '@arco-design/web-vue/dist/arco.css';

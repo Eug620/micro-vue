@@ -1,13 +1,15 @@
 <!--
- * @Author: eug yyh3531@163.com
- * @Date: 2022-07-14 22:24:52
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-09-18 06:02:29
- * @FilePath: /micro-chat/src/App.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-09-21 10:03:12
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2022-12-30 16:27:54
+ * @FilePath     : /micro-vue/src/App.vue
+ * @Description  : filename
+ * 
+ * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
 -->
 <template>
-  <router-view />
+  <router-view/>
 </template>
 
 <script lang="ts" setup>
@@ -17,10 +19,17 @@ import { useUserStore } from '@/store/modules/user'
 import { useSystemStore } from '@/store/modules/app'
 import { useRouteStore } from '@/store/modules/route'
 import { useRoute, useRouter } from 'vue-router'
+import { onMounted, ref } from 'vue'
 
 const systemStore = useSystemStore()
 const userStore = useUserStore()
 const routeStore =  useRouteStore()
+const gggggg = ref(null)
+
+onMounted(() => {
+  console.log(gggggg.value);
+})
+
 
 // 配置信息
 systemStore.reload()

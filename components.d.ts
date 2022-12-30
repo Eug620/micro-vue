@@ -49,6 +49,7 @@ declare module '@vue/runtime-core' {
     BaseUserInfo: typeof import('./src/components/base-user-info/index.vue')['default']
     McContainer: typeof import('./src/components/mc-container/index.vue')['default']
     McParticularsComment: typeof import('./src/components/mc-particulars-comment/index.vue')['default']
+    McSetting: typeof import('./src/components/mc-setting/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

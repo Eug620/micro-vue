@@ -1,10 +1,12 @@
 /*
- * @Author: eug yyh3531@163.com
- * @Date: 2022-08-28 01:36:16
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-08-28 02:19:14
- * @FilePath: /micro-chat/src/importRoutercom.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-08-31 15:08:14
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2022-12-30 17:43:59
+ * @FilePath     : /micro-vue/src/importRoutercom.ts
+ * @Description  : filename
+ * 
+ * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
  */
 export function filterAsnycRouter(asyncRouterMap: any) {
     return asyncRouterMap.filter((route: any) => {

@@ -4,7 +4,7 @@
  * @LastEditTime: 2022-09-17 00:11:46
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
- * @FilePath     : /micro-base/src/locales/lang/en.ts
+ * @FilePath     : /micro-vue/src/locales/lang/en.ts
  */
 export default {
   message: {
@@ -24,5 +24,10 @@ export default {
     editInfo: 'Edit Info',
     signOut: 'Sign Out',
     drawDown: 'Draw Down',
+  },
+  vue: {
+    creativeWork: {
+      drawerTitle: 'Setting'
+    }
   }
 };

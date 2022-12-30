@@ -4,7 +4,7 @@
  * @LastEditTime: 2022-09-17 00:11:30
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
- * @FilePath     : /micro-base/src/locales/lang/zh.ts
+ * @FilePath     : /micro-vue/src/locales/lang/zh.ts
  */
 export default {
   message: {
@@ -24,5 +24,10 @@ export default {
     editInfo: '编辑',
     signOut: '登出',
     drawDown: '注销',
+  },
+  vue: {
+    creativeWork: {
+      drawerTitle: '配置'
+    }
   }
 };

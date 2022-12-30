@@ -8,7 +8,7 @@
  */
 import { defineStore, storeToRefs } from 'pinia';
 import { useDBStore } from '@/store/modules/db'
-import { DataBaseName } from '@/enums/database';
+import { DataBaseName, DATABASEPUBLIC } from '@/enums/database';
 import ServerApi from '@/api';
 import { Notification } from '@arco-design/web-vue';
 import { useRouteStore } from '@/store/modules/route'
@@ -92,6 +92,7 @@ export const useUserStore = defineStore({
             const db = useDBStore()
             this.info = info
             this.isLogin = this.info?.token ? true : false
+            !this.isLogin && db.set({ dbName: DataBaseName.SYSTEM, path: DATABASEPUBLIC.ASYNCMENU, value: null })
             db.set({
                 dbName: DataBaseName.SYSTEM,
                 path: 'info',

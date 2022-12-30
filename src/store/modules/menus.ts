@@ -65,6 +65,20 @@ const customMenus = [
         component: 'views/about/index'
     },
     {
+        path: '/creative-work',
+        name: 'creative-work',
+        redirect: '',
+        meta: {
+            keepAlive: true,
+            title: 'creative-work',
+            isEle: true,
+            auth: true,
+            affix: true,
+            icon: 'IconFaceSmileFill'
+        },
+        component: 'views/creativeWork/index'
+    },
+    {
         path: '/confabulate',
         name: 'confabulate',
         redirect: '',
