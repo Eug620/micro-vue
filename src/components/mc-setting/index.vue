@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-12-30 15:22:31
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-12-30 17:38:10
+ * @LastEditTime : 2023-01-03 11:12:55
  * @FilePath     : /micro-vue/src/components/mc-setting/index.vue
  * @Description  : filename
  * 
@@ -24,9 +24,9 @@
           type="button"
           v-model="form.lang"
           :default-value="system.lang"
-          @change="system.setLang"
+          @change="useLangChange"
         >
-          <a-radio :value="item" v-for="item in langOptions" :key="item">{{
+          <a-radio :value="item" v-for="item in LangEnum" :key="item">{{
             item
           }}</a-radio>
         </a-radio-group>
@@ -36,9 +36,9 @@
           type="button"
           :default-value="system.theme"
           v-model="form.theme"
-          @change="system.setTheme"
+          @change="useThemeChange"
         >
-          <a-radio :value="item" v-for="item in themeOptions" :key="item">{{
+          <a-radio :value="item" v-for="item in ThemeEnum" :key="item">{{
             item
           }}</a-radio>
         </a-radio-group>
@@ -49,6 +49,7 @@
 </template>
 
 <script setup lang="ts">
+import { LangEnum, ThemeEnum } from "@/enums/system";
 import { useSystemStore } from "@/store/modules/app";
 import { reactive, ref } from "vue";
 
@@ -65,6 +66,13 @@ document.addEventListener("keydown", (e) => {
     visibleDrawer.value = true;
   }
 });
+const useLangChange = (val: any) => {
+  system.setLang(val as LangEnum)
+}
+
+const useThemeChange = (val: any) => {
+  system.setTheme(val as ThemeEnum)
+}
 
 const useDrawerSubmit = () => {
   visibleDrawer.value = false;
