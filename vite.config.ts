@@ -13,6 +13,7 @@ import { configCompressPlugin, microCustomPlugin } from './build/vitePlugins'
 import Components from 'unplugin-vue-components/vite';
 import { ArcoResolver } from 'unplugin-vue-components/resolvers';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import { visualizer } from 'rollup-plugin-visualizer'
 const path = require('path')
 const { resolve } = path
 const getEnvFn = (mode, target) => {
@@ -46,6 +47,9 @@ export default ({ mode }) => defineConfig({
   },
   plugins: [
     vue(),
+    visualizer({
+      filename: 'visualizer.html'
+    }),
     createHtmlPlugin({
       inject: {
         data: {
@@ -77,7 +81,7 @@ export default ({ mode }) => defineConfig({
       // customDomId: '__svg__icons__dom__',
     }),
   ],
-  resolve:{
+  resolve: {
     alias: [
       {
         find: '@',
@@ -113,9 +117,11 @@ export default ({ mode }) => defineConfig({
     //默认情况下，若 outDir 在 root 目录下，则 Vite 会在构建时清空该目录。
     emptyOutDir: true,
     //启用/禁用 brotli 压缩大小报告
-    brotliSize: true,
+    // brotliSize: true,
     //chunk 大小警告的限制
     chunkSizeWarningLimit: 1000,
+    // 默认情况下，Vite 会在构建阶段将 publicDir 目录中的所有文件复制到 outDir 目录中。可以通过设置该选项为 false 来禁用该行为
+    // copyPublicDir: false,
     // 移除console
     minify: 'terser',
     terserOptions: {
@@ -125,6 +131,18 @@ export default ({ mode }) => defineConfig({
         // drop_debugger: true,
       },
     },
+    rollupOptions: {
+      output: {
+        // 拆分js
+        manualChunks: {
+          highlight:['highlight.js'],
+          lodash:['lodash'],
+          ['acro-design']: ['@arco-design/web-vue'],
+          marked: ['marked'],
+          bytemd: ['bytemd', '@bytemd/plugin-breaks', '@bytemd/plugin-frontmatter', '@bytemd/plugin-gemoji', '@bytemd/plugin-gfm', '@bytemd/plugin-highlight', '@bytemd/vue-next']
+        }
+      }
+    }
   },
   css: {
     // [WARNING] "@charset" must be the first rule in the file

@@ -32,6 +32,7 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.0.16",
     "postcss": "^8.4.14",
+    "rollup-plugin-visualizer": "^5.9.0",
     "sass": "^1.53.0",
     "sass-loader": "^13.0.2",
     "socket.io-client": "2.5.0",
