@@ -138,7 +138,7 @@ export default ({ mode }) => defineConfig({
           highlight:['highlight.js'],
           lodash:['lodash'],
           ['acro-design']: ['@arco-design/web-vue'],
-          marked: ['marked'],
+          // marked: ['marked'],
           bytemd: ['bytemd', '@bytemd/plugin-breaks', '@bytemd/plugin-frontmatter', '@bytemd/plugin-gemoji', '@bytemd/plugin-gfm', '@bytemd/plugin-highlight', '@bytemd/vue-next']
         }
       }

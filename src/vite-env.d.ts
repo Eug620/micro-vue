@@ -1,4 +1,14 @@
 /*
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-08-31 15:08:14
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2023-01-04 18:34:40
+ * @FilePath     : /micro-vue/src/vite-env.d.ts
+ * @Description  : filename
+ * 
+ * Copyright (c) 2023 by eug yyh3531@163.com, All Rights Reserved. 
+ */
+/*
  * @Author: eug yyh3531@163.com
  * @Date: 2022-07-14 22:24:52
  * @LastEditors: eug yyh3531@163.com
@@ -14,7 +24,6 @@ declare module '*.vue' {
   export default component
 }
 
-declare module 'marked'
 declare module 'socket.io-client' 
 interface Window{
   __MICRO_APP_ENVIRONMENT__?:string|undefined

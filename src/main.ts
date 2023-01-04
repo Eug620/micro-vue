@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-16 23:52:04
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-04 11:16:41
+ * @LastEditTime : 2023-01-04 18:27:06
  * @FilePath     : /micro-vue/src/main.ts
  * @Description  : filename
  * 
@@ -16,6 +16,10 @@ import 'nprogress/nprogress.css';
 import 'virtual:svg-icons-register'
 import 'bytemd/dist/index.css'
 import 'default-passive-events'
+
+import 'highlight.js/styles/github.css'
+import "github-markdown-css/github-markdown-light.css";
+
 // arco-design
 // import ArcoVue from '@arco-design/web-vue';
 // import '@arco-design/web-vue/dist/arco.css';

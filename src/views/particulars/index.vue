@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-01 09:46:19
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-12-30 14:19:09
+ * @LastEditTime : 2023-01-04 18:34:10
  * @FilePath     : /micro-vue/src/views/particulars/index.vue
  * @Description  : filename
  * 
@@ -16,12 +16,10 @@
     style="width:100%;"
   >
     <mc-container class="particulars-container">
-      <!-- <a-card hoverable class="particulars-container"  :bordered="false"> -->
-      <div
-        v-html="marked.parse(ArticleInfo.content || '')"
-        id="particulars-container-content"
-      ></div>
-      <!-- </a-card> -->
+      <Viewer
+        :value="ArticleInfo.content"
+        :plugins="plugins"
+      />
     </mc-container>
   </a-spin>
   <a-card hoverable :bordered="false" style="margin-top: 10px">
@@ -36,22 +34,22 @@
 import ServerApi from "@/api";
 import { reactive, UnwrapNestedRefs, nextTick, ref } from "vue-demi";
 import { useRoute } from "vue-router";
-import { marked } from "marked";
-import hljs from "highlight.js";
-const str = "### 1222\n\n```js\n    const count = 12;\n```"
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: false,
-  pedantic: false,
-  // sanitize: true,
-  smartLists: true,
-  smartypants: false,
-  highlight: (code: any) => {
-    return hljs.highlightAuto(code).value;
-  },
-});
+
+import { Viewer } from "@bytemd/vue-next";
+import gfm from "@bytemd/plugin-gfm";
+import frontmatter from "@bytemd/plugin-frontmatter";
+import gemoji from "@bytemd/plugin-gemoji";
+import highlight from "@bytemd/plugin-highlight";
+import breaks from "@bytemd/plugin-breaks";
+
+const plugins = [
+  breaks(),
+  gfm(),
+  frontmatter(),
+  gemoji(),
+  highlight(),
+  // Add more plugins here
+];
 
 const route = useRoute();
 const isLoading = ref(true);
@@ -95,5 +93,4 @@ useGetArticleDetail();
 </script>
 
 <style lang="scss">
-@import "./index.scss";
 </style>
