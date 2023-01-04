@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-11-18 17:18:40
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-03 11:11:51
+ * @LastEditTime : 2023-01-04 12:50:29
  * @FilePath     : /micro-vue/src/views/creativeWork/index.vue
  * @Description  : filename
  * 
@@ -10,12 +10,13 @@
 -->
 <template>
   <Editor
-    :value="value"
-    mode="auto"
-    :locale="EditorLocale"
-    placeholder="......"
+    :value="DefaultGfmValue"
+    :mode="DefaultGfmMode"
+    :locale="DefaultGfmLocaleValue"
+    :placeholder="DefaultGfmPlaceholder"
     :plugins="plugins"
     @change="handleChange"
+    :max-length="DefaultGfmMaxLength"
   />
 </template>
 
@@ -28,53 +29,13 @@ import gemoji from "@bytemd/plugin-gemoji";
 import highlight from "@bytemd/plugin-highlight";
 import "github-markdown-css/github-markdown-light.css";
 import breaks from "@bytemd/plugin-breaks";
-// lang
-import GfmZhHans from "bytemd/locales/zh_Hans.json";
 
-import { Input, FormItem, Form, RadioGroup,Radio } from "@arco-design/web-vue";
 
-// test
-// import { defineEmits } from "vue";
-// local
-const localeObject = {
-  'GfmZhHans': GfmZhHans
-}
-const EditorLocale = ref(GfmZhHans);
-
+import Setting from './setting.vue'
+import { DefaultGfmLocaleValue, DefaultGfmValue, DefaultGfmMode, DefaultGfmPlaceholder, DefaultGfmMaxLength } from './variable'
 
 const emit = defineEmits(["setting"]);
-// emit('setting', Setting)
-const hello = ref("22222");
-// <a-radio-group
-//           type="button"
-//           v-model="form.lang"
-//           :default-value="system.lang"
-//           @change="system.setLang"
-//         >
-//           <a-radio :value="item" v-for="item in langOptions" :key="item">{{
-//             item
-//           }}</a-radio>
-//         </a-radio-group>
-const test = () => {
-  return [
-    // h(RadioGroup, {
-    //   ["onUpdate:modelValue"]: (val: string) => {
-    //     EditorLocale.value = localeObject[val];
-    //   },
-    //   modelValue: 'GfmZhHans',
-    // },[
-    //   h(Radio, {modelValue: 'GfmZhHans'})
-    // ]),
-    h(Input, {
-      ["onUpdate:modelValue"]: (val: string) => {
-        hello.value = val;
-      },
-      modelValue: hello.value,
-      placeholder: "please enter your username...",
-    }),
-  ];
-};
-emit("setting", test);
+emit('setting', Setting)
 
 const plugins = [
   breaks(),
@@ -84,10 +45,8 @@ const plugins = [
   highlight(),
   // Add more plugins here
 ];
-const value = ref("");
-const name = ref("");
 const handleChange = (v: string) => {
-  value.value = v;
+  DefaultGfmValue.value = v;
 };
 </script>
 

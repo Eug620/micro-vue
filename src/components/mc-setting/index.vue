@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-12-30 15:22:31
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-03 11:12:55
+ * @LastEditTime : 2023-01-04 10:15:18
  * @FilePath     : /micro-vue/src/components/mc-setting/index.vue
  * @Description  : filename
  * 
@@ -43,8 +43,8 @@
           }}</a-radio>
         </a-radio-group>
       </a-form-item>
-    </a-form>
     <slot />
+    </a-form>
   </a-drawer>
 </template>
 
@@ -55,8 +55,6 @@ import { reactive, ref } from "vue";
 
 const system = useSystemStore();
 const visibleDrawer = ref(false);
-const langOptions = ["en", "zh", "ja"];
-const themeOptions = ["dark", "light"];
 const form = reactive({
   lang: system.lang,
   theme: system.theme,
