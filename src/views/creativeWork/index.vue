@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-11-18 17:18:40
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-04 12:50:29
+ * @LastEditTime : 2023-01-04 13:54:24
  * @FilePath     : /micro-vue/src/views/creativeWork/index.vue
  * @Description  : filename
  * 
@@ -31,8 +31,8 @@ import "github-markdown-css/github-markdown-light.css";
 import breaks from "@bytemd/plugin-breaks";
 
 
-import Setting from './setting.vue'
-import { DefaultGfmLocaleValue, DefaultGfmValue, DefaultGfmMode, DefaultGfmPlaceholder, DefaultGfmMaxLength } from './variable'
+import Setting from './config/index.vue'
+import { DefaultGfmLocaleValue, DefaultGfmValue, DefaultGfmMode, DefaultGfmPlaceholder, DefaultGfmMaxLength } from './config/variable'
 
 const emit = defineEmits(["setting"]);
 emit('setting', Setting)
