@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-01 09:46:19
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-04 18:34:10
+ * @LastEditTime : 2023-01-05 11:18:01
  * @FilePath     : /micro-vue/src/views/particulars/index.vue
  * @Description  : filename
  * 
@@ -18,7 +18,8 @@
     <mc-container class="particulars-container">
       <Viewer
         :value="ArticleInfo.content"
-        :plugins="plugins"
+        :plugins="DefaultEditorPlugins"
+        :sanitize="test"
       />
     </mc-container>
   </a-spin>
@@ -32,24 +33,39 @@
 
 <script lang="ts" setup>
 import ServerApi from "@/api";
-import { reactive, UnwrapNestedRefs, nextTick, ref } from "vue-demi";
+import { reactive, UnwrapNestedRefs, nextTick, ref, computed } from "vue-demi";
 import { useRoute } from "vue-router";
 
 import { Viewer } from "@bytemd/vue-next";
+// plugins
 import gfm from "@bytemd/plugin-gfm";
 import frontmatter from "@bytemd/plugin-frontmatter";
 import gemoji from "@bytemd/plugin-gemoji";
 import highlight from "@bytemd/plugin-highlight";
 import breaks from "@bytemd/plugin-breaks";
+import footnotes from '@bytemd/plugin-footnotes'
+import mediumZoom from '@bytemd/plugin-medium-zoom'
+import mermaid from '@bytemd/plugin-mermaid'
+import { DefaultMermaidLocaleValue } from "@/views/creativeWork/config/variable";
 
-const plugins = [
-  breaks(),
-  gfm(),
-  frontmatter(),
-  gemoji(),
-  highlight(),
-  // Add more plugins here
-];
+const test = (v: any) => {
+  console.log(v);
+}
+const DefaultEditorPlugins = computed(() => {
+  return [
+    breaks(),
+    gfm(),
+    mermaid({
+      locale: DefaultMermaidLocaleValue.value
+    }),
+    footnotes(),
+    mediumZoom(),
+    frontmatter(),
+    gemoji(),
+    highlight(),
+    // Add more plugins here
+  ]
+});
 
 const route = useRoute();
 const isLoading = ref(true);

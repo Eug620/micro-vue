@@ -2,8 +2,8 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-12-30 16:03:31
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-04 12:48:19
- * @FilePath     : /micro-vue/src/views/creativeWork/Setting.vue
+ * @LastEditTime : 2023-01-05 11:27:34
+ * @FilePath     : /micro-vue/src/views/creativeWork/config/index.vue
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
@@ -26,12 +26,10 @@
       allow-clear
     />
   </a-form-item>
-  <a-form-item field="placeholder" label="placeholder">
-    <a-input-number
-      v-model="DefaultGfmMaxLength"
-      placeholder="Please Enter"
-      :min="1000"
-    />
+  <a-form-item field="mermaid_local" label="mermaid local">
+    <a-select v-model="DefaultMermaidLocale" placeholder="Please select ...">
+      <a-option v-for="i in MermaidLocaleEnum" :key="i">{{ i }}</a-option>
+    </a-select>
   </a-form-item>
 </template>
 
@@ -49,8 +47,9 @@ import {
   DefaultGfmMode,
   // placeholder
   DefaultGfmPlaceholder,
-  // maxlength
-  DefaultGfmMaxLength,
+  // mermaid lang
+  DefaultMermaidLocale,
+  MermaidLocaleEnum
 } from "./variable";
 const mittStore = useMittStore();
 const { emitter } = storeToRefs(mittStore);

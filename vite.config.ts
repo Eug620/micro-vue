@@ -139,7 +139,7 @@ export default ({ mode }) => defineConfig({
           lodash:['lodash'],
           ['acro-design']: ['@arco-design/web-vue'],
           // marked: ['marked'],
-          bytemd: ['bytemd', '@bytemd/plugin-breaks', '@bytemd/plugin-frontmatter', '@bytemd/plugin-gemoji', '@bytemd/plugin-gfm', '@bytemd/plugin-highlight', '@bytemd/vue-next']
+          bytemd: ['bytemd', '@bytemd/plugin-breaks', '@bytemd/plugin-frontmatter', '@bytemd/plugin-gemoji', '@bytemd/plugin-gfm', '@bytemd/plugin-highlight', '@bytemd/vue-next', '@bytemd/plugin-footnotes', '@bytemd/plugin-mermaid']
         }
       }
     }
