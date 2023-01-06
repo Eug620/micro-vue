@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-01 09:46:19
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-06 09:59:50
+ * @LastEditTime : 2023-01-06 11:17:32
  * @FilePath     : /micro-vue/src/views/particulars/index.vue
  * @Description  : filename
  * 
@@ -91,9 +91,10 @@ const useGetArticleDetail = async () => {
     isLoading.value = true;
     let res: ResponcesType = await ServerApi.GetArticleDetail({ id });
     if(res.code === 200) {
-      ArticleInfo = Object.assign({}, res.data)
+      ArticleInfo = Object.assign(ArticleInfo, res.data)
     }
   } catch (error) {
+    console.log(error);
   } finally {
     nextTick(() => {
       isLoading.value = false;

@@ -9,7 +9,7 @@
 <template>
   <div class="mc-particulars-comment">
     <h2 style="display:inline-block;font-size:1.5em;" v-if="ArticleInfo">
-    [ {{ArticleInfo.title}} · {{ArticleInfo.user_name}} ] :  {{ArticleInfo.page_views}} 
+    {{ArticleInfo.title}} - {{ArticleInfo.user_name}}  :  {{ArticleInfo.page_views}} 
     </h2>
       <a-button type="text" style="float:right;" @click="useCommentAuthor"> 
       回复
