@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2023-01-04 10:58:56
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-05 11:27:26
+ * @LastEditTime : 2023-01-05 18:10:59
  * @FilePath     : /micro-vue/src/views/creativeWork/config/variable.ts
  * @Description  : Variable
  * 
@@ -139,5 +139,12 @@ export const DefaultMermaidLocale: Ref<MermaidLocaleEnum> = ref(MermaidLocaleEnu
 export const DefaultMermaidLocaleValue = computed(() => {
     return MermaidLocale[DefaultMermaidLocale.value]
 })
+
+// article title
+export const DefaulArticleTitle = ref('')
+
+// article description
+export const DefaulArticleDescription = ref('')
+
 
 

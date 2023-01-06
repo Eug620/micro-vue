@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-11-18 17:18:40
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-05 11:27:19
+ * @LastEditTime : 2023-01-06 10:08:14
  * @FilePath     : /micro-vue/src/views/creativeWork/index.vue
  * @Description  : filename
  * 
@@ -33,6 +33,9 @@ import mediumZoom from '@bytemd/plugin-medium-zoom'
 import mermaid from '@bytemd/plugin-mermaid'
 
 import Setting from './config/index.vue'
+
+import { useMittStore } from "@/store/modules/mitt";
+import { storeToRefs } from "pinia";
 import {
   DefaultGfmLocaleValue,
   DefaultGfmValue,
@@ -41,8 +44,12 @@ import {
   DefaultMermaidLocaleValue,
 } from './config/variable'
 
-const emit = defineEmits(["setting"]);
-emit('setting', Setting)
+
+const mittStore = useMittStore()
+const { mitt } = storeToRefs(mittStore)
+mitt.value.emit('setting', Setting)
+// const emit = defineEmits(["setting"]);
+// emit('setting', Setting)
 
 const DefaultEditorPlugins = computed(() => {
   return [

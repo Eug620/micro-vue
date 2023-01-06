@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-08-31 15:08:14
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-12-30 16:45:59
+ * @LastEditTime : 2023-01-06 10:10:10
  * @FilePath     : /micro-vue/src/layout/index.vue
  * @Description  : filename
  * 
@@ -15,20 +15,13 @@
     </a-layout-header>
     <a-layout-content class="chat-layout-container">
       <router-view v-slot="{ Component, route }">
-        <div
-          v-if="!route.meta.keepAlive"
-          class="animate__animated animate__fadeIn"
-        >
-          <component @setting="useSetting" :is="Component" :key="route.fullPath" />
+        <div v-if="!route.meta.keepAlive" class="animate__animated animate__fadeIn">
+          <component :is="Component" :key="route.fullPath" />
         </div>
         <keep-alive v-if="route.meta.keepAlive">
-        <div class="animate__animated animate__fadeIn">
-          <component
-            :is="Component"
-            :key="route.fullPath"
-            @setting="useSetting"
-          />
-        </div>
+          <div class="animate__animated animate__fadeIn">
+            <component :is="Component" :key="route.fullPath" />
+          </div>
         </keep-alive>
       </router-view>
     </a-layout-content>
@@ -43,10 +36,19 @@
 import { markRaw, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import BaseHeaderVue from "./BaseHeader.vue";
+
+import { useMittStore } from "@/store/modules/mitt";
+import { storeToRefs } from "pinia";
+
 const isSlot = ref(null)
-const useSetting = (v:any) => {
+
+
+const mittStore = useMittStore()
+const { mitt } = storeToRefs(mittStore)
+mitt.value.on('setting', (v: any | undefined) => {
   isSlot.value = markRaw(v)
-}
+})
+
 const route = useRoute()
 watch(route,
   (v) => {
@@ -60,7 +62,7 @@ watch(route,
 .chat-layout {
   height: 100vh;
 
-  &-header{
+  &-header {
     height: 58px;
   }
 

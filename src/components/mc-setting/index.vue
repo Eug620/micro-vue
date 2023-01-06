@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-12-30 15:22:31
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-04 10:15:18
+ * @LastEditTime : 2023-01-06 10:13:59
  * @FilePath     : /micro-vue/src/components/mc-setting/index.vue
  * @Description  : filename
  * 
@@ -19,6 +19,7 @@
     <template #title>{{ $t("vue.creativeWork.drawerTitle") }}</template>
 
     <a-form :model="form" layout="vertical">
+      <a-divider orientation="left">System Config</a-divider>
       <a-form-item field="lang" label="语言切换">
         <a-radio-group
           type="button"
@@ -51,7 +52,7 @@
 <script setup lang="ts">
 import { LangEnum, ThemeEnum } from "@/enums/system";
 import { useSystemStore } from "@/store/modules/app";
-import { reactive, ref } from "vue";
+import { reactive, ref, provide } from "vue";
 
 const system = useSystemStore();
 const visibleDrawer = ref(false);
@@ -61,7 +62,7 @@ const form = reactive({
 });
 document.addEventListener("keydown", (e) => {
   if (e.ctrlKey && e.keyCode === 84) {
-    visibleDrawer.value = true;
+    open()
   }
 });
 const useLangChange = (val: any) => {
@@ -73,12 +74,22 @@ const useThemeChange = (val: any) => {
 }
 
 const useDrawerSubmit = () => {
-  visibleDrawer.value = false;
+  close()
 };
 
 const useDrawerCancel = () => {
-  visibleDrawer.value = false;
+  close()
 };
+
+const close = () => {
+  visibleDrawer.value = false
+}
+const open = () => {
+  visibleDrawer.value = true
+}
+
+provide('close', close)
+provide('open', open)
 </script>
 
 <style>

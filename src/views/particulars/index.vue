@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-01 09:46:19
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-05 11:18:01
+ * @LastEditTime : 2023-01-06 09:59:50
  * @FilePath     : /micro-vue/src/views/particulars/index.vue
  * @Description  : filename
  * 
@@ -19,7 +19,6 @@
       <Viewer
         :value="ArticleInfo.content"
         :plugins="DefaultEditorPlugins"
-        :sanitize="test"
       />
     </mc-container>
   </a-spin>
@@ -48,9 +47,6 @@ import mediumZoom from '@bytemd/plugin-medium-zoom'
 import mermaid from '@bytemd/plugin-mermaid'
 import { DefaultMermaidLocaleValue } from "@/views/creativeWork/config/variable";
 
-const test = (v: any) => {
-  console.log(v);
-}
 const DefaultEditorPlugins = computed(() => {
   return [
     breaks(),
@@ -94,9 +90,8 @@ const useGetArticleDetail = async () => {
   try {
     isLoading.value = true;
     let res: ResponcesType = await ServerApi.GetArticleDetail({ id });
-    console.log(res);
-    for (const key in res.data) {
-      ArticleInfo[key] = res.data[key];
+    if(res.code === 200) {
+      ArticleInfo = Object.assign({}, res.data)
     }
   } catch (error) {
   } finally {
