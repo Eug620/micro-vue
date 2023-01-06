@@ -41,7 +41,7 @@
 
 <script lang="ts" setup>
 import ServerApi from "@/api";
-import { onMounted, Ref, ref, watchEffect, onActivated } from "vue-demi";
+import { onMounted, Ref, ref, watchEffect, onActivated, nextTick } from "vue-demi";
 import { useTransformSecond } from "@/plugin/transform-time";
 import {
   IconEye,
@@ -79,19 +79,22 @@ const useGetArticle = async () => {
 };
 useGetArticle();
 const useUnregisterEvent = () => {
-  refNewestContainer.value?.parentElement.parentElement?.removeEventListener(
+  refNewestContainer.value.parentElement.scrollTop = 0
+  refNewestContainer.value?.parentElement?.removeEventListener(
     "scroll",
     useScrollFunction
   );
 };
 const useRegisterEvent = () => {
-  refNewestContainer.value?.parentElement.parentElement?.addEventListener(
+  refNewestContainer.value?.parentElement?.addEventListener(
     "scroll",
     useScrollFunction
   );
 };
 const useSetScrollTop = () => {
-  refNewestContainer.value.parentElement.parentElement.scrollTop = scrollTop.value;
+  nextTick(() => {
+    refNewestContainer.value.parentElement.scrollTop = scrollTop.value;
+  })
 };
 onMounted(() => {
   useRegisterEvent();

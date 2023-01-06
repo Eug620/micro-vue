@@ -55,7 +55,7 @@ const customMenus = [
         name: 'about',
         redirect: '',
         meta: {
-            keepAlive: true,
+            keepAlive: false,
             title: 'about',
             isEle: true,
             auth: true,
@@ -69,7 +69,7 @@ const customMenus = [
         name: 'creative-work',
         redirect: '',
         meta: {
-            keepAlive: true,
+            keepAlive: false,
             title: 'creative-work',
             isEle: true,
             auth: true,
@@ -83,7 +83,7 @@ const customMenus = [
         name: 'confabulate',
         redirect: '',
         meta: {
-            keepAlive: true,
+            keepAlive: false,
             title: 'confabulate',
             isEle: true,
             auth: true,

@@ -14,6 +14,8 @@
     :visible="visibleDrawer"
     @ok="useDrawerSubmit"
     @cancel="useDrawerCancel"
+    :mask-closable="false"
+    :footer="false"
     unmountOnClose
   >
     <template #title>{{ $t("vue.creativeWork.drawerTitle") }}</template>
@@ -61,7 +63,7 @@ const form = reactive({
   theme: system.theme,
 });
 document.addEventListener("keydown", (e) => {
-  if (e.ctrlKey && e.keyCode === 84) {
+  if (e.altKey && e.ctrlKey && e.keyCode === 84) {
     open()
   }
 });

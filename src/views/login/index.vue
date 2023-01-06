@@ -41,9 +41,9 @@ const isInfoEdit = ref(false)
   position: relative;
   &-container{
     position: absolute;
-    top: 40%;
-    left: 50%;
-    width: 50%;
+    top: 30%;
+    left: 70%;
+    width: 30%;
     transform: translate(-50%, -50%);
   }
 }

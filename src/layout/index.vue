@@ -15,13 +15,20 @@
     </a-layout-header>
     <a-layout-content class="chat-layout-container">
       <router-view v-slot="{ Component, route }">
-        <div v-if="!route.meta.keepAlive" class="animate__animated animate__fadeIn">
-          <component :is="Component" :key="route.fullPath" />
-        </div>
-        <keep-alive v-if="route.meta.keepAlive">
-          <div class="animate__animated animate__fadeIn">
-            <component :is="Component" :key="route.fullPath" />
-          </div>
+        <component
+          :is="Component"
+          :key="route.fullPath"
+          class="animate__animated animate__fadeIn"
+          v-if="!route.meta.keepAlive"
+        />
+
+        <keep-alive>
+          <component
+            :is="Component"
+            :key="route.fullPath"
+            class="animate__animated animate__fadeIn"
+            v-if="route.meta.keepAlive"
+          />
         </keep-alive>
       </router-view>
     </a-layout-content>
@@ -39,23 +46,18 @@ import BaseHeaderVue from "./BaseHeader.vue";
 
 import { useMittStore } from "@/store/modules/mitt";
 import { storeToRefs } from "pinia";
+const isSlot = ref(null);
 
-const isSlot = ref(null)
+const mittStore = useMittStore();
+const { mitt } = storeToRefs(mittStore);
+mitt.value.on("setting", (v: any | undefined) => {
+  isSlot.value = markRaw(v);
+});
 
-
-const mittStore = useMittStore()
-const { mitt } = storeToRefs(mittStore)
-mitt.value.on('setting', (v: any | undefined) => {
-  isSlot.value = markRaw(v)
-})
-
-const route = useRoute()
-watch(route,
-  (v) => {
-    isSlot.value = null
-  }
-)
-
+const route = useRoute();
+watch(route, (v) => {
+  isSlot.value = null;
+});
 </script>
 
 <style lang="scss">
