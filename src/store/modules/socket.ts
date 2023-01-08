@@ -36,7 +36,11 @@ export const useSocketStore = defineStore({
         }
     },
     actions: {
-        initSocket() {
+        getRoomsName(id:string) {
+            return this.rooms[id] ? this.rooms[id].info.name : '错误ID'
+        },
+        initSocket(room: any) {
+            if(!room.length) return
             const userStore = useUserStore();
             console.log('initSocket: UserID-->' + userStore.getInfo.id);
             this.socket = io(
@@ -45,8 +49,7 @@ export const useSocketStore = defineStore({
                 , {
                     transports: ["websocket"],
                     query: {
-                        room: 'wtf',
-                        id: 'hhhh',
+                        room: room.map((v:any) => v.id),
                         token: userStore.getToken,
                         userId: userStore.getInfo.id,
                     },
@@ -54,7 +57,7 @@ export const useSocketStore = defineStore({
                     // forceBase64: true, // 内容加密
                     // withCredentials: true
                 });
-            this.socket.on("connect", () => {
+                this.socket.on("connect", () => {
                 console.log("😄 :: connect success");
             });
 
@@ -63,6 +66,7 @@ export const useSocketStore = defineStore({
             });
             // 重联
             const tryReconnect = () => {
+                if (!userStore.isLogin) return
                 console.log("🤔 :: close.....");
                 setTimeout(() => {
                     this.socket.io.open((err: any) => {
@@ -72,17 +76,16 @@ export const useSocketStore = defineStore({
                     });
                 }, 2000);
             };
+            
             this.socket.io.on("close", tryReconnect);
-
-            const useGetRoomsOwn = async () => {
-                try {
-                    let res = await ServerApi.RoomsOwnRoom();
-                    if (res.code === 200) {
-                        this.initRooms(res.data);
-                    }
-                } catch (error) { }
-            };
-            useGetRoomsOwn()
+        },
+        async useGetRoomsOwn() {
+            try {
+                let res = await ServerApi.RoomsOwnRoom();
+                if (res.code === 200) {
+                    this.initRooms(res.data);
+                }
+            } catch (error) { }
         },
         closeSocket() {
             this.socket.close()
@@ -95,12 +98,14 @@ export const useSocketStore = defineStore({
         },
         initRooms(rooms: any[]) {
             const userStore = useUserStore();
+            this.initSocket(rooms)
             rooms.forEach((room: any) => {
                 if (!this.rooms[room.id]) {
                     this.rooms[room.id] = {
+                        clients: [],
                         info: room,
                         messageCount: 0,
-                        messageList: []
+                        messageList: [],
                     }
                     this.useMonitor(room.id, (res: MsgInterface) => {
                         console.log("💻 :", res);

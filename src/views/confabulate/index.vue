@@ -8,6 +8,8 @@
               <a-col :span="8">
                 <div class="confabulate-container-tab-mine-room-name">
                   {{ room.info.name }}
+                  <!-- {{ room.clients.length }} -->
+                  <!-- {{ room.clients}} -->
                 </div>
               </a-col>
               <a-col :span="16">
@@ -43,7 +45,6 @@
               <a-col :span="8">
                 <div class="confabulate-container-tab-all-room-name">
                   {{ room.name }}
-
                 </div>
               </a-col>
               <a-col :span="16">
@@ -132,9 +133,11 @@ const refForm: any = ref(null);
 
 SocketStore.useMonitor("online", (msg: any) => {
   console.log("🔗 :", msg);
-  Notification.info({
+  // const {clients} = msg
+  // SocketStore.rooms[msg.room] = Object.assign(SocketStore.rooms, {clients})
+  Notification[msg.action === 'leave' ? 'warning' : 'success']({
     content: msg.message,
-    title: msg.action,
+    title:  SocketStore.getRoomsName(msg.room),
     position: 'bottomRight',
     duration: 5000
   })

@@ -81,7 +81,8 @@ export const useUserStore = defineStore({
         reloadSocket() {
             // websocket
             const socketStore = useSocketStore()
-            socketStore.initSocket()
+            // socketStore.initSocket()
+            socketStore.useGetRoomsOwn()
         },
         removeSocket() {
             // websocket
