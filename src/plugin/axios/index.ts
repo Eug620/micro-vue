@@ -75,7 +75,7 @@ service.interceptors.request.use(
     // 在请求发送之前做一些处理
     // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
     config.headers['Base-Version'] = import.meta.env.VITE_APP_VERSION
-    console.log(import.meta.env.VITE_APP_VERSION,'baseURL')
+    // console.log(import.meta.env.VITE_APP_VERSION,'baseURL')
 
     /* header 中添加 csrfToken */
     config.headers[xsrfHeaderName] = Cookies.get(xsrfCookieName);
@@ -104,7 +104,7 @@ service.interceptors.response.use(
     const dataAxios:any = response.data
     // 这个状态码是和后端约定的
     const { code } = dataAxios
-    console.log(code,'code');
+    // console.log(code,'code');
     
     // 根据 code 进行判断
     if (code === undefined) {

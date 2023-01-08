@@ -49,7 +49,7 @@ import { useSocketStore } from "@/store/modules/socket";
 // import { useSocketStore } from "@/store/modules/resetSocket";
 import { useUserStore } from "@/store/modules/user";
 import { computed, ref, Ref } from "vue-demi";
-import { useRoute } from "vue-router";
+import { onBeforeRouteLeave, useRoute } from "vue-router";
 import { useTransformSecond } from "@/plugin/transform-time";
 
 import { IconSend } from "@arco-design/web-vue/es/icon";
@@ -75,6 +75,9 @@ const useClick = () => {
 const useClose = () => {
   SocketStore.socket.close();
 };
+onBeforeRouteLeave(() => {
+  SocketStore.rooms[id]['messageCount'] = 0
+})
 </script>
 
 <style lang="scss">
@@ -89,7 +92,7 @@ const useClose = () => {
 
   &-list {
     flex: 1;
-    overflow: scroll;
+    overflow-y: auto;
   }
 
   &-footer {

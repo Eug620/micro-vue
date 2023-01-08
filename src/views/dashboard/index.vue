@@ -26,11 +26,14 @@ const content = '八月秋高风怒号，卷我屋上三重茅。茅飞渡江洒
 <style lang="scss">
 .dashboard-container {
   &-background {
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
     color: rgba(0, 0, 0, 0);
     font-weight: 900;
-    background: url("https://farm5.staticflickr.com/4273/34378170890_3901a0ac25_k.jpg?momo_cache_bg_uuid=99cbab77-d2d1-4c69-be97-8ba21a5eb59a")
+    background: url("https://momentum.photos/img/b286b86e-0a7f-46fb-9bcb-f526a24b40eb.jpg?momo_cache_bg_uuid=c2110704-2468-47e6-a05b-09856ed3d5a9")
       no-repeat center/cover;
     background-clip: text;
     -webkit-background-clip: text;

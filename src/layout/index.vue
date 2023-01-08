@@ -70,7 +70,7 @@ watch(route, (v) => {
 
   &-container {
     padding: 10px;
-    overflow: scroll;
+    overflow-y: auto;
   }
 }
 </style>

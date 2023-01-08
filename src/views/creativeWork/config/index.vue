@@ -9,7 +9,7 @@
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
 -->
 <template>
-  <a-divider orientation="left">Editor Config</a-divider>
+  <a-divider orientation="left">编辑器配置</a-divider>
   <a-form-item field="local" label="local">
     <a-select v-model="DefaultGfmLocale" placeholder="Please select ...">
       <a-option v-for="i in GfmLocaleEnum" :key="i">{{ i }}</a-option>
@@ -28,7 +28,7 @@
       <a-option v-for="i in MermaidLocaleEnum" :key="i">{{ i }}</a-option>
     </a-select>
   </a-form-item>
-  <a-divider orientation="left">Article Config</a-divider>
+  <a-divider orientation="left">文章</a-divider>
   <a-form-item field="title" label="Article Title">
     <a-input v-model.trim="DefaulArticleTitle" placeholder="Please enter Title" allow-clear />
   </a-form-item>

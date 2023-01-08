@@ -19,16 +19,10 @@ import { useUserStore } from '@/store/modules/user'
 import { useSystemStore } from '@/store/modules/app'
 import { useRouteStore } from '@/store/modules/route'
 import { useRoute, useRouter } from 'vue-router'
-import { onMounted, ref } from 'vue'
 
 const systemStore = useSystemStore()
 const userStore = useUserStore()
 const routeStore =  useRouteStore()
-const gggggg = ref(null)
-
-onMounted(() => {
-  console.log(gggggg.value);
-})
 
 
 // 配置信息

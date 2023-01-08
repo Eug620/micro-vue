@@ -66,14 +66,14 @@
       </a-tab-pane>
 
       <template #extra>
-        <a-button @click="useCreateRooms">Create Room</a-button>
+        <a-button @click="useCreateRooms">新建</a-button>
       </template>
     </a-tabs>
 
     <a-modal :mask-closable="false" v-model:visible="visibleCreate">
       <template #title> Create Room </template>
       <a-form auto-label-width ref="refForm" :model="formRoom">
-        <a-form-item field="name" :rules="formRoomRules.name" label="Name: ">
+        <a-form-item field="name" :rules="formRoomRules.name" label="名称: ">
           <a-input
             v-model="formRoom.name"
             placeholder="please enter your Room name..."
@@ -82,7 +82,7 @@
         <a-form-item
           field="describe"
           :rules="formRoomRules.describe"
-          label="Describe: "
+          label="描述: "
         >
           <a-input
             v-model="formRoom.describe"
@@ -130,19 +130,6 @@ const formRoomRules = reactive({
   ],
 });
 const refForm: any = ref(null);
-onMounted(() => {
-  SocketStore.useMonitor("online", (msg: any) => {
-    console.log("🔗 :", msg);
-    // const {clients} = msg
-    // SocketStore.rooms[msg.room] = Object.assign(SocketStore.rooms, {clients})
-    Notification[msg.action === 'leave' ? 'warning' : 'success']({
-      content: msg.message,
-      title:  SocketStore.getRoomsName(msg.room),
-      position: 'bottomRight',
-      duration: 5000
-    })
-  });
-})
 
 
 const rooms: Ref<any[]> = ref([]);

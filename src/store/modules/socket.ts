@@ -11,6 +11,7 @@
 import { defineStore } from "pinia";
 import io from "socket.io-client";
 import { useUserStore } from "@/store/modules/user";
+import { Notification } from "@arco-design/web-vue";
 import ServerApi from "@/api";
 interface MsgInterface {
     data: {
@@ -64,6 +65,18 @@ export const useSocketStore = defineStore({
             this.socket.on("connect_error", (err: any) => {
                 console.log("💔 :: connect error", err);
             });
+            // 上线通知
+            this.socket.on("online", (msg: any) => {
+                // console.log("🔗 :", msg);
+                // const {clients} = msg
+                // SocketStore.rooms[msg.room] = Object.assign(SocketStore.rooms, {clients})
+                Notification[msg.action === 'leave' ? 'warning' : 'success']({
+                  content: msg.message,
+                  title:  this.getRoomsName(msg.room),
+                  position: 'bottomRight',
+                  duration: 5000
+                })
+            });
             // 重联
             const tryReconnect = () => {
                 if (!userStore.isLogin) return
@@ -89,6 +102,7 @@ export const useSocketStore = defineStore({
         },
         closeSocket() {
             this.socket.close()
+            this.socket = null
         },
         useMonitor(...arg: any) {
             this.socket.on(...arg)
@@ -107,8 +121,10 @@ export const useSocketStore = defineStore({
                         messageCount: 0,
                         messageList: [],
                     }
+                    // 接受房间信息
                     this.useMonitor(room.id, (res: MsgInterface) => {
-                        console.log("💻 :", res);
+                        // console.log("💻 :", res);
+                        
                         // 自己发的信息无需新增
                         if (res.meta.client !== userStore.getInfo.id) {
                             this.rooms[room.id]['messageCount']++

@@ -10,7 +10,7 @@
 -->
 <template>
   <a-drawer
-    width="50%"
+    width="36%"
     :visible="visibleDrawer"
     @ok="useDrawerSubmit"
     @cancel="useDrawerCancel"
@@ -21,7 +21,7 @@
     <template #title>{{ $t("vue.creativeWork.drawerTitle") }}</template>
 
     <a-form :model="form" layout="vertical">
-      <a-divider orientation="left">System Config</a-divider>
+      <a-divider orientation="left">系统配置</a-divider>
       <a-form-item field="lang" label="语言切换">
         <a-radio-group
           type="button"
