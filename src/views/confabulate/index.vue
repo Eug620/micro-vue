@@ -103,7 +103,7 @@ import ServerApi from "@/api";
 import { useSocketStore } from "@/store/modules/socket";
 // import { useSocketStore } from "@/store/modules/resetSocket";
 import { useUserStore } from "@/store/modules/user";
-import { reactive, Ref, ref, nextTick, computed } from "vue-demi";
+import { reactive, Ref, ref, nextTick, computed, onMounted } from "vue-demi";
 import { Notification } from "@arco-design/web-vue";
 import { useRouter } from "vue-router";
 const SocketStore = useSocketStore();
@@ -130,18 +130,20 @@ const formRoomRules = reactive({
   ],
 });
 const refForm: any = ref(null);
+onMounted(() => {
+  SocketStore.useMonitor("online", (msg: any) => {
+    console.log("🔗 :", msg);
+    // const {clients} = msg
+    // SocketStore.rooms[msg.room] = Object.assign(SocketStore.rooms, {clients})
+    Notification[msg.action === 'leave' ? 'warning' : 'success']({
+      content: msg.message,
+      title:  SocketStore.getRoomsName(msg.room),
+      position: 'bottomRight',
+      duration: 5000
+    })
+  });
+})
 
-SocketStore.useMonitor("online", (msg: any) => {
-  console.log("🔗 :", msg);
-  // const {clients} = msg
-  // SocketStore.rooms[msg.room] = Object.assign(SocketStore.rooms, {clients})
-  Notification[msg.action === 'leave' ? 'warning' : 'success']({
-    content: msg.message,
-    title:  SocketStore.getRoomsName(msg.room),
-    position: 'bottomRight',
-    duration: 5000
-  })
-});
 
 const rooms: Ref<any[]> = ref([]);
 const useGetRoomsAll = async () => {
