@@ -2,14 +2,14 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-18 22:58:55
+ * @LastEditTime : 2023-01-19 02:05:16
  * @FilePath     : /micro-vue/src/views/roomInformation/index.vue
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
 -->
 <template>
-  <mc-container :title="comRenderInfo?.name" :extra="comRenderInfo?.describe" class="roomInformation">
+  <mc-container :title="comRenderInfo?.name || '无效的房间'" :extra="comRenderInfo?.describe" class="roomInformation">
     <div class="roomInformation-container">
       <div class="roomInformation-container-list">
         <div class="roomInformation-container-list-comment">
@@ -27,10 +27,43 @@
           </a-comment>
         </div>
         <div class="roomInformation-container-list-user">
-          <a-space direction="vertical" fill>
-            <span v-for="[id, info] in useOnlineInfo" :key="id"
+          <a-list :bordered="false">
+            <a-list-item v-for="([id, info],idx) in useOnlineInfo" :key="id" :class="[info.isOnline ? 'user-online' : 'user-outline']">
+              <a-row align="center">
+                <a-col flex="24px">
+                  <IconUser v-if="info.id === comRenderInfo?.author"/>
+                  <IconLink v-else-if="info.isOnline" />
+                  <IconStop v-else />
+                </a-col>
+                <a-col flex="auto">
+                  {{ info.name }}
+                </a-col>
+                <a-col flex="30px">
+                  <IconDelete @click="useDeleteUser(info.id)" :style="{ color: 'rgb(var(--red-6))', cursor: 'pointer' }"
+                    v-if="info.id !== comRenderInfo?.author && userStore.getInfo.id === comRenderInfo?.author" />
+                </a-col>
+              </a-row>
+            </a-list-item>
+          </a-list>
+          <a-space direction="vertical" fill v-if="false">
+            <!-- {{ userStore.getInfo.id }} -->
+            <span v-for="([id, info],idx) in useOnlineInfo" :key="id"
               :class="[info.isOnline ? 'user-online' : 'user-outline']">
-              <IconLink v-if="info.isOnline" /> {{ info.name }}
+              <a-row align="center">
+                <a-col flex="30px">
+                  <IconUser v-if="info.id === comRenderInfo?.author" />
+                  <IconLink v-else-if="info.isOnline" />
+                  <IconStop v-else />
+                </a-col>
+                <a-col flex="auto">
+                  {{ info.name }}
+                </a-col>
+                <a-col flex="30px">
+                  <IconDelete @click="useDeleteUser(info.id)" :style="{ color: 'rgb(var(--red-6))', cursor: 'pointer' }"
+                    v-if="info.id !== comRenderInfo?.author && userStore.getInfo.id === comRenderInfo?.author" />
+                </a-col>
+              </a-row>
+              <!-- <a-divider :margin="10" :type="'dashed'" v-if="idx !== (useOnlineInfo.size -1 )"/> -->
             </span>
           </a-space>
         </div>
@@ -42,7 +75,9 @@
           </template>
         </a-input> -->
         <a-textarea placeholder="Please enter something" v-model="sendMessage" allow-clear />
-        <a-button @click="useClick">send</a-button>
+        <a-button :disabled="!sendMessage || !comRenderInfo" @click="useClick">
+          <IconSend/>
+        </a-button>
       </div>
     </div>
   </mc-container>
@@ -56,7 +91,8 @@ import { computed, ref, Ref } from "vue-demi";
 import { onBeforeRouteLeave, useRoute } from "vue-router";
 import { useTransformSecond } from "@/plugin/transform-time";
 
-import { IconSend, IconLink } from "@arco-design/web-vue/es/icon";
+import { IconSend, IconLink, IconUser, IconDelete, IconStop } from "@arco-design/web-vue/es/icon";
+import ServerApi from "@/api";
 const sendMessage = ref("");
 const messageList: Ref<any[]> = ref([]);
 const SocketStore = useSocketStore();
@@ -80,11 +116,18 @@ const useClose = () => {
   SocketStore.socket.close();
 };
 onBeforeRouteLeave(() => {
-  SocketStore.rooms[id]['messageCount'] = 0
+  if(SocketStore.rooms[id]) SocketStore.rooms[id]['messageCount'] = 0
 })
 const useOnlineInfo = computed(() => {
   return SocketStore.useGetOnlineInfo(id) || new Map()
 })
+const useDeleteUser = async (user_id: string) => {
+  try {
+    await ServerApi.RoomsDeleteUser({user_id, room_id: id})
+  } catch (err) {
+
+  }
+}
 </script>
 
 <style lang="scss">
@@ -132,7 +175,7 @@ const useOnlineInfo = computed(() => {
     }
 
     &-footer {
-      height: 30%;
+      height: 20%;
       // border-top: 1px solid var(--color-neutral-3);
       display: flex;
 

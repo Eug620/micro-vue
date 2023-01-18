@@ -35,7 +35,7 @@
       />
     </a-form-item>
     <a-form-item>
-      <a-button :loading="loading" type="primary" @click="useSubmit">Submit</a-button>
+      <a-button shape="round" :loading="loading" type="primary" @click="useSubmit">Submit</a-button>
     </a-form-item>
   </a-form>
 </template>

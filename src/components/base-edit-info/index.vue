@@ -1,14 +1,15 @@
-
 <!--
- * @Author: eug yyh3531@163.com
- * @Date: 2022-08-27 19:04:27
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-08-27 21:09:17
- * @FilePath: /micro-base/src/components/base-sign-up/index.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-08-31 15:08:14
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2023-01-19 00:52:44
+ * @FilePath     : /micro-vue/src/components/base-edit-info/index.vue
+ * @Description  : filename
+ * 
+ * Copyright (c) 2023 by eug yyh3531@163.com, All Rights Reserved. 
 -->
 <template>
-  <a-button type="primary" @click="useEdit">
+  <a-button type="primary" @click="useEdit" shape="round">
     {{ props.value ? 'Cancel' : 'Edit Info' }}
   </a-button>
 </template>

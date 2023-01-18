@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-18 22:57:06
+ * @LastEditTime : 2023-01-19 02:23:36
  * @FilePath     : /micro-vue/src/store/modules/socket.ts
  * @Description  : filename
  * 
@@ -41,7 +41,15 @@ export const useSocketStore = defineStore({
             return this.rooms[id] ? this.rooms[id].info.name : '错误ID'
         },
         initSocket(room: any) {
-            if (!room.length) return
+            // 没有加入任何房间
+            if (!room.length) {
+                // 断开原有链接
+                if (this.socket){
+                    this.socket.close()
+                    this.socket = null
+                }
+                return 
+            }
             const userStore = useUserStore();
             console.log('initSocket: UserID-->' + userStore.getInfo.id);
             this.socket = io(
@@ -86,6 +94,10 @@ export const useSocketStore = defineStore({
                 //   duration: 5000
                 // })
             });
+            // 刷新房间信息 || 房间内成员信息
+            this.socket.on("refresh", (msg: any) => {
+                this.useGetRoomsOwn()
+            })
             // 重联
             const tryReconnect = () => {
                 if (!userStore.isLogin) return
@@ -135,38 +147,49 @@ export const useSocketStore = defineStore({
         initRooms(rooms: any[]) {
             const userStore = useUserStore();
             this.initSocket(rooms)
-            rooms.forEach((room: any) => {
-                if (!this.rooms[room.id]) {
-                    this.rooms[room.id] = {
-                        clients: [],
-                        info: room,
-                        messageCount: 0,
-                        messageList: [],
-                        onlineInfo: new Map()
-                    }
 
-                    // 初始化在线信息
-                    room.subscriber.forEach((item: any) => {
-                        this.rooms[room.id].onlineInfo.set(item.id, Object.assign({ isOnline: false }, item))
-                    })
-
-                    // 接受房间信息
-                    this.useMonitor(room.id, (res: MsgInterface) => {
-                        // console.log("💻 :", res);
-
-                        // 自己发的信息无需新增
-                        if (res.meta.client !== userStore.getInfo.id) {
-                            this.rooms[room.id]['messageCount']++
-                        }
-                        this.rooms[room.id]['messageList'].push({
-                            timestamp: res.meta.timestamp,
-                            id: res.meta.client,
-                            name: res.meta.clientName,
-                            message: res.data.payload.message,
-                        });
-                    })
+            // 对比已经失效的房间
+            const NewRoomIds = new Set()
+            // 循环生成对应的房间
+            for (let index = 0; index < rooms.length; index++) {
+                const room = rooms[index];
+                NewRoomIds.add(room.id)
+                this.rooms[room.id] = {
+                    clients: [],
+                    info: room,
+                    messageCount: 0,
+                    messageList: this.rooms[room.id]?.messageList || [],
+                    onlineInfo: new Map()
                 }
-            })
+
+                // 初始化在线信息
+                room.subscriber.forEach((item: any) => {
+                    this.rooms[room.id].onlineInfo.set(item.id, Object.assign({ isOnline: false }, item))
+                })
+
+                // 接受房间信息
+                this.useMonitor(room.id, (res: MsgInterface) => {
+                    // console.log("💻 :", res);
+
+                    // 自己发的信息无需新增
+                    if (res.meta.client !== userStore.getInfo.id) {
+                        this.rooms[room.id]['messageCount']++
+                    }
+                    this.rooms[room.id]['messageList'].push({
+                        timestamp: res.meta.timestamp,
+                        id: res.meta.client,
+                        name: res.meta.clientName,
+                        message: res.data.payload.message,
+                    });
+                })
+            }
+            
+            // 移除失效房间
+            for (const key in this.rooms) {
+                if (!NewRoomIds.has(key)) {
+                    delete this.rooms[key]
+                }
+            }
         },
         useResetRoomCount(id: string) {
             if (this.rooms[id]) {

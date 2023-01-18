@@ -1,5 +1,15 @@
+<!--
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-08-31 15:08:14
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2023-01-19 00:53:00
+ * @FilePath     : /micro-vue/src/components/base-draw-down/index.vue
+ * @Description  : filename
+ * 
+ * Copyright (c) 2023 by eug yyh3531@163.com, All Rights Reserved. 
+-->
 <template>
-  <a-button type="primary" status="danger" @click="useDrawDown">Draw down</a-button>
+  <a-button shape="round" type="primary" status="danger" @click="useDrawDown">Draw down</a-button>
 </template>
 
 <script lang="ts" setup>

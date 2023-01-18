@@ -7,22 +7,33 @@
             <a-page-header :show-back="false">
               <template #title> {{ room.info.name }}</template>
               <template #subtitle>
-                <a-space>
-                  <span>{{ room.info.describe }}</span>
-                  <a-tag :closable="false">
-                    {{ useOnlineSum(room.onlineInfo) }}
-                    /
-                    {{ room.onlineInfo.size }}
+                {{ room.info.describe }}
+                <a-divider direction="vertical" />
+                <a-tag :closable="false" color="cyan">
+                  <template #icon>
+                    <IconUserGroup />
+                  </template>
+                  {{ useOnlineSum(room.onlineInfo) }}
+                  /
+                  {{ room.onlineInfo.size }}
+                </a-tag>
+                <template v-if="room.messageCount">
+                  <a-divider direction="vertical" />
+                  <a-tag :closable="false" color="purple">
+                    <template #icon>
+                      <IconMessage />
+                    </template>
+                    {{ room.messageCount }}
                   </a-tag>
-                </a-space>
+                </template>
               </template>
               <template #extra>
                 <a-button v-if="room.info.author === userStore.getInfo.id"
                   class="confabulate-container-tab-mine-action-delete" type="outline" status="danger"
                   @click="useDeleteRooms(id)" style="margin-right: 10px" shape="round">删除</a-button>
-                <a-badge :count="room.messageCount">
-                  <a-button type="outline" @click="useToRoomInformation(id)" shape="round">进入</a-button>
-                </a-badge>
+                <a-button type="outline" @click="useToRoomInformation(id)" shape="round">
+                  进入
+                </a-button>
               </template>
             </a-page-header>
           </a-list-item>
@@ -46,7 +57,7 @@
       </a-tab-pane>
 
       <template #extra>
-        <a-button @click="useCreateRooms">新建</a-button>
+        <a-button shape="round" size="mini" @click="useCreateRooms">新建</a-button>
       </template>
     </a-tabs>
 
@@ -61,8 +72,8 @@
         </a-form-item>
       </a-form>
       <template #footer>
-        <a-button @click="useCancelCreate">Cancel</a-button>
-        <a-button type="primary" @click="useConfirmCreate">Confirm</a-button>
+        <a-button shape="round" @click="useCancelCreate">Cancel</a-button>
+        <a-button shape="round" type="primary" @click="useConfirmCreate">Confirm</a-button>
       </template>
     </a-modal>
   </mc-container>
@@ -76,6 +87,8 @@ import { useUserStore } from "@/store/modules/user";
 import { reactive, Ref, ref, nextTick, computed, onMounted } from "vue-demi";
 import { Notification } from "@arco-design/web-vue";
 import { useRouter } from "vue-router";
+import { IconUserGroup, IconMessage } from "@arco-design/web-vue/es/icon";
+
 const SocketStore = useSocketStore();
 const userStore = useUserStore();
 
@@ -114,22 +127,22 @@ const useGetRoomsAll = async () => {
 useGetRoomsAll();
 
 const roomsByOwn: Ref<any[]> = ref([]);
-const useGetRoomsOwn = async () => {
-  try {
-    let res = await ServerApi.RoomsOwnRoom();
-    if (res.code === 200) {
-      // roomsByOwn.value = res.data;
-      SocketStore.initRooms(res.data);
-    }
-  } catch (error) { }
-};
+// const useGetRoomsOwn = async () => {
+//   try {
+//     let res = await ServerApi.RoomsOwnRoom();
+//     if (res.code === 200) {
+//       // roomsByOwn.value = res.data;
+//       SocketStore.initRooms(res.data);
+//     }
+//   } catch (error) { }
+// };
 
 const useJoinRooms = async ({ id }: any) => {
   try {
     let res = await ServerApi.RoomsJoin({ room_id: id });
     if (res.code === 200) {
       Notification.success("Join Success!");
-      useGetRoomsOwn();
+      SocketStore.useGetRoomsOwn()
     }
   } catch (error) { }
 };
@@ -146,7 +159,7 @@ const useDeleteRooms = async (id: any) => {
     if (res.code === 200) {
       Notification.success("Delete Success!");
       useGetRoomsAll();
-      useGetRoomsOwn();
+      SocketStore.useGetRoomsOwn()
     }
   } catch (error) { }
 };
@@ -159,7 +172,7 @@ const useSublimCreate = async () => {
       formRoom.name = "";
       formRoom.describe = "";
       useGetRoomsAll();
-      useGetRoomsOwn();
+      SocketStore.useGetRoomsOwn()
     }
   } catch (error) { }
 };
