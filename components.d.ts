@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AAffix: typeof import('@arco-design/web-vue')['Affix']
     AAvatar: typeof import('@arco-design/web-vue')['Avatar']
     ABadge: typeof import('@arco-design/web-vue')['Badge']
     AButton: typeof import('@arco-design/web-vue')['Button']
@@ -38,6 +39,7 @@ declare module '@vue/runtime-core' {
     ASpin: typeof import('@arco-design/web-vue')['Spin']
     ATabPane: typeof import('@arco-design/web-vue')['TabPane']
     ATabs: typeof import('@arco-design/web-vue')['Tabs']
+    ATag: typeof import('@arco-design/web-vue')['Tag']
     ATextarea: typeof import('@arco-design/web-vue')['Textarea']
     BaseDrawDown: typeof import('./src/components/base-draw-down/index.vue')['default']
     BaseEditInfo: typeof import('./src/components/base-edit-info/index.vue')['default']

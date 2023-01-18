@@ -2,34 +2,38 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-10-26 14:45:23
+ * @LastEditTime : 2023-01-18 22:58:55
  * @FilePath     : /micro-vue/src/views/roomInformation/index.vue
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
 -->
 <template>
-  <mc-container :title="comRenderInfo?.name" :extra="comRenderInfo?.describe">
+  <mc-container :title="comRenderInfo?.name" :extra="comRenderInfo?.describe" class="roomInformation">
     <div class="roomInformation-container">
       <div class="roomInformation-container-list">
-        <a-comment
-          v-for="(message, idx) in comRenderMessage"
-          :key="idx"
-          :author="message.name"
-          :datetime="useTransformSecond(message.timestamp)"
-        >
-        <template #content>
-          <p v-html="message.message"></p>
-        </template>
-          <template #avatar>
-            <a-avatar>
-              <img
-                alt="avatar"
-                src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp"
-              />
-            </a-avatar>
-          </template>
-        </a-comment>
+        <div class="roomInformation-container-list-comment">
+          <a-comment v-for="(message, idx) in comRenderMessage" :key="idx" :author="message.name"
+            :datetime="useTransformSecond(message.timestamp)">
+            <template #content>
+              <p v-html="message.message"></p>
+            </template>
+            <template #avatar>
+              <a-avatar>
+                <img alt="avatar"
+                  src="https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f13fb09879ecb5185e440cef6eb9.png~tplv-uwbnlip3yd-webp.webp" />
+              </a-avatar>
+            </template>
+          </a-comment>
+        </div>
+        <div class="roomInformation-container-list-user">
+          <a-space direction="vertical" fill>
+            <span v-for="[id, info] in useOnlineInfo" :key="id"
+              :class="[info.isOnline ? 'user-online' : 'user-outline']">
+              <IconLink v-if="info.isOnline" /> {{ info.name }}
+            </span>
+          </a-space>
+        </div>
       </div>
       <div class="roomInformation-container-footer">
         <!-- <a-input v-model="sendMessage" @press-enter="useClick" >
@@ -37,7 +41,7 @@
             <IconSend @click="useClick" />
           </template>
         </a-input> -->
-        <a-textarea placeholder="Please enter something" v-model="sendMessage" allow-clear/>
+        <a-textarea placeholder="Please enter something" v-model="sendMessage" allow-clear />
         <a-button @click="useClick">send</a-button>
       </div>
     </div>
@@ -52,7 +56,7 @@ import { computed, ref, Ref } from "vue-demi";
 import { onBeforeRouteLeave, useRoute } from "vue-router";
 import { useTransformSecond } from "@/plugin/transform-time";
 
-import { IconSend } from "@arco-design/web-vue/es/icon";
+import { IconSend, IconLink } from "@arco-design/web-vue/es/icon";
 const sendMessage = ref("");
 const messageList: Ref<any[]> = ref([]);
 const SocketStore = useSocketStore();
@@ -78,29 +82,63 @@ const useClose = () => {
 onBeforeRouteLeave(() => {
   SocketStore.rooms[id]['messageCount'] = 0
 })
+const useOnlineInfo = computed(() => {
+  return SocketStore.useGetOnlineInfo(id) || new Map()
+})
 </script>
 
 <style lang="scss">
 .the-householder {
   color: rgb(var(--primary-6));
 }
-.roomInformation-container {
-  width: 100%;
-  height: calc(100vh - 78px - 46px - 32px);
-  display: flex;
-  flex-direction: column;
 
-  &-list {
-    flex: 1;
-    overflow-y: auto;
+.roomInformation {
+
+  .arco-card-body {
+    padding-top: 0;
   }
 
-  &-footer {
-    height: 30%;
-    // border-top: 1px solid var(--color-neutral-3);
+  &-container {
+    width: 100%;
+    height: calc(100vh - 78px - 46px - 32px);
     display: flex;
-    .arco-btn{
-      height: 100%;
+    flex-direction: column;
+
+
+    &-list {
+      flex: 1;
+      overflow-y: hidden;
+      display: flex;
+
+      &-comment {
+        padding-top: 16px;
+        flex: 1;
+        overflow-y: auto;
+      }
+
+      &-user {
+        width: 20%;
+        padding: 16px;
+        border-left: 1px solid var(--color-fill-2);
+
+        .user-online {
+          color: rgb(var(--primary-6));
+        }
+
+        .user-outline {
+          color: rgb(var(--primary-3));
+        }
+      }
+    }
+
+    &-footer {
+      height: 30%;
+      // border-top: 1px solid var(--color-neutral-3);
+      display: flex;
+
+      .arco-btn {
+        height: 100%;
+      }
     }
   }
 }

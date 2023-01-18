@@ -4,63 +4,43 @@
       <a-tab-pane key="mine" title="我的" class="confabulate-container-tab-mine">
         <a-list>
           <a-list-item v-for="(room, id) in SocketStore.getRooms" :key="id">
-            <a-row align="center">
-              <a-col :span="8">
-                <div class="confabulate-container-tab-mine-room-name">
-                  {{ room.info.name }}
-                  <!-- {{ room.clients.length }} -->
-                  <!-- {{ room.clients}} -->
-                </div>
-              </a-col>
-              <a-col :span="16">
-                <div class="confabulate-container-tab-mine-action">
-                    <a-button
-                      v-if="room.info.author === userStore.getInfo.id"
-                      class="confabulate-container-tab-mine-action-delete"
-                      type="primary"
-                      status="danger"
-                      @click="useDeleteRooms(id)"
-                      style="margin-right: 10px"
-                      >删除</a-button
-                    >
-                  <a-badge :count="room.messageCount">
-                    <a-button type="primary" @click="useToRoomInformation(id)"
-                      >进入</a-button
-                    >
-                  </a-badge>
-                </div>
-              </a-col>
-            </a-row>
-
-            <a-space align="center">
-              <div style="flex: 1"></div>
-            </a-space>
+            <a-page-header :show-back="false">
+              <template #title> {{ room.info.name }}</template>
+              <template #subtitle>
+                <a-space>
+                  <span>{{ room.info.describe }}</span>
+                  <a-tag :closable="false">
+                    {{ useOnlineSum(room.onlineInfo) }}
+                    /
+                    {{ room.onlineInfo.size }}
+                  </a-tag>
+                </a-space>
+              </template>
+              <template #extra>
+                <a-button v-if="room.info.author === userStore.getInfo.id"
+                  class="confabulate-container-tab-mine-action-delete" type="outline" status="danger"
+                  @click="useDeleteRooms(id)" style="margin-right: 10px" shape="round">删除</a-button>
+                <a-badge :count="room.messageCount">
+                  <a-button type="outline" @click="useToRoomInformation(id)" shape="round">进入</a-button>
+                </a-badge>
+              </template>
+            </a-page-header>
           </a-list-item>
         </a-list>
       </a-tab-pane>
       <a-tab-pane key="all" title="全部" class="confabulate-container-tab-all">
         <a-list>
           <a-list-item v-for="room in rooms" :key="room.id">
-            <a-row align="center">
-              <a-col :span="8">
-                <div class="confabulate-container-tab-all-room-name">
-                  {{ room.name }}
-                </div>
-              </a-col>
-              <a-col :span="16">
-                <div class="confabulate-container-tab-all-action">
-
-                  <a-button
-                    type="primary"
-                    style="float: right"
-                    v-if="!compMyRooms.includes(room.id)"
-                    @click="useJoinRooms(room)"
-                    >Join</a-button
-                  >
-                </div>
-              </a-col>
-          </a-row>
-            
+            <a-page-header :show-back="false">
+              <template #title> {{ room.name }}</template>
+              <template #subtitle>
+                {{ room.describe }}
+              </template>
+              <template #extra>
+                <a-button shape="round" type="outline" style="float: right" v-if="!compMyRooms.includes(room.id)"
+                  @click="useJoinRooms(room)">Join</a-button>
+              </template>
+            </a-page-header>
           </a-list-item>
         </a-list>
       </a-tab-pane>
@@ -74,20 +54,10 @@
       <template #title> Create Room </template>
       <a-form auto-label-width ref="refForm" :model="formRoom">
         <a-form-item field="name" :rules="formRoomRules.name" label="名称: ">
-          <a-input
-            v-model="formRoom.name"
-            placeholder="please enter your Room name..."
-          />
+          <a-input v-model="formRoom.name" placeholder="please enter your Room name..." />
         </a-form-item>
-        <a-form-item
-          field="describe"
-          :rules="formRoomRules.describe"
-          label="描述: "
-        >
-          <a-input
-            v-model="formRoom.describe"
-            placeholder="please enter your Room describe..."
-          />
+        <a-form-item field="describe" :rules="formRoomRules.describe" label="描述: ">
+          <a-input v-model="formRoom.describe" placeholder="please enter your Room describe..." />
         </a-form-item>
       </a-form>
       <template #footer>
@@ -139,7 +109,7 @@ const useGetRoomsAll = async () => {
     if (res.code === 200) {
       rooms.value = res.data;
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 useGetRoomsAll();
 
@@ -151,7 +121,7 @@ const useGetRoomsOwn = async () => {
       // roomsByOwn.value = res.data;
       SocketStore.initRooms(res.data);
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 const useJoinRooms = async ({ id }: any) => {
@@ -161,7 +131,7 @@ const useJoinRooms = async ({ id }: any) => {
       Notification.success("Join Success!");
       useGetRoomsOwn();
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 const router = useRouter();
 const useToRoomInformation = (id: any) => {
@@ -178,7 +148,7 @@ const useDeleteRooms = async (id: any) => {
       useGetRoomsAll();
       useGetRoomsOwn();
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 const useSublimCreate = async () => {
   try {
@@ -191,7 +161,7 @@ const useSublimCreate = async () => {
       useGetRoomsAll();
       useGetRoomsOwn();
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 const useCreateRooms = () => {
@@ -209,6 +179,14 @@ const useConfirmCreate = () => {
 const useCancelCreate = () => {
   visibleCreate.value = false;
 };
+
+// 在线人数
+const useOnlineSum = (info: any) => {
+  let online = 0
+  info.forEach((v: any) => online += v.isOnline ? 1 : 0)
+  return online
+}
+
 </script>
 
 <style lang="scss">
@@ -217,18 +195,19 @@ const useCancelCreate = () => {
     width: 100%;
   }
 }
-.confabulate-container{
+
+.confabulate-container {
 
   &-tab-mine,
-  &-tab-all{
-    &-room-name{
+  &-tab-all {
+    &-room-name {
       font-weight: 700;
     }
 
-    &-action{
+    &-action {
       float: right;
 
-      &-delete{
+      &-delete {
         margin-right: 10px;
       }
     }

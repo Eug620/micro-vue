@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2022-10-26 14:12:34
+ * @LastEditTime : 2023-01-18 22:57:06
  * @FilePath     : /micro-vue/src/store/modules/socket.ts
  * @Description  : filename
  * 
@@ -37,11 +37,11 @@ export const useSocketStore = defineStore({
         }
     },
     actions: {
-        getRoomsName(id:string) {
+        getRoomsName(id: string) {
             return this.rooms[id] ? this.rooms[id].info.name : '错误ID'
         },
         initSocket(room: any) {
-            if(!room.length) return
+            if (!room.length) return
             const userStore = useUserStore();
             console.log('initSocket: UserID-->' + userStore.getInfo.id);
             this.socket = io(
@@ -50,7 +50,7 @@ export const useSocketStore = defineStore({
                 , {
                     transports: ["websocket"],
                     query: {
-                        room: room.map((v:any) => v.id),
+                        room: room.map((v: any) => v.id),
                         token: userStore.getToken,
                         userId: userStore.getInfo.id,
                     },
@@ -58,7 +58,7 @@ export const useSocketStore = defineStore({
                     // forceBase64: true, // 内容加密
                     // withCredentials: true
                 });
-                this.socket.on("connect", () => {
+            this.socket.on("connect", () => {
                 console.log("😄 :: connect success");
             });
 
@@ -67,15 +67,24 @@ export const useSocketStore = defineStore({
             });
             // 上线通知
             this.socket.on("online", (msg: any) => {
+                const isOnline = msg.action !== 'leave'
+                this.useOnlineStatus(msg.room, msg.user, isOnline)
+                if (isOnline) {
+                    msg.clients.forEach((item: string) => {
+                        this.useOnlineStatus(msg.room, item, isOnline)
+                    })
+                }
+
                 // console.log("🔗 :", msg);
                 // const {clients} = msg
                 // SocketStore.rooms[msg.room] = Object.assign(SocketStore.rooms, {clients})
-                Notification[msg.action === 'leave' ? 'warning' : 'success']({
-                  content: msg.message,
-                  title:  this.getRoomsName(msg.room),
-                  position: 'bottomRight',
-                  duration: 5000
-                })
+
+                // Notification[isOnline ? 'success' : 'warning']({
+                //   content: msg.message,
+                //   title:  this.getRoomsName(msg.room),
+                //   position: 'bottomRight',
+                //   duration: 5000
+                // })
             });
             // 重联
             const tryReconnect = () => {
@@ -89,8 +98,21 @@ export const useSocketStore = defineStore({
                     });
                 }, 2000);
             };
-            
+
             this.socket.io.on("close", tryReconnect);
+        },
+        // 用户状态变化
+        useOnlineStatus(room: string, user: string, isOnline: Boolean) {
+            try {
+                this.rooms[room].info.subscriber.find((v: any) => {
+                    if (v.id === user) {
+                        v.isOnline = isOnline
+                        return true
+                    }
+                })
+                const onlineInfo = this.rooms[room].onlineInfo.get(user)
+                this.rooms[room].onlineInfo.set(user, Object.assign(onlineInfo, { isOnline }))
+            } catch (err) { }
         },
         async useGetRoomsOwn() {
             try {
@@ -120,17 +142,24 @@ export const useSocketStore = defineStore({
                         info: room,
                         messageCount: 0,
                         messageList: [],
+                        onlineInfo: new Map()
                     }
+
+                    // 初始化在线信息
+                    room.subscriber.forEach((item: any) => {
+                        this.rooms[room.id].onlineInfo.set(item.id, Object.assign({ isOnline: false }, item))
+                    })
+
                     // 接受房间信息
                     this.useMonitor(room.id, (res: MsgInterface) => {
                         // console.log("💻 :", res);
-                        
+
                         // 自己发的信息无需新增
                         if (res.meta.client !== userStore.getInfo.id) {
                             this.rooms[room.id]['messageCount']++
                         }
                         this.rooms[room.id]['messageList'].push({
-                            timestamp:  res.meta.timestamp,
+                            timestamp: res.meta.timestamp,
                             id: res.meta.client,
                             name: res.meta.clientName,
                             message: res.data.payload.message,
@@ -155,6 +184,9 @@ export const useSocketStore = defineStore({
         },
         useGetRoomInfo(id: string) {
             return this.rooms[id]?.info
+        },
+        useGetOnlineInfo(id: string) {
+            return this.rooms[id]?.onlineInfo
         }
     }
 })
