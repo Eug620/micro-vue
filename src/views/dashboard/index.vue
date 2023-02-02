@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-16 23:52:04
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-02 15:31:37
+ * @LastEditTime : 2023-02-02 17:01:15
  * @FilePath     : /micro-vue/src/views/dashboard/index.vue
  * @Description  : filename
  * 
@@ -11,48 +11,16 @@
 <template>
   <mc-container class="dashboard-container">
     <div class="dashboard-container-background">
-      <h4>
-        <span :style="{
-          margin: '0px 10px',
-          color: type === item ? 'red' : '#ccc'
-        }" v-for="item in typeList" @click="type = item" :key="item"> {{ item }}</span>
-      </h4>
-      <br>
-      <h4  style="margin-bottom: 20px;">
-        <span :style="{
-          margin: '0px 10px',
-          color: time === item ? 'red' : '#ccc'
-        }" v-for="item in timeList" @click="time = item" :key="item"> {{ item }}</span>
-      </h4>
+      <a-space direction="vertical" fill align="center">
 
-      <h5>标题: {{ current.title }}</h5>
-      <h5>更新时间: {{ current.time }}</h5>
-      <h5 v-if="current.fortune">运势:
-        <p>综合运势: {{ current.fortune.all }}</p>
-        <p>爱情运势: {{ current.fortune.love }}</p>
-        <p>学业工作: {{ current.fortune.work }}</p>
-        <p>财富运势: {{ current.fortune.money }}</p>
-      </h5>
-      <h5 v-if="current.index">指数:
-        <p>健康指数: {{ current.index.health }}</p>
-        <p>商谈指数: {{ current.index.discuss }}</p>
-      </h5>
-      <h5>幸运颜色: {{ current.luckycolor }}</h5>
-      <h5>幸运数字: {{ current.luckynumber }}</h5>
-      <h5>速配星座: {{ current.luckyconstellation }}</h5>
-      <h5>短评: {{ current.shortcomment }}</h5>
-
-      <h5 v-if="current.fortunetext">运势解析:
-        <p>综合运势: {{ current.fortunetext.all }}</p>
-        <p>爱情运势: {{ current.fortunetext.love }}</p>
-        <p>学业工作: {{ current.fortunetext.work }}</p>
-        <p>财富运势: {{ current.fortunetext.money }}</p>
-        <p>健康运势: {{ current.fortunetext.health }}</p>
-      </h5>
-
-      <!-- <div class="dashboard-container-background-title">{{title}}</div>
-      <div class="dashboard-container-background-content">{{content}}</div> -->
-      <!-- {{ $t("message.hello") }} -->
+        <a-radio-group type="button" v-model="type">
+          <a-radio :value="item.value" v-for="item in typeList" :key="item.value">{{ item.label }}</a-radio>
+        </a-radio-group>
+        <a-radio-group type="button" v-model="time">
+          <a-radio :value="item.value" v-for="item in timeList" :key="item.value">{{ item.label }}</a-radio>
+        </a-radio-group>
+      </a-space>
+      <a-descriptions style="margin-top: 20px" :data="data" :title="current.title" :column="1" />
     </div>
   </mc-container>
 </template>
@@ -63,10 +31,80 @@ import { ref, watchEffect } from "vue-demi";
 
 const current: any = ref({})
 
-const typeList = ref(['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'])
-const timeList = ref(['today', 'nextday', 'week', 'month', 'year', 'love'])
+const typeList = ref([
+  {
+    label: '白羊座',
+    value: 'aries'
+  }, {
+    label: '金牛座',
+    value: 'taurus'
+  },
+  {
+    label: '双子座',
+    value: 'gemini'
+  },
+  {
+    label: '巨蟹座',
+    value: 'cancer'
+  },
+  {
+    label: '狮子座',
+    value: 'leo'
+  },
+  {
+    label: '处女座',
+    value: 'virgo'
+  },
+  {
+    label: '天秤座',
+    value: 'libra'
+  },
+  {
+    label: '天蝎座',
+    value: 'scorpio'
+  },
+  {
+    label: '射手座',
+    value: 'sagittarius'
+  },
+  {
+    label: '摩羯座',
+    value: 'capricorn'
+  },
+  {
+    label: '水瓶座',
+    value: 'aquarius'
+  },
+  {
+    label: '双鱼座',
+    value: 'pisces'
+  },
+])
+const timeList = ref([
+  {
+    label: '今天',
+    value: 'today'
+  },
+  {
+    label: '明天',
+    value: 'nextday'
+  },
+  {
+    label: '本周',
+    value: 'week'
+  },
+  {
+    label: '今年',
+    value: 'year'
+  },
+  {
+    label: 'love',
+    value: 'love'
+  }
+])
 const type = ref('leo')
-const time = ref('week')
+const time = ref('today')
+const data = ref([])
 const useHoroscope = async () => {
   try {
     let res = await ServerApi.Horoscope({
@@ -74,7 +112,74 @@ const useHoroscope = async () => {
       time: time.value
     });
     if (res.success) {
+
       current.value = Object.assign(current.value, res.data)
+      data.value = Object.assign([], [
+        {
+          label: '更新时间',
+          value: current.value.time
+        },
+        {
+          label: '综合运势',
+          value: current.value.fortune.all
+        },
+        {
+          label: '爱情运势',
+          value: current.value.fortune.love
+        },
+        {
+          label: '学业工作',
+          value: current.value.fortune.work
+        },
+        {
+          label: '财富运势',
+          value: current.value.fortune.money
+        },
+        {
+          label: '健康指数',
+          value: current.value?.index?.health
+        },
+        {
+          label: '商谈指数',
+          value: current.value?.index?.discuss
+        },
+        {
+          label: '幸运颜色',
+          value: current.value.luckycolor
+        },
+        {
+          label: '幸运数字',
+          value: current.value.luckynumber
+        },
+        {
+          label: '速配星座',
+          value: current.value.luckyconstellation
+        },
+        {
+          label: '短评',
+          value: current.value.shortcomment
+        },
+        {
+          label: '综合运势',
+          value: current.value?.fortunetext?.all
+        },
+        {
+          label: '爱情运势',
+          value: current.value.fortunetext.love
+        },
+        {
+          label: '学业工作',
+          value: current.value.fortunetext.work
+        },
+        {
+          label: '财富运势',
+          value: current.value.fortunetext.money
+        },
+        {
+          label: '健康运势',
+          value: current.value.fortunetext.health
+        },
+      ])
     }
   } catch (error) {
     console.log(error);
