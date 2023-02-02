@@ -42,7 +42,12 @@ export default ({ mode }) => defineConfig({
         target: 'http://47.93.229.170:5000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/dev_base_api/, '')
-      }
+      },
+      '/dev_han_api': {
+        target: 'https://api.vvhan.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/dev_han_api/, '')
+      },
     }
   },
   plugins: [

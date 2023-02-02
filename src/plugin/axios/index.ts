@@ -1,6 +1,6 @@
 /* eslint-disable */
-import axios from 'axios'
-import { API_SERVICE_ENUM } from '@/settings'
+import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios'
+import { APIENUM, API_ENUM_SERVICE } from '@/settings'
 import { useUserStore } from  '@/store/modules/user'
 import { Notification } from '@arco-design/web-vue'
 import Cookies from 'js-cookie'
@@ -50,9 +50,15 @@ function errorLog(error: Error, path?: any) {
   }
 }
 // console.log( import.meta.env.VITE_APP_BASE_API, ' import.meta.env.VITE_APP_API');
-
+interface RequestConfig extends AxiosRequestConfig {
+  service?: APIENUM
+  headers?: any
+}
+interface RuquestService extends AxiosInstance {
+  (config: RequestConfig): AxiosPromise;
+}
 // 创建一个 axios 实例
-const service = axios.create({
+const service: RuquestService = axios.create({
   // withCredentials: true,
   baseURL: import.meta.env.VITE_APP_BASE_API,
   timeout: 10 * 60 * 1000, // 请求超时时间
@@ -67,9 +73,9 @@ const xsrfCookieName = 'csrfToken';
 const xsrfHeaderName = 'x-csrf-token';
 // 请求拦截器
 service.interceptors.request.use(
-  (config: any) => {
+  (config: RequestConfig) => {
     if (config.service) {
-      config.baseURL = API_SERVICE_ENUM[config.service]
+      config.baseURL = API_ENUM_SERVICE[config.service]
     }
     // store.dispatch('d2admin/tags/toggle', true)
     // 在请求发送之前做一些处理

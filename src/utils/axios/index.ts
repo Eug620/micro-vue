@@ -1,10 +1,10 @@
 /* eslint-disable */
 // import store from '@/store'
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios'
 // import { Message } from 'element-ui'
 // import util from '@/libs/util'
 // import loading from '@/libs/util.loading'
-import { API_SERVICE_ENUM } from '@/settings'
+import { APIENUM, API_ENUM_SERVICE } from '@/settings'
 import { useUserStore } from  '@/store/modules/user'
 import { Notification } from '@arco-design/web-vue'
 import Cookies from 'js-cookie'
@@ -61,8 +61,15 @@ function errorLog(error: Error, path?: any) {
 }
 console.log( import.meta.env.VITE_APP_BASE_API, ' import.meta.env.VITE_APP_API');
 
+interface RequestConfig extends AxiosRequestConfig {
+  service?: APIENUM
+  headers?: any
+}
+interface RuquestService extends AxiosInstance {
+  (config: RequestConfig): AxiosPromise;
+}
 // 创建一个 axios 实例
-const service = axios.create({
+const service:RuquestService = axios.create({
   // withCredentials: true,
   baseURL: import.meta.env.VITE_APP_BASE_API,
   timeout: 10 * 60 * 1000, // 请求超时时间
@@ -77,7 +84,7 @@ const service = axios.create({
 // }
 
 interface ServiceRequestConfig extends AxiosRequestConfig {
-  service?: string
+  service?: APIENUM
 }
 
 /* eggjs 默认值，可修改 */
@@ -85,9 +92,9 @@ const xsrfCookieName = 'csrfToken';
 const xsrfHeaderName = 'x-csrf-token';
 // 请求拦截器
 service.interceptors.request.use(
-  (config: any) => {
+  (config: RequestConfig) => {
     if (config.service) {
-      config.baseURL = API_SERVICE_ENUM[config.service]
+      config.baseURL = API_ENUM_SERVICE[config.service]
     }
     console.log(config.baseURL,'baseURL')
     // store.dispatch('d2admin/tags/toggle', true)
