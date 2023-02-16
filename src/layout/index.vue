@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-08-31 15:08:14
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-06 10:10:10
+ * @LastEditTime : 2023-02-16 16:15:30
  * @FilePath     : /micro-vue/src/layout/index.vue
  * @Description  : filename
  * 
@@ -71,6 +71,7 @@ watch(route, (v) => {
   &-container {
     padding: 10px;
     overflow-y: auto;
+    position: relative;
   }
 }
 </style>

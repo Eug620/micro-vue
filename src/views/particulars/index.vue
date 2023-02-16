@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-01 09:46:19
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-16 14:48:03
+ * @LastEditTime : 2023-02-16 16:27:38
  * @FilePath     : /micro-vue/src/views/particulars/index.vue
  * @Description  : filename
  * 
@@ -10,12 +10,14 @@
 -->
 <template>
   <a-spin class="particulars-container-spin" :loading="isLoading" :tip="loadingTip">
-    <mc-container class="particulars-container">
-      <Viewer mode="tab" style="color: var(--color-text-1);background-color: rgba(0, 0, 0, 0)"
-        :value="ArticleInfo.content" :plugins="DefaultEditorPlugins" />
-    </mc-container>
+    <div class="full-height">
+      <mc-container class="particulars-container" >
+        <Viewer mode="tab" style="color: var(--color-text-1);background-color: rgba(0, 0, 0, 0)"
+          :value="ArticleInfo.content" :plugins="DefaultEditorPlugins" />
+      </mc-container>
+    </div>
   </a-spin>
-  <a-card hoverable :bordered="false" class="particulars-toc">
+  <a-card hoverable :bordered="false" class="full-height particulars-toc">
     <a-descriptions :align="{ label: 'center' }" class="animate__slideInDown animate__animated" layout="horizontal"
       size="mini" :title="ArticleInfo.title" :column="1">
       <template #title>
@@ -269,7 +271,6 @@ useGetArticleDetail();
   &-toc {
     position: absolute;
     width: calc(20% - 15px);
-    top: 68px;
     left: 10px;
     height: calc(100vh - 68px - 10px);
     overflow: hidden;

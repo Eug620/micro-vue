@@ -11,6 +11,11 @@
   width: 100vw;
 }
 
+.full-height{
+  height: calc(100vh - 68px - 10px);
+  overflow: auto;
+}
+
 #nprogress {
   pointer-events: none;
 }
