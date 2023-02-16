@@ -7,26 +7,21 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <div class="mc-particulars-comment">
-    <h2 style="display:inline-block;font-size:1.5em;" v-if="ArticleInfo">
-    {{ArticleInfo.title}} - {{ArticleInfo.user_name}}  :  {{ArticleInfo.page_views}} 
-    </h2>
-      <a-button type="text" style="float:right;" @click="useCommentAuthor"> 
-      回复
-    </a-button> 
-  <a-divider />
-    <div
-      v-for="comment in commentTree"
-      :key="comment.id"
-      @click="comment.isShow = !comment.isShow"
-    >
-      <a-comment
-        class="particulars-comment animate__lightSpeedInRight animate__animated"
-        :content="comment.content"
-      >
+  <div class="mc-particulars-comment animate__fadeInRight  animate__animated">
+    <!-- <h2 style="display:inline-block;font-size:1.5em;" v-if="ArticleInfo">
+      {{ ArticleInfo.title }} - {{ ArticleInfo.user_name }} : {{ ArticleInfo.page_views }}
+    </h2> -->
+    <div style="text-align: right;padding-bottom: 10px;">
+      <a-button type="text" @click="useCommentAuthor">
+        回复作者
+      </a-button>
+    </div>
+    <!-- <a-divider /> -->
+    <div v-for="comment in commentTree" :key="comment.id" @click="comment.isShow = !comment.isShow">
+      <a-comment class="particulars-comment animate__fadeInRight animate__animated" :content="comment.content">
         <template #datetime>
           <span class="particulars-comment-datetime">
-            [ {{ useTransformSecond(comment.create_time) }} ]
+            <!-- [ {{ useTransformSecond(comment.create_time) }} ] -->
           </span>
         </template>
         <template #author>
@@ -41,42 +36,36 @@
           </a-space>
         </template>
         <template #actions>
-          <div
-            class="particulars-comment-actions"
-            @click.stop="useShowDrawer(comment)"
-          >
+          <div class="particulars-comment-actions" @click.stop="useShowDrawer(comment)">
             <span>
               <IconMessage />
             </span>
             {{ comment.children.length }}
+            <div style="float:right;font-size: 12px;;" class="particulars-comment-datetime">
+              [ {{ useTransformSecond(comment.create_time) }} ]
+            </div>
           </div>
         </template>
       </a-comment>
       <template v-if="comment.isShow">
-        <a-comment
-          class="
+        <a-comment class="
             particulars-comment
-            animate__lightSpeedInRight animate__animated
-          "
-          v-for="com in comment.children"
-          :key="com.id"
-          :content="com.content"
-          style="margin-left: 40px"
-        >
+            animate__fadeInRight  animate__animated
+          " v-for="com in comment.children" :key="com.id" :content="com.content" style="margin-left: 40px">
           <template #datetime>
             <span class="particulars-comment-datetime">
-              [ {{ useTransformSecond(com.create_time) }} ]
+              <!-- [ {{ useTransformSecond(com.create_time) }} ] -->
             </span>
           </template>
           <template #actions>
-            <div
-              class="particulars-comment-actions"
-              @click.stop="useShowDrawer(com)"
-            >
+            <div class="particulars-comment-actions" @click.stop="useShowDrawer(com)">
               <span>
                 <IconMessage />
               </span>
               {{ com.children?.length || 0 }}
+              <div style="float:right;font-size: 12px;" class="particulars-comment-datetime">
+                [ {{ useTransformSecond(com.create_time) }} ]
+              </div>
             </div>
           </template>
           <template #author>
@@ -93,19 +82,23 @@
         </a-comment>
       </template>
     </div>
+    <a-result status="warning" title="暂无评论信息" v-if="!commentTree.length">
+      <template #icon>
+        <IconMessageBanned />
+      </template>
+      <template #subtitle>
+        快来添加一条吧
+      </template>
+      <template #extra>
+        <a-space>
+          <!-- <a-button type='primary'>Back</a-button> -->
+        </a-space>
+      </template>
+    </a-result>
   </div>
-  <a-drawer
-    :visible="isVisibleDrawer"
-    @ok="useComment"
-    placement="bottom"
-    @cancel="useDrawerCancel"
-  >
+  <a-drawer :visible="isVisibleDrawer" @ok="useComment" placement="bottom" @cancel="useDrawerCancel">
     <template #title> {{ toTarget.title }} </template>
-    <a-textarea
-      placeholder="Please enter something"
-      v-model="toTarget.content"
-      allow-clear
-    />
+    <a-textarea placeholder="Please enter something" v-model="toTarget.content" allow-clear />
   </a-drawer>
 </template>
 
@@ -117,6 +110,7 @@ import {
   IconMessage,
   IconHeart,
   IconToRight,
+  IconMessageBanned
 } from "@arco-design/web-vue/es/icon";
 import { useTransformSecond } from "@/plugin/transform-time";
 import { Notification } from "@arco-design/web-vue";
@@ -128,7 +122,7 @@ const isAuthor = (id: string) => {
   //   return "is-author"
 };
 
-const commentTree:any  = ref([]);
+const commentTree: any = ref([]);
 const refCommentTree: any = ref(null);
 const expandedKeys: any = ref([]);
 const isVisibleDrawer = ref(false);
@@ -140,7 +134,7 @@ const useGetComment = async () => {
     let res = await ServerApi.CommentAll({ article_id: id });
     console.log(res);
     commentTree.value = res.data;
-  } catch (error) {}
+  } catch (error) { }
 };
 useGetComment();
 
@@ -150,11 +144,11 @@ const useDrawerCancel = () => {
 }
 
 const useCommentAuthor = () => {
-    toTarget.title =  `回复: ${props.ArticleInfo.user_name}`;
-    toTarget.pid =  props.ArticleInfo.id
-    toTarget.tid =  props.ArticleInfo.author
-    toTarget.article_id =  props.ArticleInfo.id
-    isVisibleDrawer.value = true;
+  toTarget.title = `回复: ${props.ArticleInfo.user_name}`;
+  toTarget.pid = props.ArticleInfo.id
+  toTarget.tid = props.ArticleInfo.author
+  toTarget.article_id = props.ArticleInfo.id
+  isVisibleDrawer.value = true;
 }
 
 const toTarget = reactive({
@@ -215,8 +209,15 @@ const useComment = async () => {
   border-radius: 20px;
   overflow: hidden;
 
-  &:hover {
+  .arco-comment-inner {
+    width: 100%;
+
+    .arco-comment-content {
+      padding-left: 14px;
+    }
   }
+
+  &:hover {}
 
   &:hover &-datetime {
     color: rgb(var(--primary-6));
@@ -224,25 +225,31 @@ const useComment = async () => {
 
   &-datetime {
     float: right;
+    font-size: 12px;
   }
 
   &-actions {
-    display: inline-block;
+
+    // display: inline-block;
     &:hover {
       color: rgb(var(--primary-6));
     }
+
     // background-color: red;
   }
 }
+
 .arco-comment {
   padding: 10px 20px;
   margin-bottom: 10px;
+
   &:hover {
-    & > span {
+    &>span {
       color: rgb(var(--primary-6)) !important;
     }
   }
 }
+
 .arco-comment:not(:first-of-type) {
   margin-top: 0;
 }
@@ -250,9 +257,10 @@ const useComment = async () => {
 .is-author {
   color: rgb(var(--primary-6));
 }
-.mc-particulars-comment-affix{
-    .arco-affix{
-        text-align: right;
-    }
+
+.mc-particulars-comment-affix {
+  .arco-affix {
+    text-align: right;
+  }
 }
 </style>

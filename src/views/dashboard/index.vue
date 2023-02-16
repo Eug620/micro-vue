@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-16 23:52:04
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-02 17:01:15
+ * @LastEditTime : 2023-02-16 15:32:34
  * @FilePath     : /micro-vue/src/views/dashboard/index.vue
  * @Description  : filename
  * 
@@ -10,7 +10,7 @@
 -->
 <template>
   <mc-container class="dashboard-container">
-    <div class="dashboard-container-background">
+    <div class="dashboard-container-background" v-if="isShowHoroscope">
       <a-space direction="vertical" fill align="center">
 
         <a-radio-group type="button" v-model="type">
@@ -22,12 +22,30 @@
       </a-space>
       <a-descriptions style="margin-top: 20px" :data="data" :title="current.title" :column="1" />
     </div>
+    <div class="dashboard-container-image" v-else>
+      <a-select :style="{ width: '800px', marginBottom: '20px' }" v-model="currentListIdx" placeholder="请选择..."
+        allow-search>
+        <a-option v-for="(img, idx) in imageList" :key="img.id" :value="idx">
+          {{ img.id }}
+        </a-option>
+      </a-select>
+      <a-image width="800" fit="fill" :src="imageList[currentListIdx]?.url" :title="imageList[currentListIdx]?.id"
+        :description="imageList[currentListIdx]?.url" />
+    </div>
   </mc-container>
 </template>
 
 <script lang="ts" setup>
 import ServerApi from "@/api";
-import { ref, watchEffect } from "vue-demi";
+import { ref, watchEffect, Ref } from "vue-demi";
+
+const currentListIdx = ref(0)
+const imageList: Ref<any[]> = ref([])
+ServerApi.GetImageAll().then((res: any) => {
+  imageList.value.push(...res.data)
+})
+
+const isShowHoroscope = ref(true)
 
 const current: any = ref({})
 
@@ -98,7 +116,7 @@ const timeList = ref([
     value: 'year'
   },
   {
-    label: 'love',
+    label: '❤️',
     value: 'love'
   }
 ])
@@ -183,6 +201,7 @@ const useHoroscope = async () => {
     }
   } catch (error) {
     console.log(error);
+    isShowHoroscope.value = false
   }
 };
 watchEffect(() => useHoroscope())
@@ -203,6 +222,12 @@ watchEffect(() => useHoroscope())
     background-clip: text;
     -webkit-background-clip: text;
     box-sizing: border-box;
+  }
+
+  &-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 </style>

@@ -13,7 +13,7 @@ const customMenus = [
         redirect: '',
         meta: {
             keepAlive: true,
-            title: 'newest',
+            title: '最新',
             auth: true,
             isEle: true,
             affix: true,
@@ -27,7 +27,7 @@ const customMenus = [
         redirect: '',
         meta: {
             keepAlive: false,
-            title: 'particulars',
+            title: '详情',
             isEle: false,
             auth: true,
             affix: true,
@@ -56,11 +56,11 @@ const customMenus = [
         redirect: '',
         meta: {
             keepAlive: false,
-            title: 'about',
+            title: '关于',
             isEle: true,
             auth: true,
             affix: true,
-            icon: 'IconFaceSmileFill'
+            icon: 'IconUser'
         },
         component: 'views/about/index'
     },
@@ -70,11 +70,11 @@ const customMenus = [
         redirect: '',
         meta: {
             keepAlive: false,
-            title: 'creative-work',
+            title: '创作',
             isEle: true,
             auth: true,
             affix: true,
-            icon: 'IconFaceSmileFill'
+            icon: 'IconPen'
         },
         component: 'views/creativeWork/index'
     },
@@ -84,11 +84,11 @@ const customMenus = [
         redirect: '',
         meta: {
             keepAlive: false,
-            title: 'confabulate',
+            title: '会议',
             isEle: true,
             auth: true,
             affix: true,
-            icon: 'IconFaceSmileFill'
+            icon: 'IconWechat'
         },
         component: 'views/confabulate/index'
     },
@@ -98,7 +98,7 @@ const customMenus = [
         redirect: '',
         meta: {
             keepAlive: false,
-            title: 'roomInformation',
+            title: '房间',
             isEle: false,
             auth: true,
             affix: true,
