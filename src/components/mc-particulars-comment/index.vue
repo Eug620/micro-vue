@@ -9,8 +9,8 @@
 <template>
   <div class="mc-particulars-comment animate__fadeInRight  animate__animated">
     <!-- <h2 style="display:inline-block;font-size:1.5em;" v-if="ArticleInfo">
-                {{ ArticleInfo.title }} - {{ ArticleInfo.user_name }} : {{ ArticleInfo.page_views }}
-              </h2> -->
+                    {{ ArticleInfo.title }} - {{ ArticleInfo.user_name }} : {{ ArticleInfo.page_views }}
+                  </h2> -->
     <div style="text-align: right;padding-bottom: 10px;">
       <a-button type="text" @click="useCommentAuthor">
         <!-- 回复作者 -->
@@ -18,8 +18,8 @@
       </a-button>
     </div>
     <!-- <a-divider /> -->
-    <div v-for="comment in commentTree" :key="comment.id" @click="comment.isShow = !comment.isShow">
-      <a-comment class="particulars-comment animate__fadeInRight animate__animated" :content="comment.content">
+    <div v-for="comment in commentTree" :key="comment.id">
+      <a-comment class="particulars-comment animate__fadeInRight animate__animated">
         <template #datetime>
           <span class="particulars-comment-datetime">
             <!-- [ {{ useTransformSecond(comment.create_time) }} ] -->
@@ -38,50 +38,57 @@
                 {{ comment.operator_name }}
               </span>
             </div>
-            <IconCaretRight />
-            <div class="particulars-comment-author">
-              <a-avatar :size="24">
-                <img v-if="comment.comment_avatar" alt="avatar" :src="comment.comment_avatar" />
-                <template v-else>
-                  <IconUser />
-                </template>
-              </a-avatar>
-              <span :class="[isAuthor(comment.tid)]">
-                {{ comment.comment_name }}
-              </span>
-            </div>
+            <!-- <IconCaretRight />
+                <div class="particulars-comment-author">
+                  <a-avatar :size="24">
+                    <img v-if="comment.comment_avatar" alt="avatar" :src="comment.comment_avatar" />
+                    <template v-else>
+                      <IconUser />
+                    </template>
+                  </a-avatar>
+                  <span :class="[isAuthor(comment.tid)]">
+                    {{ comment.comment_name }}
+                  </span>
+                </div> -->
           </a-space>
         </template>
+        <template #content>
+          {{ comment.content }}
+        </template>
         <template #actions>
-          <div class="particulars-comment-actions" @click.stop="useShowDrawer(comment)">
-            <span>
+          <div class="particulars-comment-actions">
+            <span @click.stop="useShowDrawer(comment)">
               <IconMessage />
             </span>
             {{ comment.children.length }}
+            <span v-if="comment.children.length" style="margin-left: 4px;">
+              <IconUp v-if="comment.isShow" @click="comment.isShow = !comment.isShow" />
+              <IconDown v-else @click="comment.isShow = !comment.isShow" />
+            </span>
             <div style="float:right;font-size: 12px;;" class="particulars-comment-datetime">
-              [ {{ useTransformSecond(comment.create_time) }} ]
+              {{ useTransformSecond(comment.create_time) }}
             </div>
           </div>
         </template>
       </a-comment>
       <template v-if="comment.isShow">
         <a-comment class="
-                      particulars-comment
-                      animate__fadeInRight  animate__animated
-                    " v-for="com in comment.children" :key="com.id" :content="com.content" style="margin-left: 40px">
+                          particulars-comment
+                          animate__fadeInRight  animate__animated
+                        " v-for="com in comment.children" :key="com.id" :content="com.content" style="margin-left: 40px">
           <template #datetime>
             <span class="particulars-comment-datetime">
               <!-- [ {{ useTransformSecond(com.create_time) }} ] -->
             </span>
           </template>
           <template #actions>
-            <div class="particulars-comment-actions" @click.stop="useShowDrawer(com)">
-              <span>
+            <div class="particulars-comment-actions">
+              <span @click.stop="useShowDrawer(com)">
                 <IconMessage />
               </span>
-              {{ com.children?.length || 0 }}
+              <!-- {{ com.children?.length || 0 }} -->
               <div style="float:right;font-size: 12px;" class="particulars-comment-datetime">
-                [ {{ useTransformSecond(com.create_time) }} ]
+                {{ useTransformSecond(com.create_time) }}
               </div>
             </div>
           </template>
@@ -145,7 +152,9 @@ import {
   IconHeart,
   IconCaretRight,
   IconMessageBanned,
-  IconUser
+  IconUser,
+  IconDown,
+  IconUp
 } from "@arco-design/web-vue/es/icon";
 import { useTransformSecond } from "@/plugin/transform-time";
 import { Notification } from "@arco-design/web-vue";
