@@ -65,8 +65,8 @@ const customMenus = [
         component: 'views/about/index'
     },
     {
-        path: '/creative-work',
-        name: 'creative-work',
+        path: '/creative',
+        name: 'creative',
         redirect: '',
         meta: {
             keepAlive: false,
@@ -76,7 +76,7 @@ const customMenus = [
             affix: true,
             icon: 'IconPen'
         },
-        component: 'views/creativeWork/index'
+        component: 'views/creative/index'
     },
     {
         path: '/confabulate',

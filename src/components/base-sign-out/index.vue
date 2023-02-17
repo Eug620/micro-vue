@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-08-31 15:08:14
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-19 00:53:17
+ * @LastEditTime : 2023-02-17 14:02:11
  * @FilePath     : /micro-vue/src/components/base-sign-out/index.vue
  * @Description  : filename
  * 
@@ -10,14 +10,13 @@
 -->
 
 <template>
-  <a-button type="outline" shape="round" @click="userStore.logout">Sign out</a-button>
+  <a-button type="outline" shape="round" @click="userStore.logout">{{ $t('pages.about.signOut') }}</a-button>
 </template>
 
 <script lang="ts" setup>
-import { useUserStore} from '@/store/modules/user'
+import { useUserStore } from '@/store/modules/user'
 const userStore = useUserStore()
 
 </script>
 
-<style>
-</style>
+<style></style>

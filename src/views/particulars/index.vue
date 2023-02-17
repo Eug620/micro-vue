@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-01 09:46:19
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-16 16:27:38
+ * @LastEditTime : 2023-02-17 14:03:15
  * @FilePath     : /micro-vue/src/views/particulars/index.vue
  * @Description  : filename
  * 
@@ -11,7 +11,7 @@
 <template>
   <a-spin class="particulars-container-spin" :loading="isLoading" :tip="loadingTip">
     <div class="full-height">
-      <mc-container class="particulars-container" >
+      <mc-container class="particulars-container">
         <Viewer mode="tab" style="color: var(--color-text-1);background-color: rgba(0, 0, 0, 0)"
           :value="ArticleInfo.content" :plugins="DefaultEditorPlugins" />
       </mc-container>
@@ -84,15 +84,14 @@
     <a-button-group style="margin: 0 auto;">
       <a-button @click="useTypeChange(LeftType.TOC)" :type="leftType === LeftType.TOC ? 'primary' : undefined">
         <IconLeft />
-        目录
+        {{ $t('pages.particulars.catalogue') }}
       </a-button>
       <a-button @click="useTypeChange(LeftType.COM)" :type="leftType === LeftType.COM ? 'primary' : undefined">
-        评论
+        {{ $t('pages.particulars.comment') }}
         <IconRight />
       </a-button>
     </a-button-group>
   </a-card>
-
 </template>
 
 <script lang="ts" setup>
@@ -110,7 +109,7 @@ import breaks from "@bytemd/plugin-breaks";
 import footnotes from '@bytemd/plugin-footnotes'
 import mediumZoom from '@bytemd/plugin-medium-zoom'
 import mermaid from '@bytemd/plugin-mermaid'
-import { DefaultMermaidLocaleValue } from "@/views/creativeWork/config/variable";
+import { DefaultMermaidLocaleValue } from "@/views/creative/config/variable";
 import { useTransformSecond } from "@/plugin/transform-time";
 
 // icon

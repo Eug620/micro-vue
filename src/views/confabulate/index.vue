@@ -1,7 +1,7 @@
 <template>
   <mc-container class="confabulate-container">
     <a-tabs default-active-key="mine">
-      <a-tab-pane key="mine" title="我的" class="confabulate-container-tab-mine">
+      <a-tab-pane key="mine" :title="$t('pages.confabulate.mine')" class="confabulate-container-tab-mine">
         <a-list>
           <a-list-item v-for="(room, id) in SocketStore.getRooms" :key="id">
             <a-page-header :show-back="false">
@@ -30,16 +30,17 @@
               <template #extra>
                 <a-button v-if="room.info.author === userStore.getInfo.id"
                   class="confabulate-container-tab-mine-action-delete" type="outline" status="danger"
-                  @click="useDeleteRooms(id)" style="margin-right: 10px" shape="round">删除</a-button>
+                  @click="useDeleteRooms(id)" style="margin-right: 10px" shape="round">{{ $t('button.delete')
+                  }}</a-button>
                 <a-button type="outline" @click="useToRoomInformation(id)" shape="round">
-                  进入
+                  {{ $t('pages.confabulate.entry') }}
                 </a-button>
               </template>
             </a-page-header>
           </a-list-item>
         </a-list>
       </a-tab-pane>
-      <a-tab-pane key="all" title="全部" class="confabulate-container-tab-all">
+      <a-tab-pane key="all" :title="$t('pages.confabulate.all')" class="confabulate-container-tab-all">
         <a-list>
           <a-list-item v-for="room in rooms" :key="room.id">
             <a-page-header :show-back="false">
@@ -49,7 +50,7 @@
               </template>
               <template #extra>
                 <a-button shape="round" type="outline" style="float: right" v-if="!compMyRooms.includes(room.id)"
-                  @click="useJoinRooms(room)">Join</a-button>
+                  @click="useJoinRooms(room)">{{ $t('pages.confabulate.join') }}</a-button>
               </template>
             </a-page-header>
           </a-list-item>
@@ -57,23 +58,24 @@
       </a-tab-pane>
 
       <template #extra>
-        <a-button shape="round" size="mini" @click="useCreateRooms">新建</a-button>
+        <a-button shape="round" size="mini" @click="useCreateRooms">{{ $t('button.create') }}</a-button>
       </template>
     </a-tabs>
 
     <a-modal :mask-closable="false" v-model:visible="visibleCreate">
-      <template #title> Create Room </template>
+      <template #title> {{ $t('pages.confabulate.create') }} </template>
       <a-form auto-label-width ref="refForm" :model="formRoom">
-        <a-form-item field="name" :rules="formRoomRules.name" label="名称: ">
-          <a-input v-model="formRoom.name" placeholder="please enter your Room name..." />
+        <a-form-item field="name" :rules="formRoomRules.name" :label="$t('pages.confabulate.name')">
+          <a-input v-model="formRoom.name" :placeholder="`${$t('placeholder.enter')} ${$t('pages.confabulate.name')}`" />
         </a-form-item>
-        <a-form-item field="describe" :rules="formRoomRules.describe" label="描述: ">
-          <a-input v-model="formRoom.describe" placeholder="please enter your Room describe..." />
+        <a-form-item field="describe" :rules="formRoomRules.describe" :label="$t('pages.confabulate.describe')">
+          <a-input v-model="formRoom.describe"
+            :placeholder="`${$t('placeholder.enter')} ${$t('pages.confabulate.describe')}`" />
         </a-form-item>
       </a-form>
       <template #footer>
-        <a-button shape="round" @click="useCancelCreate">Cancel</a-button>
-        <a-button shape="round" type="primary" @click="useConfirmCreate">Confirm</a-button>
+        <a-button shape="round" @click="useCancelCreate">{{ $t('button.submit') }}</a-button>
+        <a-button shape="round" type="primary" @click="useConfirmCreate">{{ $t('button.cancel') }}</a-button>
       </template>
     </a-modal>
   </mc-container>

@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-19 02:23:36
+ * @LastEditTime : 2023-02-17 14:20:32
  * @FilePath     : /micro-vue/src/store/modules/socket.ts
  * @Description  : filename
  * 
@@ -135,7 +135,7 @@ export const useSocketStore = defineStore({
             } catch (error) { }
         },
         closeSocket() {
-            this.socket.close()
+            this.socket && this.socket.close()
             this.socket = null
         },
         useMonitor(...arg: any) {

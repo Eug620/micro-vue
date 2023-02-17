@@ -17,8 +17,26 @@ export default {
     test: 'テスト',
     menu: 'menu',
     notFound: '見出されない',
+
+    dashboard: '首页-',
+    newest: '最新-',
+    particulars: '详情-',
+    about: '关于-',
+    creative: '创作-',
+    confabulate: '会议-',
+    roomInformation: '房间-'
   },
-  btn: {
+  placeholder: {
+    enter: '请输入-'
+  },
+  button: {
+    submit: 'Submit',
+    cancel: 'Cancel',
+    confirm: 'confirm',
+    create: 'Create',
+    delete: 'Delete',
+
+
     signIn: '上陸',
     signUp: '登録',
     editInfo: '情報の編集',
@@ -28,6 +46,39 @@ export default {
   vue: {
     creativeWork: {
       drawerTitle: '配置--'
+    }
+  },
+  pages: {
+    about: {
+      userInfo: 'User Info-',
+      editInfo: 'Edit Info-',
+      signOut: 'signOut',
+      id: 'ID-',
+      name: 'Name-',
+      password: 'Password-',
+      email: 'Email-',
+      create_time: 'Create Time-',
+      update_time: 'Update Time-',
+      token: 'Token-',
+      avatar: 'Avatar-',
+    },
+    newest: {
+      by: 'By'
+    },
+    particulars: {
+      catalogue: 'catalogue',
+      comment: 'comment',
+      reply: 'reply'
+    },
+    confabulate: {
+      mine: 'mine',
+      all: 'all',
+      name: 'name',
+      describe: 'describe',
+      create: 'create room',
+      entry: 'entry',
+      join: 'Join'
+
     }
   }
 };

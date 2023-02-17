@@ -17,8 +17,27 @@ export default {
     test: '测试',
     menu: '菜单',
     notFound: '404',
+
+    dashboard: '首页',
+    newest: '最新',
+    particulars: '详情',
+    about: '关于',
+    creative: '创作',
+    confabulate: '会议',
+    roomInformation: '房间'
   },
-  btn: {
+  placeholder: {
+    enter: '请输入'
+  },
+  button: {
+    submit: '提交',
+    cancel: '取消',
+    confirm: '确定',
+    create: '新建',
+    delete: '删除',
+
+
+
     signIn: '登陆',
     signUp: '注册',
     editInfo: '编辑',
@@ -28,6 +47,38 @@ export default {
   vue: {
     creativeWork: {
       drawerTitle: '配置'
+    }
+  },
+  pages: {
+    about: {
+      userInfo: '用户信息',
+      editInfo: '编辑信息',
+      signOut: '退出登录',
+      id: 'ID',
+      name: '账号',
+      password: '密码',
+      email: '邮箱',
+      create_time: '创建时间',
+      update_time: '更新时间',
+      token: 'Token',
+      avatar: '头像',
+    },
+    newest: {
+      by: '来自'
+    },
+    particulars: {
+      catalogue: '目录',
+      comment: '评论',
+      reply: '回复'
+    },
+    confabulate: {
+      mine: '我的',
+      all: '全部',
+      name: '名称',
+      describe: '描述',
+      create: '创建房间',
+      entry: '进入',
+      join: '加入'
     }
   }
 };

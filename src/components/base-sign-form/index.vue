@@ -9,39 +9,29 @@
 -->
 <template>
   <a-form :model="signForm" auto-label-width>
-    <a-form-item field="name" label="name">
-      <a-input
-        v-model.trim="signForm.name"
-        placeholder="please enter your name..."
-      />
+    <a-form-item v-show="props.type !== FormType.SignIn" field="avatar" :label="$t('pages.about.avatar')">
+      <a-input v-model.trim="signForm.avatar" :placeholder="`${$t('placeholder.enter')}${$t('pages.about.avatar')}`" />
     </a-form-item>
-    <a-form-item field="password" label="password">
-      <a-input-password
-        autocomplete="off"
-        v-model.trim="signForm.password"
-        placeholder="please enter your password..."
-        :onPressEnter="useSubmit"
-      />
+    <a-form-item v-if="props.type !== FormType.InfoEdit" field="name" :label="$t('pages.about.name')">
+      <a-input v-model.trim="signForm.name" :placeholder="`${$t('placeholder.enter')}${$t('pages.about.name')}`" />
     </a-form-item>
-    <a-form-item
-      v-show="props.type !== FormType.SignIn"
-      field="email"
-      label="email"
-    >
-      <a-input
-        v-model.trim="signForm.email"
-        placeholder="please enter your email..."
-        @onPressEnter="useSubmit"
-      />
+    <a-form-item field="password" :label="$t('pages.about.password')">
+      <a-input-password autocomplete="off" v-model.trim="signForm.password"
+        :placeholder="`${$t('placeholder.enter')}${$t('pages.about.password')}`"
+        :onPressEnter="props.type === FormType.SignIn && useSubmit" />
+    </a-form-item>
+    <a-form-item v-show="props.type !== FormType.SignIn" field="email" :label="$t('pages.about.email')">
+      <a-input v-model.trim="signForm.email" :placeholder="`${$t('placeholder.enter')}${$t('pages.about.email')}`"
+        @onPressEnter="useSubmit" />
     </a-form-item>
     <a-form-item>
-      <a-button shape="round" :loading="loading" type="primary" @click="useSubmit">Submit</a-button>
+      <a-button shape="round" :loading="loading" type="primary" @click="useSubmit">{{ $t('button.submit') }}</a-button>
     </a-form-item>
   </a-form>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, unref } from 'vue';
+import { reactive, Ref, ref, unref } from 'vue';
 import ServerApi from '@/api';
 import { useUserStore } from '@/store/modules/user';
 import { storeToRefs } from 'pinia';
@@ -64,18 +54,19 @@ const props = defineProps<{
 
 const emit = defineEmits(['update:type', 'submitSuccess'])
 interface SignFormType {
-  name?:string
-  password?:string
-  email?:string
+  name?: string
+  password?: string
+  email?: string
+  avatar?: string
 }
-const signForm:SignFormType = reactive(
+const signForm: SignFormType = reactive(
   props.type === FormType.InfoEdit
-    ? Object.assign({},unref(getInfo))
+    ? Object.assign({}, unref(getInfo))
     : {
-        name: '',
-        password: '',
-        email: '',
-      },
+      name: '',
+      password: '',
+      email: '',
+    },
 );
 
 const resetForm = () => {
@@ -111,8 +102,8 @@ const useSubmit = async () => {
         emit('update:type', FormType.SignIn)
       } else {
         emit('submitSuccess',)
-        console.log('logins',route.query.redirect);
-        const redirect:any  = route.query.redirect
+        console.log('logins', route.query.redirect);
+        const redirect: any = route.query.redirect
         if (redirect) {
           router.push({
             path: decodeURIComponent(redirect)
@@ -135,7 +126,7 @@ const useSubmit = async () => {
     loading.value = false
   }
 };
+
 </script>
 
-<style>
-</style>
+<style></style>

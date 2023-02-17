@@ -17,8 +17,25 @@ export default {
     test: 'test',
     menu: 'menu',
     notFound: '404',
+
+    dashboard: 'Dashboard',
+    newest: 'Newest',
+    particulars: 'Particulars',
+    about: 'About',
+    creative: 'Creative',
+    confabulate: 'Confabulate',
+    roomInformation: 'RoomInformation'
   },
-  btn: {
+  placeholder: {
+    enter: 'please enter your'
+  },
+  button: {
+    submit: 'Submit',
+    cancel: 'Cancel',
+    confirm: 'Confirm',
+    create: 'Create',
+    delete: 'Delete',
+
     signIn: 'Sign In',
     signUp: 'Sign Up',
     editInfo: 'Edit Info',
@@ -28,6 +45,38 @@ export default {
   vue: {
     creativeWork: {
       drawerTitle: 'Setting'
+    }
+  },
+  pages: {
+    about: {
+      userInfo: 'User Info',
+      editInfo: 'Edit Info',
+      signOut: 'Sign Out',
+      id: 'ID',
+      name: 'Name',
+      password: 'Password',
+      email: 'Email',
+      create_time: 'Create Time',
+      update_time: 'Update Time',
+      token: 'Token',
+      avatar: 'Avatar',
+    },
+    newest: {
+      by: 'By'
+    },
+    particulars: {
+      catalogue: 'Catalogue',
+      comment: 'Comment',
+      reply: 'Reply'
+    },
+    confabulate: {
+      mine: 'Mine',
+      all: 'All',
+      name: 'Name',
+      describe: 'Describe',
+      create: 'Create Room',
+      entry: 'Entry',
+      join: 'Join'
     }
   }
 };

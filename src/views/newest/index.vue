@@ -8,19 +8,10 @@
 -->
 <template>
   <div class="newest-container" ref="refNewestContainer">
-    <a-card
-      v-for="newes in newestList"
-      :key="newes.id"
-      @click="useJumpParticulars(newes)"
-      class="newest-container-item"
-    >
+    <a-card v-for="newes in newestList" :key="newes.id" @click="useJumpParticulars(newes)" class="newest-container-item">
       <template #title>
-        <a-page-header
-          class="newest-container-item-title"
-          :show-back="false"
-          :title="newes.title"
-          :subtitle="`By ${newes.user_name}`"
-        >
+        <a-page-header class="newest-container-item-title" :show-back="false" :title="newes.title"
+          :subtitle="`${$t('pages.newest.by')} ${newes.user_name}`">
         </a-page-header>
       </template>
       <template #extra>
@@ -31,8 +22,12 @@
       </div>
       <div class="newest-container-item-footer">
         <a-space size="large">
-          <a-space><IconEye />{{ newes.page_views }} </a-space>
-          <a-space><IconMessage />{{ newes.count }}</a-space>
+          <a-space>
+            <IconEye />{{ newes.page_views }}
+          </a-space>
+          <a-space>
+            <IconMessage />{{ newes.count }}
+          </a-space>
         </a-space>
       </div>
     </a-card>
@@ -136,6 +131,7 @@ const useJumpParticulars = ({ id }: NewestType) => {
     &:first-child {
       margin-top: 0px;
     }
+
     .arco-card-body {
       min-height: 100px;
     }
@@ -145,6 +141,7 @@ const useJumpParticulars = ({ id }: NewestType) => {
         padding-left: 0;
       }
     }
+
     &-describe {
       padding-bottom: 15px;
     }

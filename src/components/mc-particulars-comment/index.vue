@@ -9,11 +9,12 @@
 <template>
   <div class="mc-particulars-comment animate__fadeInRight  animate__animated">
     <!-- <h2 style="display:inline-block;font-size:1.5em;" v-if="ArticleInfo">
-      {{ ArticleInfo.title }} - {{ ArticleInfo.user_name }} : {{ ArticleInfo.page_views }}
-    </h2> -->
+                {{ ArticleInfo.title }} - {{ ArticleInfo.user_name }} : {{ ArticleInfo.page_views }}
+              </h2> -->
     <div style="text-align: right;padding-bottom: 10px;">
       <a-button type="text" @click="useCommentAuthor">
-        回复作者
+        <!-- 回复作者 -->
+        {{ $t('pages.particulars.reply') }}
       </a-button>
     </div>
     <!-- <a-divider /> -->
@@ -25,14 +26,30 @@
           </span>
         </template>
         <template #author>
-          <a-space size="large">
-            <span :class="[isAuthor(comment.operator)]">
-              {{ comment.operator_name }}
-            </span>
-            <IconToRight />
-            <span :class="[isAuthor(comment.tid)]">
-              {{ comment.comment_name }}
-            </span>
+          <a-space size="small">
+            <div class="particulars-comment-author">
+              <a-avatar :size="24">
+                <img v-if="comment.operator_avatar" alt="avatar" :src="comment.operator_avatar" />
+                <template v-else>
+                  <IconUser />
+                </template>
+              </a-avatar>
+              <span :class="[isAuthor(comment.operator)]">
+                {{ comment.operator_name }}
+              </span>
+            </div>
+            <IconCaretRight />
+            <div class="particulars-comment-author">
+              <a-avatar :size="24">
+                <img v-if="comment.comment_avatar" alt="avatar" :src="comment.comment_avatar" />
+                <template v-else>
+                  <IconUser />
+                </template>
+              </a-avatar>
+              <span :class="[isAuthor(comment.tid)]">
+                {{ comment.comment_name }}
+              </span>
+            </div>
           </a-space>
         </template>
         <template #actions>
@@ -49,9 +66,9 @@
       </a-comment>
       <template v-if="comment.isShow">
         <a-comment class="
-            particulars-comment
-            animate__fadeInRight  animate__animated
-          " v-for="com in comment.children" :key="com.id" :content="com.content" style="margin-left: 40px">
+                      particulars-comment
+                      animate__fadeInRight  animate__animated
+                    " v-for="com in comment.children" :key="com.id" :content="com.content" style="margin-left: 40px">
           <template #datetime>
             <span class="particulars-comment-datetime">
               <!-- [ {{ useTransformSecond(com.create_time) }} ] -->
@@ -69,14 +86,30 @@
             </div>
           </template>
           <template #author>
-            <a-space size="large">
-              <span :class="[isAuthor(com.operator)]">
-                {{ com.operator_name }}
-              </span>
-              <IconToRight />
-              <span :class="[isAuthor(com.tid)]">
-                {{ com.comment_name }}
-              </span>
+            <a-space size="small">
+              <div class="particulars-comment-author">
+                <a-avatar :size="24">
+                  <img v-if="com.operator_avatar" alt="avatar" :src="com.operator_avatar" />
+                  <template v-else>
+                    <IconUser />
+                  </template>
+                </a-avatar>
+                <span :class="[isAuthor(com.operator)]">
+                  {{ com.operator_name }}
+                </span>
+              </div>
+              <IconCaretRight />
+              <div class="particulars-comment-author">
+                <a-avatar :size="24">
+                  <img v-if="com.comment_avatar" alt="avatar" :src="com.comment_avatar" />
+                  <template v-else>
+                    <IconUser />
+                  </template>
+                </a-avatar>
+                <span :class="[isAuthor(com.tid)]">
+                  {{ com.comment_name }}
+                </span>
+              </div>
             </a-space>
           </template>
         </a-comment>
@@ -96,8 +129,9 @@
       </template>
     </a-result>
   </div>
-  <a-drawer :visible="isVisibleDrawer" @ok="useComment" placement="bottom" @cancel="useDrawerCancel">
-    <template #title> {{ toTarget.title }} </template>
+  <a-drawer :ok-text="$t('button.confirm')" :cancel-text="$t('button.cancel')" :visible="isVisibleDrawer" @ok="useComment"
+    placement="bottom" @cancel="useDrawerCancel">
+    <template #title> {{ $t('pages.particulars.reply') }} : {{ toTarget.title }} </template>
     <a-textarea placeholder="Please enter something" v-model="toTarget.content" allow-clear />
   </a-drawer>
 </template>
@@ -109,11 +143,14 @@ import { useRoute } from "vue-router";
 import {
   IconMessage,
   IconHeart,
-  IconToRight,
-  IconMessageBanned
+  IconCaretRight,
+  IconMessageBanned,
+  IconUser
 } from "@arco-design/web-vue/es/icon";
 import { useTransformSecond } from "@/plugin/transform-time";
 import { Notification } from "@arco-design/web-vue";
+import i18n from '@/locales/i18n';
+
 const props: any = defineProps({
   ArticleInfo: Object,
 });
@@ -144,7 +181,7 @@ const useDrawerCancel = () => {
 }
 
 const useCommentAuthor = () => {
-  toTarget.title = `回复: ${props.ArticleInfo.user_name}`;
+  toTarget.title = props.ArticleInfo.user_name
   toTarget.pid = props.ArticleInfo.id
   toTarget.tid = props.ArticleInfo.author
   toTarget.article_id = props.ArticleInfo.id
@@ -176,7 +213,7 @@ const useShowDrawer = ({
     console.log("二级评论");
     toTarget.pid = pid;
   }
-  toTarget.title = `回复: ${operator_name}`;
+  toTarget.title = operator_name
   toTarget.tid = operator;
   toTarget.article_id = article_id;
   isVisibleDrawer.value = true;
@@ -214,6 +251,7 @@ const useComment = async () => {
 
     .arco-comment-content {
       padding-left: 14px;
+      margin-top: 10px;
     }
   }
 
@@ -226,6 +264,12 @@ const useComment = async () => {
   &-datetime {
     float: right;
     font-size: 12px;
+  }
+
+  &-author {
+    :nth-child(2) {
+      padding-left: 6px;
+    }
   }
 
   &-actions {

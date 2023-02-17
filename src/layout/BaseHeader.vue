@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-08-31 15:25:15
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-16 14:44:02
+ * @LastEditTime : 2023-02-17 14:02:28
  * @FilePath     : /micro-vue/src/layout/BaseHeader.vue
  * @Description  : filename
  * 
@@ -15,7 +15,8 @@
       <template #icon>
         <component :is="_ArcoVueIcon[routes.meta.icon]" />
       </template>
-      {{ routes.meta?.title || routes.name }}
+      {{ $t(`menu.${routes.name}`) }}
+      <!-- {{ routes.meta?.title || routes.name }} -->
     </a-menu-item>
   </a-menu>
 </template>
@@ -50,6 +51,4 @@ const useMenuItemClick = (name: any) => {
 };
 </script>
 
-<style>
-
-</style>
+<style></style>

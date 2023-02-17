@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-08-31 15:08:14
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-19 00:52:44
+ * @LastEditTime : 2023-02-17 14:02:00
  * @FilePath     : /micro-vue/src/components/base-edit-info/index.vue
  * @Description  : filename
  * 
@@ -10,7 +10,7 @@
 -->
 <template>
   <a-button type="primary" @click="useEdit" shape="round">
-    {{ props.value ? 'Cancel' : 'Edit Info' }}
+    {{ props.value ? $t('button.cancel') : $t('pages.about.editInfo') }}
   </a-button>
 </template>
 
@@ -33,5 +33,4 @@ const useEdit = () => {
 };
 </script>
 
-<style>
-</style>
+<style></style>
