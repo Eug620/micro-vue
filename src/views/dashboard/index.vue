@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-16 23:52:04
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-16 15:32:34
+ * @LastEditTime : 2023-02-22 15:34:55
  * @FilePath     : /micro-vue/src/views/dashboard/index.vue
  * @Description  : filename
  * 
@@ -32,13 +32,23 @@
       <a-image width="800" fit="fill" :src="imageList[currentListIdx]?.url" :title="imageList[currentListIdx]?.id"
         :description="imageList[currentListIdx]?.url" />
     </div>
+    <a-button @click="useTo('dashboard')">dashboard</a-button>
+    <a-button @click="useTo('newest')">newest</a-button>
+    <a-button @click="useTo('about')">about</a-button>
+    <a-button @click="useTo('creative')">creative</a-button>
+    <a-button @click="useTo('confabulate')">confabulate</a-button>
   </mc-container>
 </template>
 
 <script lang="ts" setup>
 import ServerApi from "@/api";
 import { ref, watchEffect, Ref } from "vue-demi";
+import { useRouter } from "vue-router";
 
+const router = useRouter()
+const useTo = (name: string) => {
+  router.push({ name })
+}
 const currentListIdx = ref(0)
 const imageList: Ref<any[]> = ref([])
 ServerApi.GetImageAll().then((res: any) => {
