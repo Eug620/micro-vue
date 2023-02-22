@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-08-31 15:08:14
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-16 16:15:30
+ * @LastEditTime : 2023-02-22 15:57:55
  * @FilePath     : /micro-vue/src/layout/index.vue
  * @Description  : filename
  * 
@@ -11,7 +11,7 @@
 <template>
   <a-layout class="chat-layout">
     <a-layout-header class="chat-layout-header">
-      <BaseHeaderVue />
+      <BaseHeaderVue  @on-route-change="useRouterChange"/>
     </a-layout-header>
     <a-layout-content class="chat-layout-container">
       <router-view v-slot="{ Component, route }">
@@ -41,7 +41,7 @@
 <script lang="ts" setup>
 // import { IconSync } from "@arco-design/web-vue/es/icon";
 import { markRaw, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import BaseHeaderVue from "./BaseHeader.vue";
 
 import { useMittStore } from "@/store/modules/mitt";
@@ -55,9 +55,14 @@ mitt.value.on("setting", (v: any | undefined) => {
 });
 
 const route = useRoute();
+const router = useRouter()
 watch(route, (v) => {
   isSlot.value = null;
 });
+const useRouterChange  = (name: string) => {
+  console.log('useRouterChange', name);
+  router.push({name})
+}
 </script>
 
 <style lang="scss">

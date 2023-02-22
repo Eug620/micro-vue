@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-08-31 15:25:15
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-22 15:00:35
+ * @LastEditTime : 2023-02-22 15:58:22
  * @FilePath     : /micro-vue/src/layout/BaseHeader.vue
  * @Description  : filename
  * 
@@ -32,6 +32,8 @@ import { storeToRefs } from "pinia";
 import { computed } from "vue-demi";
 import { initRoutes } from "@/router/routes";
 
+const emit = defineEmits(['onRouteChange']);
+
 const menusStore = useMenus()
 const { getMenus } = storeToRefs(menusStore)
 
@@ -44,13 +46,11 @@ type ArcoIcons = {
 let _ArcoVueIcon: ArcoIcons = ArcoVueIcon
 
 // console.log(initRoutes);
-const router = useRouter();
 
 const useMenuItemClick = (name: any) => {
-  console.log('router:', router);
-  console.log('to:', name);
-  router.push({ name })
+  emit('onRouteChange', name)
 };
+
 </script>
 
 <style></style>
