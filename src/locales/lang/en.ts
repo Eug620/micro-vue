@@ -48,6 +48,10 @@ export default {
     }
   },
   pages: {
+    layout: {
+      kindlyReminder: 'Kindly Reminder',
+      kindlyReminderDesc: 'Open the global configuration key'
+    },
     about: {
       userInfo: 'User Info',
       editInfo: 'Edit Info',

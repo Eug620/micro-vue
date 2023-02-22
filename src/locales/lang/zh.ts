@@ -50,6 +50,10 @@ export default {
     }
   },
   pages: {
+    layout: {
+      kindlyReminder: '温馨提示',
+      kindlyReminderDesc: '打开全局配置项'
+    },
     about: {
       userInfo: '用户信息',
       editInfo: '编辑信息',
