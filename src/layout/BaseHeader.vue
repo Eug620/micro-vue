@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-08-31 15:25:15
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-22 11:21:12
+ * @LastEditTime : 2023-02-22 13:17:20
  * @FilePath     : /micro-vue/src/layout/BaseHeader.vue
  * @Description  : filename
  * 
@@ -29,7 +29,7 @@ import ArcoVueIcon from '@arco-design/web-vue/es/icon'
 
 import { useMenus } from '@/store/modules/menus'
 import { storeToRefs } from "pinia";
-import { computed, nextTick } from "vue-demi";
+import { computed } from "vue-demi";
 import { initRoutes } from "@/router/routes";
 
 const menusStore = useMenus()
@@ -47,9 +47,7 @@ let _ArcoVueIcon: ArcoIcons = ArcoVueIcon
 const router = useRouter();
 
 const useMenuItemClick = (name: any) => {
-  nextTick(() => {
-    router?.push({ name })
-  })
+  router?.push({ name })
 };
 </script>
 

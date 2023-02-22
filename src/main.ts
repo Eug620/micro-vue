@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-16 23:52:04
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-05 10:35:31
+ * @LastEditTime : 2023-02-22 13:14:48
  * @FilePath     : /micro-vue/src/main.ts
  * @Description  : filename
  * 
@@ -32,6 +32,8 @@ import { useInitRouter } from './router'
 
 import i18n from '@/locales/i18n';
 
+import { debounce } from 'lodash'
+
 
 
 // store
@@ -43,7 +45,7 @@ let router: any = null
 let history: any = null
 
 // 将渲染操作放入 mount 函数
-function mount() {
+const mount = debounce(() => {
     app = createApp(App)
     app.use(i18n);
     app.use(pinia)
@@ -55,7 +57,7 @@ function mount() {
     console.log('使用router');
     app.mount('#app-vue')
     console.log('微应用micro-vue渲染了')
-}
+}, 500)
 
 // 将卸载操作放入 unmount 函数
 function unmount() {
@@ -79,7 +81,5 @@ if (window.eventCenterForMicroVue) {
 if (window.__MICRO_APP_ENVIRONMENT__) {
     // @ts-ignore
     window[`micro-app-${window.__MICRO_APP_NAME__}`] = { mount, unmount }
-} else {
-    // 非微前端环境直接渲染
-    mount()
 }
+mount()
