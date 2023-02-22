@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-16 23:52:04
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-22 13:14:48
+ * @LastEditTime : 2023-02-22 14:13:32
  * @FilePath     : /micro-vue/src/main.ts
  * @Description  : filename
  * 
@@ -46,6 +46,7 @@ let history: any = null
 
 // 将渲染操作放入 mount 函数
 const mount = debounce(() => {
+    if (app) return
     app = createApp(App)
     app.use(i18n);
     app.use(pinia)
@@ -81,5 +82,6 @@ if (window.eventCenterForMicroVue) {
 if (window.__MICRO_APP_ENVIRONMENT__) {
     // @ts-ignore
     window[`micro-app-${window.__MICRO_APP_NAME__}`] = { mount, unmount }
+} else {
+    mount()
 }
-mount()

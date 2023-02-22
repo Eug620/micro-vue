@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-08-31 15:25:15
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-22 13:17:20
+ * @LastEditTime : 2023-02-22 14:29:18
  * @FilePath     : /micro-vue/src/layout/BaseHeader.vue
  * @Description  : filename
  * 
@@ -47,7 +47,9 @@ let _ArcoVueIcon: ArcoIcons = ArcoVueIcon
 const router = useRouter();
 
 const useMenuItemClick = (name: any) => {
-  router?.push({ name })
+  console.log('router:',router);
+  console.log('to:',name);
+  router.push({ name })
 };
 </script>
 
