@@ -74,8 +74,8 @@
         </a-form-item>
       </a-form>
       <template #footer>
-        <a-button shape="round" @click="useCancelCreate">{{ $t('button.submit') }}</a-button>
-        <a-button shape="round" type="primary" @click="useConfirmCreate">{{ $t('button.cancel') }}</a-button>
+        <a-button shape="round" @click="useCancelCreate">{{ $t('button.cancel') }}</a-button>
+        <a-button shape="round" type="primary" @click="useConfirmCreate"> {{ $t('button.submit') }}</a-button>
       </template>
     </a-modal>
   </mc-container>

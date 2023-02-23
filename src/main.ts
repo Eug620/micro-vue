@@ -1,9 +1,9 @@
 /*
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-16 23:52:04
- * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-22 16:24:56
- * @FilePath     : /micro-vue/src/main.ts
+ * @LastEditors  : Eug yyh3531@163.com
+ * @LastEditTime : 2023-02-23 22:42:51
+ * @FilePath     : \micro-vue\src\main.ts
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
@@ -46,7 +46,7 @@ let history: any = null
 
 // 将渲染操作放入 mount 函数
 const mount = debounce(() => {
-    unmount()
+    // unmount()
     app = createApp(App)
     app.use(i18n);
     app.use(pinia)
