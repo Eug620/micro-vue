@@ -2,13 +2,13 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-16 23:52:04
  * @LastEditors  : Eug yyh3531@163.com
- * @LastEditTime : 2023-02-23 22:42:51
+ * @LastEditTime : 2023-02-24 21:14:47
  * @FilePath     : \micro-vue\src\main.ts
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
  */
-import '@/index.css';
+import './index.css';
 import { createApp } from 'vue'
 import App from './App.vue'
 import '@/assets/styles/index.scss';
