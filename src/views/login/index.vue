@@ -34,7 +34,7 @@ const isInfoEdit = ref(false)
 <style lang="scss">
 .chat-login {
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   background-color: rgb(var(--gray-2));
   color: rgb(var(--gray-10));
   padding: 10px;
