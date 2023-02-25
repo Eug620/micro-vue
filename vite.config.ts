@@ -24,7 +24,8 @@ const getEnvFn = (mode, target) => {
 
 // https://vitejs.dev/config/
 export default ({ mode }) => defineConfig({
-  base: `${process.env.NODE_ENV === 'production' ? 'http://47.93.229.170:8081/' : '/base/chat/'}`,
+  // base: `${process.env.NODE_ENV === 'production' ? 'http://47.93.229.170:8081/' : '/base/chat/'}`,
+  base: `${process.env.NODE_ENV === 'production' ? '//eug.asia:8081/' : '/base/chat/'}`,
   server: {
     port: 8081,
     headers: {
