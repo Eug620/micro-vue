@@ -1,9 +1,9 @@
 /*
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
- * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-17 14:20:32
- * @FilePath     : /micro-vue/src/store/modules/socket.ts
+ * @LastEditors  : Eug yyh3531@163.com
+ * @LastEditTime : 2023-02-25 18:35:28
+ * @FilePath     : \micro-vue\src\store\modules\socket.ts
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
@@ -54,7 +54,7 @@ export const useSocketStore = defineStore({
             console.log('initSocket: UserID-->' + userStore.getInfo.id);
             this.socket = io(
                 // 'http://127.0.0.1:5000'
-                "http://47.93.229.170:5000"
+                import.meta.env.VITE_APP_BASE_API
                 , {
                     transports: ["websocket"],
                     query: {
