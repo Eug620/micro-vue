@@ -4,7 +4,7 @@
  * @LastEditTime: 2022-09-21 10:04:37
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
- * @FilePath     : /micro-vue/vite.config.ts
+ * @FilePath     : \micro-vue\vite.config.ts
  */
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -25,7 +25,7 @@ const getEnvFn = (mode, target) => {
 // https://vitejs.dev/config/
 export default ({ mode }) => defineConfig({
   // base: `${process.env.NODE_ENV === 'production' ? 'http://47.93.229.170:8081/' : '/base/chat/'}`,
-  base: `${process.env.NODE_ENV === 'production' ? '//eug.asia:8081/' : '/base/chat/'}`,
+  base: `${process.env.NODE_ENV === 'production' ? 'https://eug.asia:8081/' : '/base/chat/'}`,
   server: {
     port: 8081,
     headers: {
