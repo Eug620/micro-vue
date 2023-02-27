@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-16 23:52:04
  * @LastEditors  : Eug yyh3531@163.com
- * @LastEditTime : 2023-02-26 16:54:39
+ * @LastEditTime : 2023-02-27 20:38:46
  * @FilePath     : \micro-vue\src\views\dashboard\index.vue
  * @Description  : filename
  * 
@@ -24,19 +24,20 @@
     </div>
     <div class="dashboard-container-image" v-else>
       <!-- <a-select :style="{ width: '800px', marginBottom: '20px' }" v-model="currentListIdx" placeholder="请选择..."
-                allow-search>
-                <a-option v-for="(img, idx) in imageList" :key="img.id" :value="idx">
-                  {{ img.id }}
-                </a-option>
-              </a-select> -->
+                    allow-search>
+                    <a-option v-for="(img, idx) in imageList" :key="img.id" :value="idx">
+                      {{ img.id }}
+                    </a-option>
+                  </a-select> -->
       <!-- <a-image width="800" fit="fill" :src="imageList[currentListIdx]?.url" :title="imageList[currentListIdx]?.id"
-                :description="imageList[currentListIdx]?.url" /> -->
-      <a-button shape="circle" @click="useCopyImage" class="dashboard-container-image-copy" :data-clipboard-text="imageList[randomNumber]?.url">
+                    :description="imageList[currentListIdx]?.url" /> -->
+      <a-button shape="circle" @click="useCopyImage" class="dashboard-container-image-copy"
+        :data-clipboard-text="imageList[randomNumber]?.url">
         <template #icon>
           <IconCopy />
         </template>
       </a-button>
-      <a-button shape="circle">
+      <a-button shape="circle" @click="useDownloadImage">
         <template #icon>
           <IconDownload />
         </template>
@@ -58,6 +59,7 @@ import { useRouter } from "vue-router";
 import { random } from "lodash";
 import { IconSync, IconDownload, IconCopy } from "@arco-design/web-vue/es/icon";
 import Clipboard from "clipboard";
+import { downloadFile } from "@/utils/download";
 
 console.log();
 const randomNumber = ref(0)
@@ -94,6 +96,9 @@ const useCopyImage = () => {
     // 释放内存
     clipboard.destroy()
   })
+}
+const useDownloadImage = () => {
+  downloadFile(imageList.value[randomNumber.value]?.url , `${imageList.value[randomNumber.value]?.id}.jpg`)
 }
 
 

@@ -1,9 +1,9 @@
 /*
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-08-31 15:08:14
- * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-16 14:34:40
- * @FilePath     : /micro-vue/src/router/routes.ts
+ * @LastEditors  : Eug yyh3531@163.com
+ * @LastEditTime : 2023-02-27 20:05:44
+ * @FilePath     : \micro-vue\src\router\routes.ts
  * @Description  : filename
  * 
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
@@ -14,7 +14,7 @@ export const initRoutes = [
         path: 'dashboard',
         name: 'dashboard',
         meta: {
-            keepAlive: false,
+            keepAlive: true,
             title: '首页',
             auth: true,
             affix: true,
