@@ -1,9 +1,9 @@
 /*
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
- * @LastEditors  : Eug yyh3531@163.com
- * @LastEditTime : 2023-02-25 22:08:20
- * @FilePath     : \micro-vue\src\store\modules\socket.ts
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2023-03-01 16:26:06
+ * @FilePath     : /micro-vue/src/store/modules/socket.ts
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
@@ -22,7 +22,8 @@ interface MsgInterface {
     meta: {
         timestamp: string;
         client: string;
-        clientName: string
+        clientName: string;
+        clientAvatar: string | undefined | null;
     };
 }
 export const useSocketStore = defineStore({
@@ -158,9 +159,14 @@ export const useSocketStore = defineStore({
                     clients: [],
                     info: room,
                     messageCount: 0,
-                    messageList: this.rooms[room.id]?.messageList || [],
+                    messageList: [],
                     onlineInfo: new Map()
                 }
+                ServerApi.RoomsRecords({room_id: room.id}).then((res: any) => {
+                    if (res.code === 200) {
+                        this.rooms[room.id].messageList = res.data || []
+                    }
+                })
 
                 // 初始化在线信息
                 room.subscriber.forEach((item: any) => {
@@ -179,6 +185,7 @@ export const useSocketStore = defineStore({
                         timestamp: res.meta.timestamp,
                         id: res.meta.client,
                         name: res.meta.clientName,
+                        avatar: res.meta.clientAvatar,
                         message: res.data.payload.message,
                     });
                 })

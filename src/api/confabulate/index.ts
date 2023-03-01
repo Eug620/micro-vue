@@ -1,11 +1,14 @@
 /*
- * @Author: eug yyh3531@163.com
- * @Date: 2022-08-28 04:14:19
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-09-18 05:51:16
- * @FilePath: /micro-chat/src/api/article/index.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-09-18 05:47:42
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2023-03-01 15:57:17
+ * @FilePath     : /micro-vue/src/api/confabulate/index.ts
+ * @Description  : filename
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
  */
+
 import request from '@/plugin/axios'
 import { cloneDeep } from 'lodash'
 
@@ -18,6 +21,7 @@ const Url:any = {
         'roomsJoin': '/rooms/join',
         'roomsDeleteUser': '/rooms/deleteUser',
         'roomsOwnRoom': '/rooms/ownRoom',
+        'roomsRecords': '/rooms/records',
     }
 }
 
@@ -78,6 +82,13 @@ export default {
     RoomsOwnRoom(params?:any) {
         return request({
             url: Url[requestServerName].roomsOwnRoom,
+            method: 'get',
+            params
+        })
+    },
+    RoomsRecords(params?:any) {
+        return request({
+            url: Url[requestServerName].roomsRecords,
             method: 'get',
             params
         })
