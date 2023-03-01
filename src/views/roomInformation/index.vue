@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-03-01 16:23:58
+ * @LastEditTime : 2023-03-01 18:27:42
  * @FilePath     : /micro-vue/src/views/roomInformation/index.vue
  * @Description  : filename
  * 
@@ -13,7 +13,7 @@
     <div class="roomInformation-container">
       <div class="roomInformation-container-list">
         <div class="roomInformation-container-list-comment">
-          <a-comment v-for="(message, idx) in comRenderMessage" :key="idx" :author="message.name"
+          <a-comment v-for="(message, idx) in comRenderMessage" :id="`id_${idx}`" :key="idx" :author="message.name"
             :datetime="useTransformSecond(message.timestamp)">
             <template #content>
               <p v-html="message.message"></p>
@@ -71,11 +71,12 @@
       </div>
       <div class="roomInformation-container-footer">
         <!-- <a-input v-model="sendMessage" @press-enter="useClick" >
-              <template #append>
-                <IconSend @click="useClick" />
-              </template>
-            </a-input> -->
-        <a-textarea placeholder="Please enter something" v-model="sendMessage" allow-clear />
+                  <template #append>
+                    <IconSend @click="useClick" />
+                  </template>
+                </a-input> -->
+        <!-- <a-textarea placeholder="Please enter something" v-model="sendMessage" allow-clear /> -->
+        <a-input placeholder="Please enter something" @press-enter="usePressEnter" v-model="sendMessage" allow-clear />
         <a-button :disabled="!sendMessage || !comRenderInfo" @click="useClick">
           <IconSend />
         </a-button>
@@ -88,7 +89,7 @@
 import { useSocketStore } from "@/store/modules/socket";
 // import { useSocketStore } from "@/store/modules/resetSocket";
 import { useUserStore } from "@/store/modules/user";
-import { computed, ref, Ref } from "vue-demi";
+import { computed, ref, Ref, nextTick, watchEffect } from "vue-demi";
 import { onBeforeRouteLeave, useRoute } from "vue-router";
 import { useTransformSecond } from "@/plugin/transform-time";
 
@@ -104,6 +105,18 @@ const { id }: any = router.params;
 const comRenderMessage = computed(() => {
   return SocketStore.useGetRoomMessageList(id);
 });
+
+watchEffect(() => {
+  if (!comRenderMessage.value || !comRenderMessage.value?.length) return
+  nextTick(() => {
+    const endID = comRenderMessage.value.length - 1
+    const news: any = document.querySelector(`#id_${endID}`)
+    news?.scrollIntoView({
+      behavior: 'smooth'
+    });
+  })
+})
+
 const comRenderInfo = computed(() => {
   return SocketStore.useGetRoomInfo(id);
 });
@@ -113,6 +126,10 @@ const useClick = () => {
   SocketStore.useEmitRoomMessage(id, sendMessage.value);
   sendMessage.value = "";
 };
+const usePressEnter = () => {
+  if (!sendMessage.value || !comRenderInfo.value) return
+  useClick()
+}
 const useClose = () => {
   SocketStore.socket.close();
 };
@@ -176,7 +193,9 @@ const useDeleteUser = async (user_id: string) => {
     }
 
     &-footer {
-      height: 20%;
+      height: 8%;
+      min-height: 50px;
+      max-height: 80px;
       // border-top: 1px solid var(--color-neutral-3);
       display: flex;
 
