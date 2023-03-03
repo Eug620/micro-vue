@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-03-01 18:27:42
+ * @LastEditTime : 2023-03-03 18:40:10
  * @FilePath     : /micro-vue/src/views/roomInformation/index.vue
  * @Description  : filename
  * 
@@ -11,10 +11,10 @@
 <template>
   <mc-container :title="comRenderInfo?.name || '无效的房间'" :extra="comRenderInfo?.describe" class="roomInformation">
     <div class="roomInformation-container">
-      <div class="roomInformation-container-list">
+      <div class="roomInformation-container-list" style="position: relative;">
         <div class="roomInformation-container-list-comment">
-          <a-comment v-for="(message, idx) in comRenderMessage" :id="`id_${idx}`" :key="idx" :author="message.name"
-            :datetime="useTransformSecond(message.timestamp)">
+          <a-comment v-for="(message, idx) in comRenderMessage" class="animate__fadeIn  animate__animated"
+            :id="`id_${idx}`" :key="idx" :author="message.name" :datetime="useTransformSecond(message.timestamp)">
             <template #content>
               <p v-html="message.message"></p>
             </template>
@@ -61,20 +61,69 @@
                 </a-col>
                 <a-col flex="30px">
                   <IconDelete @click="useDeleteUser(info.id)" :style="{ color: 'rgb(var(--red-6))', cursor: 'pointer' }"
-                  v-if="info.id !== comRenderInfo?.author && userStore.getInfo.id === comRenderInfo?.author" />
-              </a-col>
-            </a-row>
-            <!-- <a-divider :margin="10" :type="'dashed'" v-if="idx !== (useOnlineInfo.size -1 )"/> -->
+                    v-if="info.id !== comRenderInfo?.author && userStore.getInfo.id === comRenderInfo?.author" />
+                </a-col>
+              </a-row>
+              <!-- <a-divider :margin="10" :type="'dashed'" v-if="idx !== (useOnlineInfo.size -1 )"/> -->
             </span>
           </a-space>
         </div>
+
+        <a-drawer v-if="false" popup-container=".roomInformation-container-list" :visible="userDrawer">
+          <template #title> 成员 </template>
+          <div class="roomInformation-container-list-user">
+            <a-list :bordered="false">
+              <a-list-item v-for="([id, info], idx) in useOnlineInfo" :key="id"
+                :class="[info.isOnline ? 'user-online' : 'user-outline']">
+                <a-row align="center">
+                  <a-col flex="24px">
+                    <IconUser v-if="info.id === comRenderInfo?.author" />
+                    <IconLink v-else-if="info.isOnline" />
+                    <IconStop v-else />
+                  </a-col>
+                  <a-col flex="28px">
+                    <a-avatar :size="20" :imageUrl="info.avatar" />
+                  </a-col>
+                  <a-col flex="auto">
+                    {{ info.name }}
+                  </a-col>
+                  <a-col flex="30px">
+                    <IconDelete @click="useDeleteUser(info.id)" :style="{ color: 'rgb(var(--red-6))', cursor: 'pointer' }"
+                      v-if="info.id !== comRenderInfo?.author && userStore.getInfo.id === comRenderInfo?.author" />
+                  </a-col>
+                </a-row>
+              </a-list-item>
+            </a-list>
+            <a-space direction="vertical" fill v-if="false">
+              <!-- {{ userStore.getInfo.id }} -->
+              <span v-for="([id, info], idx) in useOnlineInfo" :key="id"
+                :class="[info.isOnline ? 'user-online' : 'user-outline']">
+                <a-row align="center">
+                  <a-col flex="30px">
+                    <IconUser v-if="info.id === comRenderInfo?.author" />
+                    <IconLink v-else-if="info.isOnline" />
+                    <IconStop v-else />
+                  </a-col>
+                  <a-col flex="auto">
+                    {{ info.name }}
+                  </a-col>
+                  <a-col flex="30px">
+                    <IconDelete @click="useDeleteUser(info.id)" :style="{ color: 'rgb(var(--red-6))', cursor: 'pointer' }"
+                      v-if="info.id !== comRenderInfo?.author && userStore.getInfo.id === comRenderInfo?.author" />
+                </a-col>
+              </a-row>
+              <!-- <a-divider :margin="10" :type="'dashed'" v-if="idx !== (useOnlineInfo.size -1 )"/> -->
+            </span>
+            </a-space>
+          </div>
+        </a-drawer>
       </div>
       <div class="roomInformation-container-footer">
         <!-- <a-input v-model="sendMessage" @press-enter="useClick" >
-                  <template #append>
-                    <IconSend @click="useClick" />
-                  </template>
-                </a-input> -->
+                    <template #append>
+                      <IconSend @click="useClick" />
+                    </template>
+                  </a-input> -->
         <!-- <a-textarea placeholder="Please enter something" v-model="sendMessage" allow-clear /> -->
         <a-input placeholder="Please enter something" @press-enter="usePressEnter" v-model="sendMessage" allow-clear />
         <a-button :disabled="!sendMessage || !comRenderInfo" @click="useClick">
@@ -105,6 +154,8 @@ const { id }: any = router.params;
 const comRenderMessage = computed(() => {
   return SocketStore.useGetRoomMessageList(id);
 });
+
+const userDrawer = ref(false)
 
 watchEffect(() => {
   if (!comRenderMessage.value || !comRenderMessage.value?.length) return
@@ -170,6 +221,7 @@ const useDeleteUser = async (user_id: string) => {
       flex: 1;
       overflow-y: hidden;
       display: flex;
+      position: relative;
 
       &-comment {
         padding-top: 16px;

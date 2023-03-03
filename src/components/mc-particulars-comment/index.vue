@@ -7,7 +7,7 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <div class="mc-particulars-comment animate__fadeInRight  animate__animated">
+  <div class="mc-particulars-comment animate__fadeIn  animate__animated">
     <!-- <h2 style="display:inline-block;font-size:1.5em;" v-if="ArticleInfo">
                     {{ ArticleInfo.title }} - {{ ArticleInfo.user_name }} : {{ ArticleInfo.page_views }}
                   </h2> -->

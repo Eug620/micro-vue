@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-01 09:46:19
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-17 14:03:15
+ * @LastEditTime : 2023-03-03 18:23:49
  * @FilePath     : /micro-vue/src/views/particulars/index.vue
  * @Description  : filename
  * 
@@ -11,14 +11,14 @@
 <template>
   <a-spin class="particulars-container-spin" :loading="isLoading" :tip="loadingTip">
     <div class="full-height">
-      <mc-container class="particulars-container">
+      <mc-container class="particulars-container animate__fadeIn animate__animated">
         <Viewer mode="tab" style="color: var(--color-text-1);background-color: rgba(0, 0, 0, 0)"
           :value="ArticleInfo.content" :plugins="DefaultEditorPlugins" />
       </mc-container>
     </div>
   </a-spin>
   <a-card hoverable :bordered="false" class="full-height particulars-toc">
-    <a-descriptions :align="{ label: 'center' }" class="animate__slideInDown animate__animated" layout="horizontal"
+    <a-descriptions :align="{ label: 'center' }" class="animate__fadeIn animate__animated" layout="horizontal"
       size="mini" :title="ArticleInfo.title" :column="1">
       <template #title>
         <a-divider orientation="left">{{ ArticleInfo.title }}</a-divider>
@@ -57,7 +57,7 @@
 
     <a-divider />
 
-    <ul v-show="leftType === LeftType.TOC" class="animate__fadeInRight animate__animated">
+    <ul v-show="leftType === LeftType.TOC" class="animate__fadeIn animate__animated">
       <li v-for="(item, index) in items" :class="currentHeadingIndex === index ? ' active' : ''"
         :key="`${item.level}-${item.text}`" :style="{ paddingLeft: (item.level - minLevel) * 16 + 8 }"
         @click="skipContent(index)">{{ item.text }}</li>
