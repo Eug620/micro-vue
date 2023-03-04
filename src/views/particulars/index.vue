@@ -1,9 +1,9 @@
 <!--
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-01 09:46:19
- * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-03-03 18:23:49
- * @FilePath     : /micro-vue/src/views/particulars/index.vue
+ * @LastEditors  : Eug yyh3531@163.com
+ * @LastEditTime : 2023-03-04 17:57:07
+ * @FilePath     : \micro-vue\src\views\particulars\index.vue
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
@@ -59,7 +59,7 @@
 
     <ul v-show="leftType === LeftType.TOC" class="animate__fadeIn animate__animated">
       <li v-for="(item, index) in items" :class="currentHeadingIndex === index ? ' active' : ''"
-        :key="`${item.level}-${item.text}`" :style="{ paddingLeft: (item.level - minLevel) * 16 + 8 }"
+        :key="`${item.level}-${item.text}`" :style="{ paddingLeft: (item.level - minLevel) * 10 + 10 }"
         @click="skipContent(index)">{{ item.text }}</li>
       <a-result status="warning" title="暂无目录" v-if="!items.length" style="margin-top: 42px;">
         <template #icon>

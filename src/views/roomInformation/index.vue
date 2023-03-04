@@ -1,9 +1,9 @@
 <!--
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
- * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-03-03 18:40:10
- * @FilePath     : /micro-vue/src/views/roomInformation/index.vue
+ * @LastEditors  : Eug yyh3531@163.com
+ * @LastEditTime : 2023-03-04 17:58:35
+ * @FilePath     : \micro-vue\src\views\roomInformation\index.vue
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
@@ -11,7 +11,7 @@
 <template>
   <mc-container :title="comRenderInfo?.name || '无效的房间'" :extra="comRenderInfo?.describe" class="roomInformation">
     <div class="roomInformation-container">
-      <div class="roomInformation-container-list" style="position: relative;">
+      <div class="roomInformation-container-list">
         <div class="roomInformation-container-list-comment">
           <a-comment v-for="(message, idx) in comRenderMessage" class="animate__fadeIn  animate__animated"
             :id="`id_${idx}`" :key="idx" :author="message.name" :datetime="useTransformSecond(message.timestamp)">
@@ -23,8 +23,75 @@
             </template>
           </a-comment>
         </div>
-        <div class="roomInformation-container-list-user">
+        <div v-if="false" class="roomInformation-container-list-user">
           <a-list :bordered="false">
+            <a-list-item v-for="([id, info], idx) in useOnlineInfo" :key="id"
+              :class="[info.isOnline ? 'user-online' : 'user-outline']">
+              <a-row align="center">
+                <a-col flex="24px">
+                  <IconUser v-if="info.id === comRenderInfo?.author" />
+                  <IconLink v-else-if="info.isOnline" />
+                  <IconStop v-else />
+                </a-col>
+                <a-col flex="28px">
+                  <a-avatar :size="20" :imageUrl="info.avatar" />
+                </a-col>
+                <a-col flex="auto">
+                  {{ info.name }}
+                </a-col>
+                <a-col flex="30px">
+                  <IconDelete @click="useDeleteUser(info.id)" :style="{ color: 'rgb(var(--red-6))', cursor: 'pointer' }"
+                    v-if="info.id !== comRenderInfo?.author && userStore.getInfo.id === comRenderInfo?.author" />
+                </a-col>
+              </a-row>
+            </a-list-item>
+          </a-list>
+          <a-space direction="vertical" fill v-if="false">
+            <!-- {{ userStore.getInfo.id }} -->
+            <span v-for="([id, info], idx) in useOnlineInfo" :key="id"
+              :class="[info.isOnline ? 'user-online' : 'user-outline']">
+              <a-row align="center">
+                <a-col flex="30px">
+                  <IconUser v-if="info.id === comRenderInfo?.author" />
+                  <IconLink v-else-if="info.isOnline" />
+                  <IconStop v-else />
+                </a-col>
+                <a-col flex="auto">
+                  {{ info.name }}
+                </a-col>
+                <a-col flex="30px">
+                  <IconDelete @click="useDeleteUser(info.id)" :style="{ color: 'rgb(var(--red-6))', cursor: 'pointer' }"
+                    v-if="info.id !== comRenderInfo?.author && userStore.getInfo.id === comRenderInfo?.author" />
+                </a-col>
+            </a-row>
+            <!-- <a-divider :margin="10" :type="'dashed'" v-if="idx !== (useOnlineInfo.size -1 )"/> -->
+          </span>
+        </a-space>
+        </div>
+
+
+      </div>
+      <div class="roomInformation-container-footer">
+        <!-- <a-input v-model="sendMessage" @press-enter="useClick" >
+                        <template #append>
+                          <IconSend @click="useClick" />
+                        </template>
+                      </a-input> -->
+        <!-- <a-textarea placeholder="Please enter something" v-model="sendMessage" allow-clear /> -->
+        <a-input placeholder="Please enter something" @press-enter="usePressEnter" v-model="sendMessage" allow-clear />
+        <a-button :disabled="!sendMessage || !comRenderInfo" @click="useClick">
+          <IconSend />
+        </a-button>
+      </div>
+      <div class="roomInformation-container-info animate__fadeIn  animate__animated" @click="userDrawer = !userDrawer" v-if="!userDrawer">
+        <div class="roomInformation-container-info-content">
+          <IconLeftCircle size="20" style="color:rgb(var(--primary-6))" />
+        </div>
+      </div>
+      <a-drawer class="animate__fadeIn  animate__animated" :footer="false" width="50%" popup-container=".roomInformation-container-list" :visible="userDrawer" @ok="userDrawer = false" @cancel="userDrawer = false" unmountOnClose>
+        <template #title> 成员 </template>
+        <div class="roomInformation-container-list-user">
+          <a-list :bordered="true">
             <a-list-item v-for="([id, info], idx) in useOnlineInfo" :key="id"
               :class="[info.isOnline ? 'user-online' : 'user-outline']">
               <a-row align="center">
@@ -68,68 +135,7 @@
             </span>
           </a-space>
         </div>
-
-        <a-drawer v-if="false" popup-container=".roomInformation-container-list" :visible="userDrawer">
-          <template #title> 成员 </template>
-          <div class="roomInformation-container-list-user">
-            <a-list :bordered="false">
-              <a-list-item v-for="([id, info], idx) in useOnlineInfo" :key="id"
-                :class="[info.isOnline ? 'user-online' : 'user-outline']">
-                <a-row align="center">
-                  <a-col flex="24px">
-                    <IconUser v-if="info.id === comRenderInfo?.author" />
-                    <IconLink v-else-if="info.isOnline" />
-                    <IconStop v-else />
-                  </a-col>
-                  <a-col flex="28px">
-                    <a-avatar :size="20" :imageUrl="info.avatar" />
-                  </a-col>
-                  <a-col flex="auto">
-                    {{ info.name }}
-                  </a-col>
-                  <a-col flex="30px">
-                    <IconDelete @click="useDeleteUser(info.id)" :style="{ color: 'rgb(var(--red-6))', cursor: 'pointer' }"
-                      v-if="info.id !== comRenderInfo?.author && userStore.getInfo.id === comRenderInfo?.author" />
-                  </a-col>
-                </a-row>
-              </a-list-item>
-            </a-list>
-            <a-space direction="vertical" fill v-if="false">
-              <!-- {{ userStore.getInfo.id }} -->
-              <span v-for="([id, info], idx) in useOnlineInfo" :key="id"
-                :class="[info.isOnline ? 'user-online' : 'user-outline']">
-                <a-row align="center">
-                  <a-col flex="30px">
-                    <IconUser v-if="info.id === comRenderInfo?.author" />
-                    <IconLink v-else-if="info.isOnline" />
-                    <IconStop v-else />
-                  </a-col>
-                  <a-col flex="auto">
-                    {{ info.name }}
-                  </a-col>
-                  <a-col flex="30px">
-                    <IconDelete @click="useDeleteUser(info.id)" :style="{ color: 'rgb(var(--red-6))', cursor: 'pointer' }"
-                      v-if="info.id !== comRenderInfo?.author && userStore.getInfo.id === comRenderInfo?.author" />
-                </a-col>
-              </a-row>
-              <!-- <a-divider :margin="10" :type="'dashed'" v-if="idx !== (useOnlineInfo.size -1 )"/> -->
-            </span>
-            </a-space>
-          </div>
-        </a-drawer>
-      </div>
-      <div class="roomInformation-container-footer">
-        <!-- <a-input v-model="sendMessage" @press-enter="useClick" >
-                    <template #append>
-                      <IconSend @click="useClick" />
-                    </template>
-                  </a-input> -->
-        <!-- <a-textarea placeholder="Please enter something" v-model="sendMessage" allow-clear /> -->
-        <a-input placeholder="Please enter something" @press-enter="usePressEnter" v-model="sendMessage" allow-clear />
-        <a-button :disabled="!sendMessage || !comRenderInfo" @click="useClick">
-          <IconSend />
-        </a-button>
-      </div>
+      </a-drawer>
     </div>
   </mc-container>
 </template>
@@ -142,7 +148,7 @@ import { computed, ref, Ref, nextTick, watchEffect } from "vue-demi";
 import { onBeforeRouteLeave, useRoute } from "vue-router";
 import { useTransformSecond } from "@/plugin/transform-time";
 
-import { IconSend, IconLink, IconUser, IconDelete, IconStop } from "@arco-design/web-vue/es/icon";
+import { IconSend, IconLink, IconUser, IconDelete, IconStop, IconLeftCircle } from "@arco-design/web-vue/es/icon";
 import ServerApi from "@/api";
 const sendMessage = ref("");
 const messageList: Ref<any[]> = ref([]);
@@ -215,6 +221,8 @@ const useDeleteUser = async (user_id: string) => {
     height: calc(100vh - 78px - 46px - 32px);
     display: flex;
     flex-direction: column;
+    position: relative;
+    overflow: hidden;
 
 
     &-list {
@@ -222,6 +230,7 @@ const useDeleteUser = async (user_id: string) => {
       overflow-y: hidden;
       display: flex;
       position: relative;
+      overflow-x: hidden;
 
       &-comment {
         padding-top: 16px;
@@ -230,9 +239,8 @@ const useDeleteUser = async (user_id: string) => {
       }
 
       &-user {
-        width: 20%;
-        padding: 16px;
-        border-left: 1px solid var(--color-fill-2);
+        // padding: 16px;
+        // border-left: 1px solid var(--color-fill-2);
 
         .user-online {
           color: rgb(var(--primary-6));
@@ -253,6 +261,35 @@ const useDeleteUser = async (user_id: string) => {
 
       .arco-btn {
         height: 100%;
+      }
+    }
+
+    &-info {
+      padding: .5rem;
+      position: absolute;
+      top: 0;
+      right: 1rem;
+      overflow: hidden;
+      // background-color: #ccc;
+      cursor: pointer;
+
+
+      &-content {
+        // position: absolute;
+        // top: 0;
+        // right: 0;
+        // padding: .5rem;
+        // border-radius: 50%;
+        // transform: translateX(2rem);
+        // background-color: rgb(var(--gray-4));
+        // transform: translateX(100%);
+        // cursor: pointer;
+        // transition: all .5s;
+      }
+
+      &:hover &-content {
+        transform: translate(0);
+        transition: all .5s ;
       }
     }
   }
