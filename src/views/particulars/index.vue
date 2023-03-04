@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-01 09:46:19
  * @LastEditors  : Eug yyh3531@163.com
- * @LastEditTime : 2023-03-04 17:57:07
+ * @LastEditTime : 2023-03-04 18:11:56
  * @FilePath     : \micro-vue\src\views\particulars\index.vue
  * @Description  : filename
  * 
@@ -18,8 +18,8 @@
     </div>
   </a-spin>
   <a-card hoverable :bordered="false" class="full-height particulars-toc">
-    <a-descriptions :align="{ label: 'center' }" class="animate__fadeIn animate__animated" layout="horizontal"
-      size="mini" :title="ArticleInfo.title" :column="1">
+    <a-descriptions :align="{ label: 'center' }" class="animate__fadeIn animate__animated" layout="horizontal" size="mini"
+      :title="ArticleInfo.title" :column="1">
       <template #title>
         <a-divider orientation="left">{{ ArticleInfo.title }}</a-divider>
       </template>
@@ -59,7 +59,7 @@
 
     <ul v-show="leftType === LeftType.TOC" class="animate__fadeIn animate__animated">
       <li v-for="(item, index) in items" :class="currentHeadingIndex === index ? ' active' : ''"
-        :key="`${item.level}-${item.text}`" :style="{ paddingLeft: (item.level - minLevel) * 10 + 10 }"
+        :key="`${item.level}-${item.text}`" :style="{ paddingLeft: `${(item.level - minLevel) * 10 + 10}px` }"
         @click="skipContent(index)">{{ item.text }}</li>
       <a-result status="warning" title="暂无目录" v-if="!items.length" style="margin-top: 42px;">
         <template #icon>
