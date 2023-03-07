@@ -38,9 +38,21 @@
               </template>
             </a-page-header>
           </a-list-item>
+          <a-list-item v-for="room in notJoin" :key="room.id">
+            <a-page-header :show-back="false">
+              <template #title> {{ room.name }}</template>
+              <template #subtitle>
+                {{ room.describe }}
+              </template>
+              <template #extra>
+                <a-button shape="round" type="outline" style="float: right" v-if="!compMyRooms.includes(room.id)"
+                  @click="useJoinRooms(room)">{{ $t('pages.confabulate.join') }}</a-button>
+              </template>
+            </a-page-header>
+          </a-list-item>
         </a-list>
       </a-tab-pane>
-      <a-tab-pane key="all" :title="$t('pages.confabulate.all')" class="confabulate-container-tab-all">
+      <!-- <a-tab-pane key="all" :title="$t('pages.confabulate.all')" class="confabulate-container-tab-all">
         <a-list>
           <a-list-item v-for="room in rooms" :key="room.id">
             <a-page-header :show-back="false">
@@ -55,10 +67,10 @@
             </a-page-header>
           </a-list-item>
         </a-list>
-      </a-tab-pane>
+      </a-tab-pane> -->
 
       <template #extra>
-        <a-button shape="round" size="mini" @click="useCreateRooms">{{ $t('button.create') }}</a-button>
+        <a-button shape="round" type="primary" @click="useCreateRooms">{{ $t('button.create') }}</a-button>
       </template>
     </a-tabs>
 
@@ -71,7 +83,7 @@
         <a-form-item field="describe" :rules="formRoomRules.describe" :label="$t('pages.confabulate.describe')">
           <a-input v-model="formRoom.describe"
             :placeholder="`${$t('placeholder.enter')} ${$t('pages.confabulate.describe')}`" />
-        </a-form-item>
+        </a-form-item>  
       </a-form>
       <template #footer>
         <a-button shape="round" @click="useCancelCreate">{{ $t('button.cancel') }}</a-button>
@@ -99,6 +111,10 @@ const visibleCreate = ref(false);
 const compMyRooms = computed(() => {
   return Object.keys(SocketStore.rooms) || [];
 });
+
+const notJoin = computed(() => {
+  return rooms.value.filter(v => !compMyRooms.value.includes(v.id))
+})
 
 const formRoom = reactive({
   name: "",
