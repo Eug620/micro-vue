@@ -9,8 +9,8 @@
 <template>
   <div class="mc-particulars-comment animate__fadeIn  animate__animated">
     <!-- <h2 style="display:inline-block;font-size:1.5em;" v-if="ArticleInfo">
-                    {{ ArticleInfo.title }} - {{ ArticleInfo.user_name }} : {{ ArticleInfo.page_views }}
-                  </h2> -->
+                      {{ ArticleInfo.title }} - {{ ArticleInfo.user_name }} : {{ ArticleInfo.page_views }}
+                    </h2> -->
     <div style="text-align: right;padding-bottom: 10px;">
       <a-button type="text" @click="useCommentAuthor">
         <!-- 回复作者 -->
@@ -31,25 +31,25 @@
               <a-avatar :size="24">
                 <img v-if="comment.operator_avatar" alt="avatar" :src="comment.operator_avatar" />
                 <template v-else>
-                  <IconUser />
-                </template>
-              </a-avatar>
-              <span :class="[isAuthor(comment.operator)]">
-                {{ comment.operator_name }}
-              </span>
-            </div>
-            <!-- <IconCaretRight />
+                <IconUser />
+              </template>
+            </a-avatar>
+            <span :class="[isAuthor(comment.operator)]">
+              {{ comment.operator_name }}
+            </span>
+          </div>
+          <!-- <IconCaretRight />
                 <div class="particulars-comment-author">
                   <a-avatar :size="24">
                     <img v-if="comment.comment_avatar" alt="avatar" :src="comment.comment_avatar" />
-                    <template v-else>
-                      <IconUser />
-                    </template>
-                  </a-avatar>
-                  <span :class="[isAuthor(comment.tid)]">
-                    {{ comment.comment_name }}
-                  </span>
-                </div> -->
+                      <template v-else>
+                        <IconUser />
+                      </template>
+                    </a-avatar>
+                    <span :class="[isAuthor(comment.tid)]">
+                      {{ comment.comment_name }}
+                    </span>
+                  </div> -->
           </a-space>
         </template>
         <template #content>
@@ -73,9 +73,10 @@
       </a-comment>
       <template v-if="comment.isShow">
         <a-comment class="
-                          particulars-comment
-                          animate__fadeInRight  animate__animated
-                        " v-for="com in comment.children" :key="com.id" :content="com.content" style="margin-left: 40px">
+                            particulars-comment
+                            animate__fadeInRight  animate__animated
+                          " v-for="com in comment.children" :key="com.id" :content="com.content"
+          style="margin-left: 40px">
           <template #datetime>
             <span class="particulars-comment-datetime">
               <!-- [ {{ useTransformSecond(com.create_time) }} ] -->
@@ -311,9 +312,13 @@ const useComment = async () => {
   color: rgb(var(--primary-6));
 }
 
-.mc-particulars-comment-affix {
-  .arco-affix {
-    text-align: right;
+.mc-particulars-comment {
+  overflow-x: hidden;
+
+  &-affix {
+    .arco-affix {
+      text-align: right;
+    }
   }
 }
 </style>
