@@ -31,6 +31,13 @@
         </a-space>
       </div>
     </a-card>
+    <a-card class="newest-container-tools">
+      <!-- <a-space direction="vertical"> -->
+        <a-input-search placeholder="输入检索条件" />
+        <!-- <a-input-search placeholder="输入检索条件" />
+        <a-input-search placeholder="输入检索条件" /> -->
+      <!-- </a-space> -->
+    </a-card>
   </div>
 </template>
 
@@ -123,10 +130,21 @@ const useJumpParticulars = ({ id }: NewestType) => {
 
 <style lang="scss">
 .newest-container {
+
+  // position: relative;
+  &-tools {
+    position: fixed;
+    width: 20%;
+    top: 68px;
+    right: 10px;
+    height: calc(100vh - 68px - 10px);
+  }
+
   &-item {
     margin-top: 10px;
     cursor: pointer;
     position: relative;
+    width: calc(80% - 10px);
 
     &:first-child {
       margin-top: 0px;
