@@ -31,7 +31,7 @@
         </a-space>
       </div>
     </a-card>
-    <a-card class="newest-container-tools">
+    <a-card class="newest-container-tools" v-if="false">
       <!-- <a-space direction="vertical"> -->
         <a-input-search placeholder="输入检索条件" />
         <!-- <a-input-search placeholder="输入检索条件" />
@@ -144,7 +144,7 @@ const useJumpParticulars = ({ id }: NewestType) => {
     margin-top: 10px;
     cursor: pointer;
     position: relative;
-    width: calc(80% - 10px);
+    // width: calc(80% - 10px);
 
     &:first-child {
       margin-top: 0px;
