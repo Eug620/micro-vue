@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-16 23:52:04
  * @LastEditors  : Eug yyh3531@163.com
- * @LastEditTime : 2023-02-27 20:38:46
+ * @LastEditTime : 2023-03-24 21:58:03
  * @FilePath     : \micro-vue\src\views\dashboard\index.vue
  * @Description  : filename
  * 
@@ -32,7 +32,7 @@
       <!-- <a-image width="800" fit="fill" :src="imageList[currentListIdx]?.url" :title="imageList[currentListIdx]?.id"
                     :description="imageList[currentListIdx]?.url" /> -->
       <a-button shape="circle" @click="useCopyImage" class="dashboard-container-image-copy"
-        :data-clipboard-text="imageList[randomNumber]?.url">
+        :data-clipboard-text="systemStore.getDashboardBackground">
         <template #icon>
           <IconCopy />
         </template>
@@ -60,9 +60,10 @@ import { random } from "lodash";
 import { IconSync, IconDownload, IconCopy } from "@arco-design/web-vue/es/icon";
 import Clipboard from "clipboard";
 import { downloadFile } from "@/utils/download";
-
-console.log();
+import { useSystemStore } from "@/store/modules/app";
+const systemStore = useSystemStore()
 const randomNumber = ref(0)
+const imageMaps = new Map()
 // const dashboardStyle = reactive({
 //   backgroundImage: 'url(https://momentum.photos/img/b286b86e-0a7f-46fb-9bcb-f526a24b40eb.jpg?momo_cache_bg_uuid=c2110704-2468-47e6-a05b-09856ed3d5a9)',
 //   backgroundSize: 'cover',
@@ -72,16 +73,14 @@ const imageList: Ref<any[]> = ref([])
 
 const dashboardStyle = computed(() => {
   return {
-    backgroundImage: `url(${imageList.value[randomNumber.value] ? imageList.value[randomNumber.value]?.url :
-      'https://momentum.photos/img/b286b86e-0a7f-46fb-9bcb-f526a24b40eb.jpg?momo_cache_bg_uuid=c2110704-2468-47e6-a05b-09856ed3d5a9'
-      })`,
+    backgroundImage: `url(${systemStore.getDashboardBackground})`,
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-
   }
 })
 const useRandomImage = () => {
   randomNumber.value = random(0, imageList.value.length - 1, false)
+  systemStore.setDashboardBackground(imageList.value[randomNumber.value]?.url)
 }
 const useCopyImage = () => {
   let clipboard = new Clipboard('.dashboard-container-image-copy')
@@ -98,7 +97,7 @@ const useCopyImage = () => {
   })
 }
 const useDownloadImage = () => {
-  downloadFile(imageList.value[randomNumber.value]?.url , `${imageList.value[randomNumber.value]?.id}.jpg`)
+  downloadFile(systemStore.getDashboardBackground , `${imageMaps.get(systemStore.getDashboardBackground)}.png`)
 }
 
 
@@ -106,6 +105,9 @@ const router = useRouter()
 const currentListIdx = ref(0)
 ServerApi.GetImageAll().then((res: any) => {
   imageList.value.push(...res.data)
+  res.data.forEach((v:any) => {
+    imageMaps.set(v.url, v.id)
+  })
 })
 
 const isShowHoroscope = ref(false)

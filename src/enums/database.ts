@@ -15,5 +15,6 @@ export enum DataBaseName {
 export enum DATABASEPUBLIC {
     LANG = 'lang',
     THEME = 'theme',
+    BACKGROUND = 'background',
     ASYNCMENU = 'asyncMenu'
 }
