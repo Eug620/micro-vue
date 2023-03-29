@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-08-31 15:08:14
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-02-22 18:25:06
+ * @LastEditTime : 2023-03-29 14:53:06
  * @FilePath     : /micro-vue/src/layout/index.vue
  * @Description  : filename
  * 
@@ -55,7 +55,7 @@ watch(route, (v) => {
   isSlot.value = null;
 });
 const useRouterChange = (name: string) => {
-  console.log('useRouterChange', name);
+  // console.log('useRouterChange', name);
   router.push({ name })
 }
 const kindlyReminder = () => {

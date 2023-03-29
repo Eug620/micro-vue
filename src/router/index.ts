@@ -1,10 +1,12 @@
 /*
- * @Author: eug yyh3531@163.com
- * @Date: 2022-07-14 22:43:48
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-09-01 17:21:27
- * @FilePath: /micro-chat/src/router/index.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-09-16 23:52:04
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2023-03-29 14:53:15
+ * @FilePath     : /micro-vue/src/router/index.ts
+ * @Description  : Router
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
  */
 import { createRouter, createWebHistory } from "vue-router";
 import routes from './routes'
@@ -31,7 +33,7 @@ export const useInitRouter = (app: any) => {
         if (!NProgress.isStarted()) {
             NProgress.start();
         }
-        console.log('[Router]:beforeEach', to.name, from.name);
+        // console.log('[Router]:beforeEach', to.name, from.name);
         if (userStore.isLogin) { // 已登陆
             if (!menuStore.isLoad) { // 已登陆-未加载路由
                 let asyncRoutes: any = await menuStore.GenerateRoutes()
@@ -63,7 +65,7 @@ export const useInitRouter = (app: any) => {
     })
 
     router.afterEach(_ => {
-        console.log('[Router]:afterEach');
+        // console.log('[Router]:afterEach');
         NProgress.done();
     })
     // router.isReady().then(res => {

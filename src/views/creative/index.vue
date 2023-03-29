@@ -2,8 +2,8 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-11-18 17:18:40
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-06 10:08:14
- * @FilePath     : /micro-vue/src/views/creativeWork/index.vue
+ * @LastEditTime : 2023-03-29 14:50:57
+ * @FilePath     : /micro-vue/src/views/creative/index.vue
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue-demi";
+import { computed, onActivated } from "vue-demi";
 import { Editor } from "@bytemd/vue-next";
 // plugins
 import gfm from "@bytemd/plugin-gfm";
@@ -47,7 +47,9 @@ import {
 
 const mittStore = useMittStore()
 const { mitt } = storeToRefs(mittStore)
-mitt.value.emit('setting', Setting)
+onActivated(() => {
+  mitt.value.emit('setting', Setting)
+})
 // const emit = defineEmits(["setting"]);
 // emit('setting', Setting)
 
