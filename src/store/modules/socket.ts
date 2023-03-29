@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-03-01 16:26:06
+ * @LastEditTime : 2023-03-29 11:50:54
  * @FilePath     : /micro-vue/src/store/modules/socket.ts
  * @Description  : filename
  * 
@@ -59,9 +59,9 @@ export const useSocketStore = defineStore({
                 , {
                     transports: ["websocket"],
                     query: {
-                        room: room.map((v: any) => v.id),
+                        // room: room.map((v: any) => v.id),
                         token: userStore.getToken,
-                        userId: userStore.getInfo.id,
+                        // userId: userStore.getInfo.id,
                     },
                     reconnection: false, //启用重新连接
                     // forceBase64: true, // 内容加密
