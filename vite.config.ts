@@ -14,6 +14,7 @@ import Components from 'unplugin-vue-components/vite';
 import { ArcoResolver } from 'unplugin-vue-components/resolvers';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { visualizer } from 'rollup-plugin-visualizer'
+import viteCompression from 'vite-plugin-compression';
 const path = require('path')
 const { resolve } = path
 const getEnvFn = (mode, target) => {
@@ -52,6 +53,7 @@ export default ({ mode }) => defineConfig({
     }
   },
   plugins: [
+    viteCompression(),
     vue(),
     visualizer({
       filename: 'visualizer.html'
