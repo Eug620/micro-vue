@@ -1,9 +1,9 @@
 <!--
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
- * @LastEditors  : Eug yyh3531@163.com
- * @LastEditTime : 2023-03-04 17:58:35
- * @FilePath     : \micro-vue\src\views\roomInformation\index.vue
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2023-04-19 15:24:07
+ * @FilePath     : /micro-vue/src/views/roomInformation/index.vue
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
@@ -73,25 +73,28 @@
       </div>
       <div class="roomInformation-container-footer">
         <!-- <a-input v-model="sendMessage" @press-enter="useClick" >
-                        <template #append>
-                          <IconSend @click="useClick" />
-                        </template>
-                      </a-input> -->
+                                    <template #append>
+                                      <IconSend @click="useClick" />
+                                    </template>
+                                  </a-input> -->
         <!-- <a-textarea placeholder="Please enter something" v-model="sendMessage" allow-clear /> -->
         <a-input placeholder="Please enter something" @press-enter="usePressEnter" v-model="sendMessage" allow-clear />
         <a-button :disabled="!sendMessage || !comRenderInfo" @click="useClick">
           <IconSend />
         </a-button>
       </div>
-      <div class="roomInformation-container-info animate__fadeIn  animate__animated" @click="userDrawer = !userDrawer" v-if="!userDrawer">
+      <div class="roomInformation-container-info animate__fadeIn  animate__animated" @click="userDrawer = !userDrawer"
+        v-if="!userDrawer">
         <div class="roomInformation-container-info-content">
           <IconLeftCircle size="20" style="color:rgb(var(--primary-6))" />
         </div>
       </div>
-      <a-drawer class="animate__fadeIn  animate__animated" :footer="false" width="50%" popup-container=".roomInformation-container-list" :visible="userDrawer" @ok="userDrawer = false" @cancel="userDrawer = false" unmountOnClose>
+      <a-drawer class="animate__fadeIn  animate__animated" :footer="false" width="100%"
+        popup-container=".roomInformation-container-list" :visible="userDrawer" @ok="userDrawer = false"
+        @cancel="userDrawer = false" unmountOnClose>
         <template #title> 成员 </template>
         <div class="roomInformation-container-list-user">
-          <a-list :bordered="true">
+          <a-list :bordered="false">
             <a-list-item v-for="([id, info], idx) in useOnlineInfo" :key="id"
               :class="[info.isOnline ? 'user-online' : 'user-outline']">
               <a-row align="center">
@@ -239,15 +242,47 @@ const useDeleteUser = async (user_id: string) => {
       }
 
       &-user {
-        // padding: 16px;
+
+        // padding: 16px 0;
         // border-left: 1px solid var(--color-fill-2);
+        @keyframes RangeColor {
+          0% {
+            // transform: translateX(0);
+            transition: all 1s linear;
+            background-color: #00ffff;
+          }
+
+          25% {
+            // transform: translateX(-25%);
+            transition: all 1s linear;
+            background-color: #ff1493;
+          }
+
+          75% {
+            // transform: translateX(-50%);
+            transition: all 1s linear;
+            background-color: #006699;
+          }
+
+          100% {
+            // transform: translateX(-75%);
+            transition: all 1s linear;
+            background-color: #00ffff;
+          }
+        }
 
         .user-online {
-          color: rgb(var(--primary-6));
+          background-image: linear-gradient(to left, rgba(0, 0, 0, 0), rgb(var(--arcoblue-2)), rgba(0, 0, 0, 0), rgb(var(--arcoblue-2)), rgba(0, 0, 0, 0));
+          background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgb(var(--arcoblue-2)), rgba(0, 0, 0, 0), rgb(var(--arcoblue-2)), rgba(0, 0, 0, 0));
+          color: var(--color-text-1);
+          cursor: pointer;
+          position: relative;
         }
 
         .user-outline {
-          color: rgb(var(--primary-3));
+          color: var(--color-text-4);
+          // background-color: var(--color-fill-2);
+          cursor: not-allowed;
         }
       }
     }
@@ -289,7 +324,7 @@ const useDeleteUser = async (user_id: string) => {
 
       &:hover &-content {
         transform: translate(0);
-        transition: all .5s ;
+        transition: all .5s;
       }
     }
   }
