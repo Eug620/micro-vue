@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-05-23 11:33:35
+ * @LastEditTime : 2023-05-23 15:53:12
  * @FilePath     : /micro-vue/src/views/roomInformation/index.vue
  * @Description  : filename
  * 
@@ -272,18 +272,19 @@ const useDeleteUser = async (user_id: string) => {
         }
 
         .user-online {
-          background-image: linear-gradient(to left, rgba(0, 0, 0, 0), rgb(var(--arcoblue-2)), rgba(0, 0, 0, 0), rgb(var(--arcoblue-2)), rgba(0, 0, 0, 0));
-          background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgb(var(--arcoblue-2)), rgba(0, 0, 0, 0), rgb(var(--arcoblue-2)), rgba(0, 0, 0, 0));
-          color: var(--color-text-1);
+          // background-image: linear-gradient(to left, rgba(0, 0, 0, 0), rgb(var(--arcoblue-2)), rgba(0, 0, 0, 0), rgb(var(--arcoblue-2)), rgba(0, 0, 0, 0));
+          // background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgb(var(--arcoblue-2)), rgba(0, 0, 0, 0), rgb(var(--arcoblue-2)), rgba(0, 0, 0, 0));
+          color: rgb(var(--primary-6));
+          // font-weight: bold;
           cursor: pointer;
-          position: relative;
+          // position: relative;
 
 
-          background: linear-gradient(135deg, #496eaa, #944fa8, #a8804f, #944fa8, #496eaa);
-          background-size: 700% 150%;
-          animation: dynamics 5s ease infinite;
-          -webkit-animation: dynamics 5s ease infinite;
-          -moz-animation: dynamics 5s ease infinite;
+          // background: linear-gradient(135deg, #496eaa, #944fa8, #a8804f, #944fa8, #496eaa);
+          // background-size: 700% 150%;
+          // animation: dynamics 5s ease infinite;
+          // -webkit-animation: dynamics 5s ease infinite;
+          // -moz-animation: dynamics 5s ease infinite;
 
         }
 
@@ -304,6 +305,7 @@ const useDeleteUser = async (user_id: string) => {
 
         .user-outline {
           color: var(--color-text-4);
+          // font-weight: bold;
           // background-color: var(--color-fill-2);
           cursor: not-allowed;
         }
