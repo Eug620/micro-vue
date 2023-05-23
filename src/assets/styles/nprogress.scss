@@ -1,4 +1,5 @@
-$theme-color: rgb(var(--primary-6));
+// $theme-color: rgb(var(--primary-6));
+$theme-color: linear-gradient(to right, rgb(var(--danger-6)), rgb(var(--primary-6)));
 #nprogress .bar {
   background: $theme-color;
 

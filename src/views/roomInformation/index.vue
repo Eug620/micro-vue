@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-04-19 15:24:07
+ * @LastEditTime : 2023-05-23 11:33:35
  * @FilePath     : /micro-vue/src/views/roomInformation/index.vue
  * @Description  : filename
  * 
@@ -63,10 +63,10 @@
                   <IconDelete @click="useDeleteUser(info.id)" :style="{ color: 'rgb(var(--red-6))', cursor: 'pointer' }"
                     v-if="info.id !== comRenderInfo?.author && userStore.getInfo.id === comRenderInfo?.author" />
                 </a-col>
-            </a-row>
-            <!-- <a-divider :margin="10" :type="'dashed'" v-if="idx !== (useOnlineInfo.size -1 )"/> -->
-          </span>
-        </a-space>
+              </a-row>
+              <!-- <a-divider :margin="10" :type="'dashed'" v-if="idx !== (useOnlineInfo.size -1 )"/> -->
+            </span>
+          </a-space>
         </div>
 
 
@@ -277,7 +277,30 @@ const useDeleteUser = async (user_id: string) => {
           color: var(--color-text-1);
           cursor: pointer;
           position: relative;
+
+
+          background: linear-gradient(135deg, #496eaa, #944fa8, #a8804f, #944fa8, #496eaa);
+          background-size: 700% 150%;
+          animation: dynamics 5s ease infinite;
+          -webkit-animation: dynamics 5s ease infinite;
+          -moz-animation: dynamics 5s ease infinite;
+
         }
+
+        @keyframes dynamics {
+          0% {
+            background-position: 0% 0%;
+          }
+
+          50% {
+            background-position: 50% 100%;
+          }
+
+          100% {
+            background-position: 100% 0%;
+          }
+        }
+
 
         .user-outline {
           color: var(--color-text-4);

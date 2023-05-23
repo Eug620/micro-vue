@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-16 23:52:04
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-03-29 14:53:15
+ * @LastEditTime : 2023-05-23 11:22:53
  * @FilePath     : /micro-vue/src/router/index.ts
  * @Description  : Router
  * 
@@ -15,7 +15,7 @@ import { useMenus } from "@/store/modules/menus";
 import { useUserStore } from "@/store/modules/user"
 NProgress.configure({
     showSpinner: false,
-    easing: 'linear',
+    easing: 'ease',
     speed: 1000,
     minimum: 0.2,
     trickle: false,
