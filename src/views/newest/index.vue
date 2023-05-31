@@ -31,10 +31,14 @@
         </a-space>
       </div>
     </a-card>
+    <div v-if="isShowSearch" class="newest-container-search">
+      <a-input-search size="large" v-model="keyword" @press-enter="usePressEnter" class="newest-container-search_input"
+        placeholder="输入检索条件" ref="refSearch" />
+    </div>
     <a-card class="newest-container-tools" v-if="false">
       <!-- <a-space direction="vertical"> -->
-        <a-input-search placeholder="输入检索条件" />
-        <!-- <a-input-search placeholder="输入检索条件" />
+      <!-- <a-input-search v-model="keyword" placeholder="输入检索条件" /> -->
+      <!-- <a-input-search placeholder="输入检索条件" />
         <a-input-search placeholder="输入检索条件" /> -->
       <!-- </a-space> -->
     </a-card>
@@ -43,7 +47,7 @@
 
 <script lang="ts" setup>
 import ServerApi from "@/api";
-import { onMounted, Ref, ref, watchEffect, onActivated, nextTick } from "vue-demi";
+import { onMounted, Ref, ref, watch, watchEffect, onActivated, nextTick, unref } from "vue-demi";
 import { useTransformSecond } from "@/plugin/transform-time";
 import {
   IconEye,
@@ -52,6 +56,7 @@ import {
   IconUser,
 } from "@arco-design/web-vue/es/icon";
 import { onBeforeRouteLeave, useRouter } from "vue-router";
+
 interface NewestType {
   author?: string;
   count?: number;
@@ -65,11 +70,24 @@ interface NewestType {
 const router = useRouter();
 const newestList: Ref<NewestType[]> = ref([]);
 const page = ref(1);
+const keyword = ref('')
+const isRefresh = ref(false);
 const isArticleEnd = ref(false);
+
+watch(keyword, () => {
+  isRefresh.value = true;
+  isArticleEnd.value = false
+})
+
 const useGetArticle = async () => {
   try {
-    let res = await ServerApi.GetArticleIndex({ page: page.value });
+    if (isRefresh.value) {
+      page.value = 1
+      newestList.value.splice(0)
+    }
+    let res = await ServerApi.GetArticleIndex({ page: page.value, keyword: keyword.value });
     newestList.value.push(...res.data);
+    isRefresh.value = false
     if (res.data.length < 10) {
       isArticleEnd.value = true;
     } else {
@@ -111,6 +129,10 @@ onBeforeRouteLeave((v) => {
 const refNewestContainer: Ref<any | null> = ref(null);
 const scrollTop = ref(0);
 const useScrollFunction = ({ target }: any) => {
+  if (isRefresh.value) {
+    scrollTop.value = target.scrollTop;
+    return
+  }
   if (
     target.scrollTop + target.clientHeight >= target.scrollHeight &&
     !isArticleEnd.value
@@ -126,6 +148,30 @@ const useJumpParticulars = ({ id }: NewestType) => {
     params: { id },
   });
 };
+
+
+const isShowSearch = ref(false);
+
+const refSearch = ref<HTMLElement | null>(null)
+watch(isShowSearch, () => {
+  nextTick(() => {
+    unref(refSearch)?.focus()
+  })
+})
+document.addEventListener("keydown", (e) => {
+  if (e.keyCode == 27) {
+    isShowSearch.value = false
+  }
+
+  if (e.ctrlKey && e.keyCode === 70) {
+    isShowSearch.value = true
+  }
+});
+
+const usePressEnter = () => {
+  useGetArticle()
+  isShowSearch.value = false
+}
 </script>
 
 <style lang="scss">
@@ -138,6 +184,24 @@ const useJumpParticulars = ({ id }: NewestType) => {
     top: 68px;
     right: 10px;
     height: calc(100vh - 68px - 10px);
+  }
+
+  &-search {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    height: 100%;
+    z-index: 6;
+    background-color: rgba($color: #000000, $alpha: .3);
+
+    &_input {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 300px;
+    }
   }
 
   &-item {
