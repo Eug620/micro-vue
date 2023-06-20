@@ -1,9 +1,9 @@
 <!--
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-01 09:46:19
- * @LastEditors  : Eug yyh3531@163.com
- * @LastEditTime : 2023-03-04 18:11:56
- * @FilePath     : \micro-vue\src\views\particulars\index.vue
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2023-06-20 18:27:39
+ * @FilePath     : /micro-vue/src/views/particulars/index.vue
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
@@ -18,8 +18,8 @@
     </div>
   </a-spin>
   <a-card hoverable :bordered="false" class="full-height particulars-toc">
-    <a-descriptions :align="{ label: 'center' }" class="animate__fadeIn animate__animated" layout="horizontal" size="mini"
-      :title="ArticleInfo.title" :column="1">
+    <a-descriptions :align="{ label: 'center' }" class="w-full animate__fadeIn animate__animated" layout="horizontal"
+      size="mini" :title="ArticleInfo.title" :column="1">
       <template #title>
         <a-divider orientation="left">{{ ArticleInfo.title }}</a-divider>
       </template>
@@ -262,17 +262,40 @@ useGetArticleDetail();
 
 <style lang="scss">
 .particulars {
-  &-container-spin {
-    width: 80%;
-    float: right;
+  &-container {
+    &-spin {
+      width: 80%;
+      float: right;
+      &>div{
+        padding-right: 5px;
+        border-radius: .5rem;
+        transform: translateX(5px);
+      }
+    }
   }
 
   &-toc {
     position: absolute;
-    width: calc(20% - 15px);
+    width: calc(20% - 10px);
     left: 10px;
     height: calc(100vh - 68px - 10px);
     overflow: hidden;
+    border-radius: .5rem;
+
+    .arco-divider-text {
+      max-width: 80%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .arco-descriptions-item-value {
+      -webkit-line-clamp: 1;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     .arco-descriptions-item-label {
       padding-left: 10px;

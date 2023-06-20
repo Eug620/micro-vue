@@ -1,9 +1,9 @@
 <template>
   <div class="newest">
-    <a-card class="newest-prefix animate__fadeIn animate__animated" v-show="isPrefixShow"></a-card>
+    <a-card hoverable :bordered="false" class="newest-prefix animate__fadeIn animate__animated" v-show="isPrefixShow"></a-card>
     <div class="newest-box">
       <div class="newest-container" ref="refNewestContainer">
-        <a-card v-for="newes in newestList" :key="newes.id" @click="useJumpParticulars(newes)"
+        <a-card hoverable :bordered="false"  v-for="newes in newestList" :key="newes.id" @click="useJumpParticulars(newes)"
           class="newest-container-item !w-1/2">
           <template #title>
             <a-page-header class="newest-container-item-title" :show-back="false" :title="newes.title"
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <a-card class="newest-suffix  animate__fadeIn animate__animated" :style="suffixStyle">
+    <a-card hoverable :bordered="false" class="newest-suffix  animate__fadeIn animate__animated" :style="suffixStyle">
       <div v-if="isSuffixShow">
         <a-input-search style="border-radius: 1rem;" size="large" v-model="keyword" @press-enter="usePressEnter"
           placeholder="输入检索条件" />
@@ -229,6 +229,7 @@ const usePressEnter = () => {
     height: calc(100vh - 68px - 10px);
     overflow-y: scroll;
     flex: 1;
+    border-radius: .5rem;
   }
 
   &-container {
