@@ -1,45 +1,45 @@
-<!--
- * @Author: eug yyh3531@163.com
- * @Date: 2022-08-28 04:10:07
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-08-28 07:59:24
- * @FilePath: /micro-chat/src/views/newest/index.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
-  <div class="newest-container" ref="refNewestContainer">
-    <a-card v-for="newes in newestList" :key="newes.id" @click="useJumpParticulars(newes)" class="newest-container-item">
-      <template #title>
-        <a-page-header class="newest-container-item-title" :show-back="false" :title="newes.title"
-          :subtitle="`${$t('pages.newest.by')} ${newes.user_name}`">
-        </a-page-header>
-      </template>
-      <template #extra>
-        {{ useTransformSecond(newes.create_time) }}
-      </template>
-      <div class="newest-container-item-describe">
-        {{ newes.describe }}
+  <div class="newest">
+    <a-card  class="newest-prefix"></a-card>
+    <div class="newest-box">
+      <div class="newest-container" ref="refNewestContainer">
+        <a-card v-for="newes in newestList" :key="newes.id" @click="useJumpParticulars(newes)"
+          class="newest-container-item !w-1/2">
+          <template #title>
+            <a-page-header class="newest-container-item-title" :show-back="false" :title="newes.title"
+              :subtitle="`${$t('pages.newest.by')} ${newes.user_name}`">
+            </a-page-header>
+          </template>
+          <template #extra>
+            {{ useTransformSecond(newes.create_time) }}
+          </template>
+          <div class="newest-container-item-describe">
+            {{ newes.describe }}
+          </div>
+          <div class="newest-container-item-footer">
+            <a-space size="large">
+              <a-space>
+                <IconEye />{{ newes.page_views }}
+              </a-space>
+              <a-space>
+                <IconMessage />{{ newes.count }}
+              </a-space>
+            </a-space>
+          </div>
+        </a-card>
+        <div v-if="isShowSearch" class="newest-container-search">
+          <a-input-search size="large" v-model="keyword" @press-enter="usePressEnter"
+            class="newest-container-search_input" placeholder="输入检索条件" ref="refSearch" />
+        </div>
       </div>
-      <div class="newest-container-item-footer">
-        <a-space size="large">
-          <a-space>
-            <IconEye />{{ newes.page_views }}
-          </a-space>
-          <a-space>
-            <IconMessage />{{ newes.count }}
-          </a-space>
-        </a-space>
-      </div>
-    </a-card>
-    <div v-if="isShowSearch" class="newest-container-search">
-      <a-input-search size="large" v-model="keyword" @press-enter="usePressEnter" class="newest-container-search_input"
-        placeholder="输入检索条件" ref="refSearch" />
     </div>
-    <a-card class="newest-container-tools" v-if="false">
+    <a-card  class="newest-suffix">
+      <!-- <a-progress type="circle" :percent="percent" /> -->
+      <!-- <a-progress :percent="percent" style="height: 30px;" /> -->
       <!-- <a-space direction="vertical"> -->
       <!-- <a-input-search v-model="keyword" placeholder="输入检索条件" /> -->
       <!-- <a-input-search placeholder="输入检索条件" />
-        <a-input-search placeholder="输入检索条件" /> -->
+            <a-input-search placeholder="输入检索条件" /> -->
       <!-- </a-space> -->
     </a-card>
   </div>
@@ -73,6 +73,7 @@ const page = ref(1);
 const keyword = ref('')
 const isRefresh = ref(false);
 const isArticleEnd = ref(false);
+const percent = ref(0);
 
 watch(keyword, () => {
   isRefresh.value = true;
@@ -139,6 +140,8 @@ const useScrollFunction = ({ target }: any) => {
   ) {
     useGetArticle();
   }
+  console.log((target.scrollTop + target.clientHeight) / target.scrollHeight);
+  percent.value = Math.floor((target.scrollTop + target.clientHeight) / target.scrollHeight * 100) / 100
   scrollTop.value = target.scrollTop;
 };
 
@@ -175,65 +178,104 @@ const usePressEnter = () => {
 </script>
 
 <style lang="scss">
-.newest-container {
+.newest {
+  display: flex;
+  overflow: hidden;
 
-  // position: relative;
-  &-tools {
-    position: fixed;
+  &-suffix,
+  &-prefix{
     width: 20%;
-    top: 68px;
-    right: 10px;
+    // background-color: var(--color-bg-3);
+    border-radius: .5rem;
+    // padding: .5rem;
+    // box-sizing: border-box;
+  }
+
+  &-prefix{
+    margin-right: 5px;
+  }
+  &-suffix{
+    margin-left: 5px;
+  }
+
+  &-box{
     height: calc(100vh - 68px - 10px);
+    overflow-y: scroll;
+    flex: 1;
   }
+  &-container {
+    // position: relative;
 
-  &-search {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    right: 0;
-    height: 100%;
-    z-index: 6;
-    background-color: rgba($color: #000000, $alpha: .3);
+    // position: relative;
+    &-tools {
+      // position: fixed;
+      width: calc(25% - 10px);
+      top: 68px;
+      right: 10px;
+      height: calc(100vh - 68px - 10px);
+      border-radius: .5rem;
+      background-color: #fff;
+      border: 1px solid var(--color-neutral-3);
+      padding: 10px;
+      box-sizing: border-box;
 
-    &_input {
-      position: absolute;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      max-width: 300px;
-    }
-  }
-
-  &-item {
-    margin-top: 10px;
-    cursor: pointer;
-    position: relative;
-    // width: calc(80% - 10px);
-
-    &:first-child {
-      margin-top: 0px;
     }
 
-    .arco-card-body {
-      min-height: 100px;
-    }
+    &-search {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      right: 0;
+      height: 100%;
+      z-index: 6;
+      background-color: rgba($color: #000000, $alpha: .3);
 
-    &-title {
-      .arco-page-header-wrapper {
-        padding-left: 0;
+      &_input {
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 300px;
       }
     }
 
-    &-describe {
-      padding-bottom: 15px;
-    }
+    &-item {
+      // margin: 10px auto 0;
+      margin-top: 10px;
+      cursor: pointer;
+      position: relative;
+      // width: 50%;
+      // width: 75%;
+      margin:  10px 5px 0;
+      border-radius: .5rem;
 
-    &-footer {
-      position: absolute;
-      bottom: 10px;
-      // background-color: green;
-      width: calc(100% - 20px);
-      right: 10px;
+      // width: calc(80% - 10px);
+
+      &:first-child {
+        margin-top: 0px;
+      }
+
+      .arco-card-body {
+        min-height: 100px;
+      }
+
+      &-title {
+        .arco-page-header-wrapper {
+          padding-left: 0;
+        }
+      }
+
+      &-describe {
+        padding-bottom: 15px;
+      }
+
+      &-footer {
+        position: absolute;
+        bottom: 10px;
+        // background-color: green;
+        width: calc(100% - 20px);
+        right: 10px;
+      }
     }
   }
 }
