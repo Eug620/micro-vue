@@ -1,6 +1,6 @@
 <template>
   <div class="newest">
-    <a-card  class="newest-prefix"></a-card>
+    <a-card class="newest-prefix animate__fadeIn animate__animated" v-show="isPrefixShow"></a-card>
     <div class="newest-box">
       <div class="newest-container" ref="refNewestContainer">
         <a-card v-for="newes in newestList" :key="newes.id" @click="useJumpParticulars(newes)"
@@ -28,26 +28,27 @@
           </div>
         </a-card>
         <div v-if="isShowSearch" class="newest-container-search">
-          <a-input-search size="large" v-model="keyword" @press-enter="usePressEnter"
+          <a-input-search style="border-radius: 1rem;" size="large" v-model="keyword" @press-enter="usePressEnter"
             class="newest-container-search_input" placeholder="输入检索条件" ref="refSearch" />
         </div>
       </div>
     </div>
-    <a-card  class="newest-suffix">
-      <!-- <a-progress type="circle" :percent="percent" /> -->
-      <!-- <a-progress :percent="percent" style="height: 30px;" /> -->
-      <!-- <a-space direction="vertical"> -->
-      <!-- <a-input-search v-model="keyword" placeholder="输入检索条件" /> -->
-      <!-- <a-input-search placeholder="输入检索条件" />
-            <a-input-search placeholder="输入检索条件" /> -->
-      <!-- </a-space> -->
+    <a-card class="newest-suffix  animate__fadeIn animate__animated" :style="suffixStyle">
+      <div v-if="isSuffixShow">
+        <a-input-search style="border-radius: 1rem;" size="large" v-model="keyword" @press-enter="usePressEnter"
+          placeholder="输入检索条件" />
+      </div>
+      <div class="newest-suffix_bottom">
+        <a-switch type="line" v-model="isPrefixShow" v-if="!isSuffixShow" />
+        <a-switch type="line" v-model="isSuffixShow" />
+      </div>
     </a-card>
   </div>
 </template>
 
 <script lang="ts" setup>
 import ServerApi from "@/api";
-import { onMounted, Ref, ref, watch, watchEffect, onActivated, nextTick, unref } from "vue-demi";
+import { onMounted, Ref, ref, watch, watchEffect, onActivated, nextTick, unref, computed } from "vue-demi";
 import { useTransformSecond } from "@/plugin/transform-time";
 import {
   IconEye,
@@ -74,6 +75,15 @@ const keyword = ref('')
 const isRefresh = ref(false);
 const isArticleEnd = ref(false);
 const percent = ref(0);
+
+const isPrefixShow = ref(false);
+const isSuffixShow = ref(false);
+
+const suffixStyle = computed(() => {
+  return !unref(isSuffixShow) && {
+    width: '4rem'
+  }
+})
 
 watch(keyword, () => {
   isRefresh.value = true;
@@ -183,7 +193,7 @@ const usePressEnter = () => {
   overflow: hidden;
 
   &-suffix,
-  &-prefix{
+  &-prefix {
     width: 20%;
     // background-color: var(--color-bg-3);
     border-radius: .5rem;
@@ -191,18 +201,36 @@ const usePressEnter = () => {
     // box-sizing: border-box;
   }
 
-  &-prefix{
+  &-prefix {
     margin-right: 5px;
   }
-  &-suffix{
+
+  &-suffix {
     margin-left: 5px;
+    position: relative;
+
+    &_bottom {
+      position: absolute;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      flex-flow: 10px;
+
+      &>:nth-child(1n) {
+        margin-top: 10px;
+      }
+    }
   }
 
-  &-box{
+  &-box {
     height: calc(100vh - 68px - 10px);
     overflow-y: scroll;
     flex: 1;
   }
+
   &-container {
     // position: relative;
 
@@ -246,7 +274,7 @@ const usePressEnter = () => {
       position: relative;
       // width: 50%;
       // width: 75%;
-      margin:  10px 5px 0;
+      margin: 10px 5px 0;
       border-radius: .5rem;
 
       // width: calc(80% - 10px);
