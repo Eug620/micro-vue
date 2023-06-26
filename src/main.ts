@@ -1,9 +1,9 @@
 /*
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-16 23:52:04
- * @LastEditors  : Eug yyh3531@163.com
- * @LastEditTime : 2023-02-24 21:14:47
- * @FilePath     : \micro-vue\src\main.ts
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2023-06-26 12:41:24
+ * @FilePath     : /micro-vue/src/main.ts
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
@@ -19,6 +19,9 @@ import 'default-passive-events'
 
 import 'highlight.js/styles/github.css'
 import "github-markdown-css/github-markdown-light.css";
+
+import Vue3Lottie from 'vue3-lottie'
+import 'vue3-lottie/dist/style.css'
 
 // arco-design
 // import ArcoVue from '@arco-design/web-vue';
@@ -48,14 +51,15 @@ let history: any = null
 const mount = debounce(() => {
     // unmount()
     app = createApp(App)
-    app.use(i18n);
+    app.use(i18n)
     app.use(pinia)
+    app.use(Vue3Lottie)
     // app.use(ArcoVue)
     // app.use(ArcoVueIcon)
     router = useInitRouter(app)
-    console.log('取出router');
+    console.log('取出router')
     app.use(router)
-    console.log('使用router');
+    console.log('使用router')
     app.mount('#app-vue')
     console.log('微应用micro-vue渲染了')
 }, 500)
