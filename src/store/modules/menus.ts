@@ -17,7 +17,7 @@ const customMenus = [
             auth: true,
             isEle: true,
             affix: true,
-            icon: 'IconFire'
+            icon: 'IconBook'
         },
         component: 'views/newest/index'
     },
@@ -35,6 +35,20 @@ const customMenus = [
         },
         component: 'views/particulars/index'
     },
+    {
+        path: '/creative',
+        name: 'creative',
+        redirect: '',
+        meta: {
+            keepAlive: true,
+            title: '创作',
+            isEle: true,
+            auth: true,
+            affix: true,
+            icon: 'IconSubscribeAdd'
+        },
+        component: 'views/creative/index'
+    },
     // {
     //     path: '/hot',
     //     name: 'hot',
@@ -50,34 +64,6 @@ const customMenus = [
     //     component: 'views/hot/index'
     // },
     // 相关
-    {
-        path: '/about',
-        name: 'about',
-        redirect: '',
-        meta: {
-            keepAlive: true,
-            title: '关于',
-            isEle: true,
-            auth: true,
-            affix: true,
-            icon: 'IconUser'
-        },
-        component: 'views/about/index'
-    },
-    {
-        path: '/creative',
-        name: 'creative',
-        redirect: '',
-        meta: {
-            keepAlive: true,
-            title: '创作',
-            isEle: true,
-            auth: true,
-            affix: true,
-            icon: 'IconPen'
-        },
-        component: 'views/creative/index'
-    },
     {
         path: '/confabulate',
         name: 'confabulate',
@@ -105,6 +91,20 @@ const customMenus = [
             icon: 'IconFire'
         },
         component: 'views/roomInformation/index'
+    },
+    {
+        path: '/about',
+        name: 'about',
+        redirect: '',
+        meta: {
+            keepAlive: true,
+            title: '关于',
+            isEle: true,
+            auth: true,
+            affix: true,
+            icon: 'IconUser'
+        },
+        component: 'views/about/index'
     },
 ]
 export const useMenus = defineStore({

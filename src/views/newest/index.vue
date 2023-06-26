@@ -1,10 +1,11 @@
 <template>
   <div class="newest">
-    <a-card hoverable :bordered="false" class="newest-prefix animate__fadeIn animate__animated" v-show="isPrefixShow"></a-card>
+    <a-card hoverable :bordered="false" class="newest-prefix animate__fadeIn animate__animated"
+      v-show="isPrefixShow"></a-card>
     <div class="newest-box">
       <div class="newest-container" ref="refNewestContainer">
-        <a-card hoverable :bordered="false"  v-for="newes in newestList" :key="newes.id" @click="useJumpParticulars(newes)"
-          class="newest-container-item !w-1/2">
+        <a-card hoverable :bordered="false" v-for="newes in newestList" :key="newes.id" @click="useJumpParticulars(newes)"
+          class="newest-container-item !transition !duration-150 !ease-in-out  hover:-translate-y-0.5">
           <template #title>
             <a-page-header class="newest-container-item-title" :show-back="false" :title="newes.title"
               :subtitle="`${$t('pages.newest.by')} ${newes.user_name}`">
@@ -36,11 +37,25 @@
     <a-card hoverable :bordered="false" class="newest-suffix  animate__fadeIn animate__animated" :style="suffixStyle">
       <div v-if="isSuffixShow">
         <a-input-search style="border-radius: 1rem;" size="large" v-model="keyword" @press-enter="usePressEnter"
-          placeholder="输入检索条件" />
+          placeholder="请输入关键词检索" />
       </div>
       <div class="newest-suffix_bottom">
-        <a-switch type="line" v-model="isPrefixShow" v-if="!isSuffixShow" />
-        <a-switch type="line" v-model="isSuffixShow" />
+        <a-switch v-model="isPrefixShow" v-if="!isSuffixShow">
+          <template #checked-icon>
+            <IconUser />
+          </template>
+          <template #unchecked-icon>
+            <IconUser />
+          </template>
+        </a-switch>
+        <a-switch v-model="isSuffixShow">
+          <template #checked-icon>
+            <IconSearch />
+          </template>
+          <template #unchecked-icon>
+            <IconSearch />
+          </template>
+        </a-switch>
       </div>
     </a-card>
   </div>
@@ -54,7 +69,10 @@ import {
   IconEye,
   IconMessage,
   IconClockCircle,
+  IconSearch,
   IconUser,
+  IconLeft,
+  IconRight
 } from "@arco-design/web-vue/es/icon";
 import { onBeforeRouteLeave, useRouter } from "vue-router";
 
@@ -277,6 +295,10 @@ const usePressEnter = () => {
       // width: 75%;
       margin: 10px 5px 0;
       border-radius: .5rem;
+
+      &:hover &-title  .arco-page-header-title {
+        color: rgb(var(--primary-6))
+      }
 
       // width: calc(80% - 10px);
 

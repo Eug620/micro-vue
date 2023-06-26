@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-12-30 15:22:31
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-06 10:13:59
+ * @LastEditTime : 2023-06-25 18:28:23
  * @FilePath     : /micro-vue/src/components/mc-setting/index.vue
  * @Description  : filename
  * 
@@ -21,7 +21,7 @@
     <template #title>{{ $t("vue.creativeWork.drawerTitle") }}</template>
 
     <a-form :model="form" layout="vertical">
-      <a-divider orientation="left">系统配置</a-divider>
+      <!-- <a-divider orientation="left">系统配置</a-divider>
       <a-form-item field="lang" label="语言切换">
         <a-radio-group
           type="button"
@@ -45,7 +45,7 @@
             item
           }}</a-radio>
         </a-radio-group>
-      </a-form-item>
+      </a-form-item> -->
     <slot />
     </a-form>
   </a-drawer>

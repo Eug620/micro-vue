@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-08-31 15:08:14
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-03-29 14:53:06
+ * @LastEditTime : 2023-06-25 18:22:26
  * @FilePath     : /micro-vue/src/layout/index.vue
  * @Description  : filename
  * 
@@ -12,6 +12,32 @@
   <a-layout class="chat-layout">
     <a-layout-header class="chat-layout-header">
       <BaseHeaderVue @on-route-change="useRouterChange" />
+      <div class="chat-layout-header_prefix">
+        <a-space>
+          <a-radio-group
+          type="button"
+          v-model="form.lang"
+          :default-value="system.lang"
+          @change="useLangChange"
+          size="small"
+        >
+          <a-radio :value="item" v-for="item in LangEnum" :key="item">{{
+            item
+          }}</a-radio>
+        </a-radio-group>
+
+
+          <a-switch @change="useThemeChange" v-model="form.theme" :checked-value="ThemeEnum.LIGHT"
+            :unchecked-value="ThemeEnum.DARK">
+            <template #checked-icon>
+              <IconSun />
+            </template>
+            <template #unchecked-icon>
+              <IconMoon />
+            </template>
+          </a-switch>
+        </a-space>
+      </div>
     </a-layout-header>
     <a-layout-content class="chat-layout-container">
       <router-view v-slot="{ Component, route }">
@@ -31,8 +57,8 @@
 </template>
 
 <script lang="ts" setup>
-// import { IconSync } from "@arco-design/web-vue/es/icon";
-import { markRaw, ref, watch, h } from "vue";
+import { IconSun, IconMoon } from "@arco-design/web-vue/es/icon";
+import { markRaw, ref, watch, h, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import BaseHeaderVue from "./BaseHeader.vue";
 
@@ -41,6 +67,8 @@ import i18n from '@/locales/i18n';
 
 import { useMittStore } from "@/store/modules/mitt";
 import { storeToRefs } from "pinia";
+import { useSystemStore } from "@/store/modules/app";
+import { LangEnum, ThemeEnum } from "@/enums/system";
 const isSlot = ref(null);
 
 const mittStore = useMittStore();
@@ -81,6 +109,20 @@ Notification.info({
   position: 'bottomRight'
 })
 
+
+const system = useSystemStore();
+const form = reactive({
+  lang: system.lang,
+  theme: system.theme,
+});
+
+const useThemeChange = (val: any) => {
+  system.setTheme(val as ThemeEnum)
+}
+
+const useLangChange = (val: any) => {
+  system.setLang(val as LangEnum)
+}
 </script>
 
 <style lang="scss">
@@ -89,6 +131,19 @@ Notification.info({
 
   &-header {
     height: 58px;
+    position: relative;
+
+    &_prefix {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+
+      .arco-radio-group-button,
+      .arco-radio-button{
+        border-radius: 1rem;
+      }
+    }
   }
 
   &-container {
@@ -112,7 +167,7 @@ Notification.info({
     font-weight: bold;
   }
 
-  &-desc{
+  &-desc {
     margin-top: 6px;
     margin-left: 20px;
 

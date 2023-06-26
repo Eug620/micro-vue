@@ -152,23 +152,23 @@ export default ({ mode }) => defineConfig({
       }
     }
   },
-  css: {
-    // [WARNING] "@charset" must be the first rule in the file
-    postcss: {
-      plugins: [
-        {
-          postcssPlugin: 'internal:charset-removal',
-          AtRule: {
-            charset: (atRule) => {
-              if (atRule.name === 'charset') {
-                atRule.remove();
-              }
-            }
-          }
-        }
-      ],
-    },
-  },
+  // css: { // tailwindcss 失效
+  //   // [WARNING] "@charset" must be the first rule in the file
+  //   postcss: {
+  //     plugins: [
+  //       {
+  //         postcssPlugin: 'internal:charset-removal',
+  //         AtRule: {
+  //           charset: (atRule) => {
+  //             if (atRule.name === 'charset') {
+  //               atRule.remove();
+  //             }
+  //           }
+  //         }
+  //       }
+  //     ],
+  //   },
+  // },
   //调整控制台输出的级别 'info' | 'warn' | 'error' | 'silent'
   logLevel: 'info',
   //设为 false 可以避免 Vite 清屏而错过在终端中打印某些关键信息
