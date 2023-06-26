@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-11-18 17:18:40
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-03-29 14:50:57
+ * @LastEditTime : 2023-06-26 13:48:39
  * @FilePath     : /micro-vue/src/views/creative/index.vue
  * @Description  : filename
  * 
@@ -17,6 +17,9 @@
     :plugins="DefaultEditorPlugins" 
     @change="handleChange" 
   />
+  <a-button type="outline" status="danger" @click="useShowSetting" shape="circle" size="large" class="!fixed right-6 bottom-12">
+    <IconSettings size="22" />
+  </a-button>
 </template>
 
 <script setup lang="ts">
@@ -43,6 +46,7 @@ import {
   DefaultGfmPlaceholder,
   DefaultMermaidLocaleValue,
 } from './config/variable'
+import { IconSettings } from "@arco-design/web-vue/es/icon";
 
 
 const mittStore = useMittStore()
@@ -71,6 +75,10 @@ const DefaultEditorPlugins = computed(() => {
 const handleChange = (v: string) => {
   DefaultGfmValue.value = v;
 };
+
+const useShowSetting = () => {
+  mitt.value.emit('setting-visible', true);
+}
 </script>
 
 <style lang="scss">

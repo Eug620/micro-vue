@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-12-30 15:22:31
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-06-25 18:28:23
+ * @LastEditTime : 2023-06-26 13:47:13
  * @FilePath     : /micro-vue/src/components/mc-setting/index.vue
  * @Description  : filename
  * 
@@ -54,6 +54,8 @@
 <script setup lang="ts">
 import { LangEnum, ThemeEnum } from "@/enums/system";
 import { useSystemStore } from "@/store/modules/app";
+import { useMittStore } from "@/store/modules/mitt";
+import { storeToRefs } from "pinia";
 import { reactive, ref, provide } from "vue";
 
 const system = useSystemStore();
@@ -89,6 +91,12 @@ const close = () => {
 const open = () => {
   visibleDrawer.value = true
 }
+
+const mittStore = useMittStore();
+const { mitt } = storeToRefs(mittStore);
+mitt.value.on("setting-visible", (v: any = false) => {
+  visibleDrawer.value = v
+});
 
 provide('close', close)
 provide('open', open)
