@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-08-31 15:08:14
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-06-26 13:25:10
+ * @LastEditTime : 2023-07-05 15:32:04
  * @FilePath     : /micro-vue/src/views/login/index.vue
  * @Description  : filename
  * 
@@ -18,7 +18,7 @@
     <!-- <a-card title="Eug" class="!absolute w-full h-full sm:w-full sm:h-full md:w-1/2 md:h-auto lg:h-auto lg:w-1/4  top-0 right-0 sm:top-1/4 md:top1/4 sm:right-1/4 md:right-1/4"> -->
     <a-card class="chat-login-container">
       <template #title>
-        <BaseIconFont type="eug-icon-notebook" :size="24" />
+        <BaseIconFont :type="position === 'SignIn' ? 'eug-icon-notebook' : 'eug-icon-zhuce'" :size="24" />
       </template>
       <template #extra>
         <a-radio-group v-model="position" type="button">
