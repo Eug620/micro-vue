@@ -19,3 +19,20 @@
 #nprogress {
   pointer-events: none;
 }
+
+@font-face {
+  font-family: "AlimamaFangYuanTiVF";
+  src: url("//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/AlimamaFangYuanTiVF-Thin.woff2") format("woff2"),
+  url("//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/AlimamaFangYuanTiVF-Thin.woff") format("woff"),
+  url("//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/AlimamaFangYuanTiVF-Thin.ttf") format("ttf");
+  font-display: swap;
+}
+
+// class
+.font-default {
+  font-family: Inter,-apple-system,BlinkMacSystemFont,PingFang SC,Hiragino Sans GB,noto sans,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
+}
+
+.font-fangyuan {
+  font-family: AlimamaFangYuanTiVF;
+}

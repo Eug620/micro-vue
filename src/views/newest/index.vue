@@ -5,7 +5,7 @@
     <div class="newest-box">
       <div class="newest-container" ref="refNewestContainer">
         <a-card hoverable :bordered="false" v-for="newes in newestList" :key="newes.id" @click="useJumpParticulars(newes)"
-          class="newest-container-item !transition !duration-150 !ease-in-out  hover:-translate-y-0.5">
+          class="newest-container-item !transition !duration-150 !ease-in-out">
           <template #title>
             <a-page-header class="newest-container-item-title" :show-back="false" :title="newes.title"
               :subtitle="`${$t('pages.newest.by')} ${newes.user_name}`">
@@ -40,14 +40,26 @@
           placeholder="请输入关键词检索" />
       </div>
       <div class="newest-suffix_bottom">
-        <a-switch v-model="isPrefixShow" v-if="!isSuffixShow">
-          <template #checked-icon>
-            <IconUser />
-          </template>
-          <template #unchecked-icon>
-            <IconUser />
-          </template>
-        </a-switch>
+        <template v-if="!isSuffixShow">
+          <a-switch @change="system.setFamily" :model-value="system.getFamily" :checked-value="FamilyEnum.fangyuan"
+            :unchecked-value="FamilyEnum.default">
+            <template #checked-icon>
+              <IconFontColors />
+            </template>
+            <template #unchecked-icon>
+              <IconFontColors />
+            </template>
+          </a-switch>
+
+          <a-switch v-model="isPrefixShow" >
+            <template #checked-icon>
+              <IconUser />
+            </template>
+            <template #unchecked-icon>
+              <IconUser />
+            </template>
+          </a-switch>
+        </template>
         <a-switch v-model="isSuffixShow">
           <template #checked-icon>
             <IconSearch />
@@ -72,9 +84,14 @@ import {
   IconSearch,
   IconUser,
   IconLeft,
-  IconRight
+  IconRight,
+  IconFontColors
 } from "@arco-design/web-vue/es/icon";
 import { onBeforeRouteLeave, useRouter } from "vue-router";
+import { FamilyEnum } from "@/enums/system";
+import { useSystemStore } from "@/store/modules/app";
+
+const system = useSystemStore();
 
 interface NewestType {
   author?: string;
@@ -168,7 +185,7 @@ const useScrollFunction = ({ target }: any) => {
   ) {
     useGetArticle();
   }
-  console.log((target.scrollTop + target.clientHeight) / target.scrollHeight);
+  // console.log((target.scrollTop + target.clientHeight) / target.scrollHeight);
   percent.value = Math.floor((target.scrollTop + target.clientHeight) / target.scrollHeight * 100) / 100
   scrollTop.value = target.scrollTop;
 };
@@ -296,8 +313,12 @@ const usePressEnter = () => {
       margin: 10px 5px 0;
       border-radius: .5rem;
 
+      .arco-page-header-title{
+        // transition: all .3s;
+      }
+
       &:hover &-title  .arco-page-header-title {
-        color: rgb(var(--primary-6))
+        color: rgb(var(--primary-6));
       }
 
       // width: calc(80% - 10px);

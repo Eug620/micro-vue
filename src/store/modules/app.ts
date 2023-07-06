@@ -1,14 +1,14 @@
 /*
  * @Author       : Eug yyh3531@163.com
  * @Date         : 2023-02-18 17:16:30
- * @LastEditors  : Eug yyh3531@163.com
- * @LastEditTime : 2023-03-24 21:34:37
- * @FilePath     : \micro-vue\src\store\modules\app.ts
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2023-07-06 14:29:55
+ * @FilePath     : /micro-vue/src/store/modules/app.ts
  * @Description  : filename
  * 
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
  */
-import { LangEnum, ThemeEnum } from '@/enums/system';
+import { LangEnum, ThemeEnum, FamilyEnum } from '@/enums/system';
 import { defineStore } from 'pinia';
 import i18n from '@/locales/i18n';
 import { useDBStore } from '@/store/modules/db'
@@ -22,7 +22,9 @@ export const useSystemStore = defineStore({
     // 语言
     lang: '',
     // 首页图片
-    background: ''
+    background: '',
+    // 字体
+    family: ''
   }),
   getters: {
     getTheme(store) {
@@ -30,6 +32,9 @@ export const useSystemStore = defineStore({
     },
     getDashboardBackground(store) {
       return store.background
+    },
+    getFamily(store) {
+      return store.family
     }
   },
   actions: {
@@ -39,8 +44,9 @@ export const useSystemStore = defineStore({
       this.setTheme(defaultConfig?.theme)
       this.setLang(defaultConfig?.lang)
       this.setDashboardBackground(defaultConfig?.background)
+      this.setFamily(defaultConfig?.font)
     },
-    setTheme(theme: ThemeEnum = ThemeEnum.DARK) {
+    setTheme(theme: ThemeEnum = ThemeEnum.LIGHT) {
       const db = useDBStore()
       this.theme = theme
       document.body.setAttribute('arco-theme', theme);
@@ -56,6 +62,11 @@ export const useSystemStore = defineStore({
       const db = useDBStore()
       this.background = url
       db.set({ dbName: DataBaseName.SYSTEM, path: DATABASEPUBLIC.BACKGROUND, value: url })
+    },
+    setFamily(family: FamilyEnum = FamilyEnum.default) {
+      const db = useDBStore()
+      this.family = family
+      db.set({ dbName: DataBaseName.SYSTEM, path: DATABASEPUBLIC.FONT, value: family })
     }
   },
 });

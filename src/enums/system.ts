@@ -1,10 +1,12 @@
 /*
- * @Author: eug yyh3531@163.com
- * @Date: 2022-08-26 23:06:56
- * @LastEditors: eug yyh3531@163.com
- * @LastEditTime: 2022-08-26 23:21:05
- * @FilePath: /micro-base/src/enums/system.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2022-08-31 15:08:14
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2023-07-06 14:29:11
+ * @FilePath     : /micro-vue/src/enums/system.ts
+ * @Description  : 系统配置枚举
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
  */
 
 export enum ThemeEnum {
@@ -16,4 +18,9 @@ export enum LangEnum {
     EN  = 'en',
     ZH  = 'zh',
     JA  = 'ja',
+}
+
+export enum FamilyEnum {
+    default  = 'font-default',
+    fangyuan  = 'font-fangyuan',
 }
