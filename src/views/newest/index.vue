@@ -41,7 +41,7 @@
       </div>
       <div class="newest-suffix_bottom">
         <template v-if="!isSuffixShow">
-          <a-switch @change="system.setFamily" :model-value="system.getFamily" :checked-value="FamilyEnum.fangyuan"
+          <a-switch @change="useFamilyChange" :model-value="system.getFamily" :checked-value="FamilyEnum.fangyuan"
             :unchecked-value="FamilyEnum.default">
             <template #checked-icon>
               <IconFontColors />
@@ -92,6 +92,9 @@ import { FamilyEnum } from "@/enums/system";
 import { useSystemStore } from "@/store/modules/app";
 
 const system = useSystemStore();
+const useFamilyChange = (val: any) => {
+  system.setFamily(val as FamilyEnum)
+}
 
 interface NewestType {
   author?: string;
