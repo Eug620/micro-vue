@@ -1,9 +1,9 @@
 <!--
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-16 23:52:04
- * @LastEditors  : Eug yyh3531@163.com
- * @LastEditTime : 2023-03-24 21:58:03
- * @FilePath     : \micro-vue\src\views\dashboard\index.vue
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2023-07-10 17:03:02
+ * @FilePath     : /micro-vue/src/views/dashboard/index.vue
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
@@ -14,13 +14,13 @@
       <a-space direction="vertical" fill align="center">
 
         <a-radio-group type="button" v-model="type">
-        <a-radio :value="item.value" v-for="item in typeList" :key="item.value">{{ item.label }}</a-radio>
-      </a-radio-group>
-      <a-radio-group type="button" v-model="time">
-        <a-radio :value="item.value" v-for="item in timeList" :key="item.value">{{ item.label }}</a-radio>
-      </a-radio-group>
+          <a-radio :value="item.value" v-for="item in typeList" :key="item.value">{{ item.label }}</a-radio>
+        </a-radio-group>
+        <a-radio-group type="button" v-model="time">
+          <a-radio :value="item.value" v-for="item in timeList" :key="item.value">{{ item.label }}</a-radio>
+        </a-radio-group>
       </a-space>
-    <a-descriptions style="margin-top: 20px" :data="data" :title="current.title" :column="1" />
+      <a-descriptions style="margin-top: 20px" :data="data" :title="current.title" :column="1" />
     </div>
     <div class="dashboard-container-image" v-else>
       <!-- <a-select :style="{ width: '800px', marginBottom: '20px' }" v-model="currentListIdx" placeholder="请选择..."
@@ -54,30 +54,46 @@
 
 <script lang="ts" setup>
 import ServerApi from "@/api";
-import { ref, watchEffect, Ref, reactive, computed } from "vue-demi";
+import { ref, watchEffect, Ref, reactive, computed, onMounted } from "vue-demi";
 import { useRouter } from "vue-router";
 import { random } from "lodash";
 import { IconSync, IconDownload, IconCopy } from "@arco-design/web-vue/es/icon";
 import Clipboard from "clipboard";
 import { downloadFile } from "@/utils/download";
+import { imgUrlToBase64 } from "@/utils/file";
+
 import { useSystemStore } from "@/store/modules/app";
+import { unref } from "vue";
 const systemStore = useSystemStore()
 const randomNumber = ref(0)
 const imageMaps = new Map()
-// const dashboardStyle = reactive({
-//   backgroundImage: 'url(https://momentum.photos/img/b286b86e-0a7f-46fb-9bcb-f526a24b40eb.jpg?momo_cache_bg_uuid=c2110704-2468-47e6-a05b-09856ed3d5a9)',
-//   backgroundSize: 'cover',
-//   backgroundRepeat: 'no-repeat',
-// })
 const imageList: Ref<any[]> = ref([])
 
-const dashboardStyle = computed(() => {
-  return {
-    backgroundImage: `url(${systemStore.getDashboardBackground})`,
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
+// 删除失效链接
+const useDeleteBackground = async (urls: string) => {
+  const current = unref(imageList).find(({ url }) => url === urls)
+  if (current) {
+    await ServerApi.DeleteImage({
+      id: current?.id
+    })
+    useRandomImage()
   }
+}
+
+watchEffect(() => {
+  imgUrlToBase64(systemStore.getDashboardBackground, (res: string) => {
+    dashboardStyle.backgroundImage = `url(${res})`
+  },() => {
+    useDeleteBackground(systemStore.getDashboardBackground)
+  })
 })
+
+const dashboardStyle = reactive({
+  backgroundImage: ``,
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
+})
+
 const useRandomImage = () => {
   randomNumber.value = random(0, imageList.value.length - 1, false)
   systemStore.setDashboardBackground(imageList.value[randomNumber.value]?.url)
@@ -97,7 +113,7 @@ const useCopyImage = () => {
   })
 }
 const useDownloadImage = () => {
-  downloadFile(systemStore.getDashboardBackground , `${imageMaps.get(systemStore.getDashboardBackground)}.png`)
+  downloadFile(systemStore.getDashboardBackground, `${imageMaps.get(systemStore.getDashboardBackground)}.png`)
 }
 
 
@@ -105,7 +121,7 @@ const router = useRouter()
 const currentListIdx = ref(0)
 ServerApi.GetImageAll().then((res: any) => {
   imageList.value.push(...res.data)
-  res.data.forEach((v:any) => {
+  res.data.forEach((v: any) => {
     imageMaps.set(v.url, v.id)
   })
 })
