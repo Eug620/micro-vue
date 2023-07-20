@@ -1,7 +1,7 @@
 <template>
   <mc-container class="confabulate-container">
-    <template #mc-title>{{ msgSum ? `${msgSum} 条未读信息` : '暂无未读信息' }}</template>
-    <template #mc-extra>
+    <template #title>{{ msgSum ? `${msgSum} 条未读信息` : '暂无未读信息' }}</template>
+    <template #extra>
       <a-button shape="round" type="text" @click="useCreateRooms">
         <IconPlus />
       </a-button>

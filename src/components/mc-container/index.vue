@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-08-31 15:08:14
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-07-20 16:46:48
+ * @LastEditTime : 2023-07-20 18:07:42
  * @FilePath     : /micro-vue/src/components/mc-container/index.vue
  * @Description  : filename
  * 
@@ -10,18 +10,8 @@
 -->
 <template>
   <a-card class="mc-container" hoverable :bordered="false" v-bind="$attrs">
-    <template #title>
-      <slot name="mc-title"/>
-    </template>
-
-    <template #extra>
-      <slot name="mc-extra"/>
-    </template>
-    <template #cover>
-      <slot name="mc-cover"/>
-    </template>
-    <template #actions>
-      <slot name="mc-actions"/>
+    <template #[item]="data" v-for="item in Object.keys($slots)" :key="item">
+      <slot :name="item" v-bind="data || {}"></slot>
     </template>
     <slot />
   </a-card>
