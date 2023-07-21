@@ -2,8 +2,8 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-12-30 16:03:31
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-06 10:16:10
- * @FilePath     : /micro-vue/src/views/creativeWork/config/index.vue
+ * @LastEditTime : 2023-07-21 15:56:29
+ * @FilePath     : /micro-vue/src/views/creative/config/index.vue
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
@@ -32,6 +32,9 @@
   <a-form-item field="title" label="Article Title">
     <a-input v-model.trim="DefaulArticleTitle" placeholder="Please enter Title" allow-clear />
   </a-form-item>
+  <a-form-item field="tag" label="Article Tag">
+    <a-input-tag v-model="DefaulArticleTag" placeholder="Please enter Tag" allow-clear/>
+  </a-form-item>
   <a-form-item field="description" label="Article Description">
     <a-input v-model.trim="DefaulArticleDescription" placeholder="Please enter Description" allow-clear />
   </a-form-item>
@@ -59,6 +62,7 @@ import {
   MermaidLocaleEnum,
   // article
   DefaulArticleTitle,
+  DefaulArticleTag,
   DefaulArticleDescription,
   // value
   DefaultGfmValue
@@ -77,10 +81,12 @@ const useCreateArticle = async () => {
         title: DefaulArticleTitle.value,
         describe: DefaulArticleDescription.value,
         content: DefaultGfmValue.value,
+        tag: DefaulArticleTag.value.join(',')
       });
       if (res.code === 200) {
         DefaulArticleTitle.value = ''
         DefaulArticleDescription.value = ''
+        DefaulArticleTag.value = []
         DefaultGfmValue.value = ''
         close()
       } 

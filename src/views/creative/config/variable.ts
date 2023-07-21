@@ -2,8 +2,8 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2023-01-04 10:58:56
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-01-05 18:10:59
- * @FilePath     : /micro-vue/src/views/creativeWork/config/variable.ts
+ * @LastEditTime : 2023-07-21 15:52:54
+ * @FilePath     : /micro-vue/src/views/creative/config/variable.ts
  * @Description  : Variable
  * 
  * Copyright (c) 2023 by eug yyh3531@163.com, All Rights Reserved. 
@@ -142,6 +142,8 @@ export const DefaultMermaidLocaleValue = computed(() => {
 
 // article title
 export const DefaulArticleTitle = ref('')
+
+export const DefaulArticleTag = ref([])
 
 // article description
 export const DefaulArticleDescription = ref('')

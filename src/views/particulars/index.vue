@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-01 09:46:19
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-06-20 18:27:39
+ * @LastEditTime : 2023-07-21 16:23:45
  * @FilePath     : /micro-vue/src/views/particulars/index.vue
  * @Description  : filename
  * 
@@ -26,6 +26,12 @@
       <a-descriptions-item style="display:flex;">
         <template #label>
           <IconTags />
+        </template>
+        {{ ArticleInfo.tag?.split(',')?.join(' ') }}
+      </a-descriptions-item>
+      <a-descriptions-item style="display:flex;">
+        <template #label>
+          <IconQuote />
         </template>
         {{ ArticleInfo.describe }}
       </a-descriptions-item>
@@ -121,7 +127,8 @@ import {
   IconMessage,
   IconLeft,
   IconRight,
-  IconList
+  IconList,
+  IconQuote
 } from "@arco-design/web-vue/es/icon";
 enum LeftType {
   TOC = 'TOC',

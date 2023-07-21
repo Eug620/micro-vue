@@ -26,6 +26,13 @@
                 <IconMessage />{{ newes.count }}
               </a-space>
             </a-space>
+            <div class="float-right">
+              <a-space>
+                <a-tag color="purple" v-for="(tag, idx) in useTags(newes.tag)" :key="`${tag}_${idx}`">
+                  {{ tag }}
+                </a-tag>
+              </a-space>
+            </div>
           </div>
         </a-card>
         <div v-if="isShowSearch" class="newest-container-search">
@@ -51,7 +58,7 @@
             </template>
           </a-switch>
 
-          <a-switch v-model="isPrefixShow" >
+          <a-switch v-model="isPrefixShow">
             <template #checked-icon>
               <IconUser />
             </template>
@@ -101,6 +108,7 @@ interface NewestType {
   count?: number;
   create_time?: number;
   describe?: string;
+  tag?: string,
   id?: string;
   page_views?: number;
   title?: string;
@@ -223,6 +231,18 @@ const usePressEnter = () => {
   useGetArticle()
   isShowSearch.value = false
 }
+
+const useTags = (tagStr?: string) => {
+  try {
+    if (!tagStr) {
+      return []
+    } else {
+      return tagStr?.split(',')
+    }
+  } catch (e) {
+    return []
+  }
+}
 </script>
 
 <style lang="scss">
@@ -316,11 +336,11 @@ const usePressEnter = () => {
       margin: 10px 5px 0;
       border-radius: .5rem;
 
-      .arco-page-header-title{
+      .arco-page-header-title {
         // transition: all .3s;
       }
 
-      &:hover &-title  .arco-page-header-title {
+      &:hover &-title .arco-page-header-title {
         color: rgb(var(--primary-6));
       }
 
