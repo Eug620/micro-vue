@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-01 09:46:19
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-07-21 16:23:45
+ * @LastEditTime : 2023-07-24 15:38:07
  * @FilePath     : /micro-vue/src/views/particulars/index.vue
  * @Description  : filename
  * 
@@ -92,6 +92,19 @@
         <IconLeft />
         {{ $t('pages.particulars.catalogue') }}
       </a-button>
+
+      <a-button v-if="ArticleInfo?.author === useStore.getInfo?.id" @click="useTypeChange(LeftType.EDIT)">
+        <template #icon>
+          <IconEdit />
+        </template>
+      </a-button>
+      <a-popconfirm :content="$t('pages.particulars.deletePlaceholder')" @ok="useTypeChange(LeftType.DELETE)">
+        <a-button v-if="ArticleInfo?.author === useStore.getInfo?.id">
+          <template #icon>
+            <IconDelete />
+          </template>
+        </a-button>
+      </a-popconfirm>
       <a-button @click="useTypeChange(LeftType.COM)" :type="leftType === LeftType.COM ? 'primary' : undefined">
         {{ $t('pages.particulars.comment') }}
         <IconRight />
@@ -103,7 +116,7 @@
 <script lang="ts" setup>
 import ServerApi from "@/api";
 import { reactive, UnwrapNestedRefs, nextTick, ref, computed, Ref } from "vue-demi";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import { Viewer } from "@bytemd/vue-next";
 // plugins
@@ -120,6 +133,8 @@ import { useTransformSecond } from "@/plugin/transform-time";
 
 // icon
 import {
+  IconEdit,
+  IconDelete,
   IconUser,
   IconEye,
   IconTags,
@@ -130,13 +145,43 @@ import {
   IconList,
   IconQuote
 } from "@arco-design/web-vue/es/icon";
+import { useUserStore } from "@/store/modules/user";
 enum LeftType {
   TOC = 'TOC',
+  EDIT = 'EDIT',
+  DELETE = 'DELETE',
   COM = 'COM'
 }
+
+const router = useRouter()
+const route = useRoute()
+const useStore = useUserStore()
 const leftType: Ref<LeftType> = ref(LeftType.TOC)
 const useTypeChange = (type: LeftType) => {
-  leftType.value = type
+  switch (type) {
+    case LeftType.EDIT:
+      router.push({
+        name: 'creative-edit',
+        params: {
+          id: route.params.id
+        }
+      })
+      break;
+
+    case LeftType.DELETE:
+      ServerApi.ArticleDelete({
+        id: route.params.id
+      }).then(() => {
+        router.push({
+          name: 'newest'
+        })
+      })
+      break;
+
+    default:
+      leftType.value = type
+      break;
+  }
 }
 /**
  * 目录相关
@@ -221,7 +266,6 @@ const DefaultEditorPlugins = computed(() => {
   ]
 });
 
-const route = useRoute();
 const isLoading = ref(true);
 const loadingTip = ref("loading...");
 const { id } = route.params;
@@ -273,7 +317,8 @@ useGetArticleDetail();
     &-spin {
       width: 80%;
       float: right;
-      &>div{
+
+      &>div {
         padding-right: 5px;
         border-radius: .5rem;
         transform: translateX(5px);

@@ -40,8 +40,8 @@ export default ({ mode }) => defineConfig({
         rewrite: path => path.replace(/^\/api/, '')
       },
       '/dev_base_api': {
-        target: 'http://127.0.0.1:5000',
-        // target: 'https://eug.asia/egg/api',
+        // target: 'http://127.0.0.1:5000',
+        target: 'https://eug.asia/egg/api',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/dev_base_api/, '')
       },

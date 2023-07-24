@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-12-30 16:03:31
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-07-21 15:56:29
+ * @LastEditTime : 2023-07-24 11:38:20
  * @FilePath     : /micro-vue/src/views/creative/config/index.vue
  * @Description  : filename
  * 
@@ -30,13 +30,15 @@
   </a-form-item>
   <a-divider orientation="left">文章</a-divider>
   <a-form-item field="title" label="Article Title">
-    <a-input v-model.trim="DefaulArticleTitle" placeholder="Please enter Title" allow-clear />
+    <a-input :max-length="30" show-word-limit v-model.trim="DefaulArticleTitle" placeholder="Please enter Title"
+      allow-clear />
   </a-form-item>
   <a-form-item field="tag" label="Article Tag">
-    <a-input-tag v-model="DefaulArticleTag" placeholder="Please enter Tag" allow-clear/>
+    <a-input-tag v-model="DefaulArticleTag" placeholder="Please enter Tag" allow-clear />
   </a-form-item>
   <a-form-item field="description" label="Article Description">
-    <a-input v-model.trim="DefaulArticleDescription" placeholder="Please enter Description" allow-clear />
+    <a-textarea :max-length="100" show-word-limit v-model.trim="DefaulArticleDescription"
+      placeholder="Please enter Description" allow-clear />
   </a-form-item>
   <a-button type="primary" html-type="submit" @click="useCreateArticle">Submit</a-button>
 </template>
@@ -47,6 +49,7 @@
 import ServerApi from "@/api";
 import { Notification } from '@arco-design/web-vue';
 import { inject } from "vue-demi";
+import { useRoute, useRouter } from "vue-router";
 import {
   // local
   // GfmLocale,
@@ -73,11 +76,15 @@ import {
 // watch(DefaultGfmLocale, (value) => {
 //   emitter.value.emit("work", { type: "local", value });
 // });
-const close:any = inject('close')
+const route = useRoute()
+const router = useRouter()
+const close: any = inject('close')
 const useCreateArticle = async () => {
   if (DefaulArticleTitle.value && DefaulArticleDescription.value && DefaultGfmValue.value) {
     try {
-      let res: any = await ServerApi.ArticleAdd({
+      const submitFunc = route.name === 'creative-edit' ? ServerApi.ArticleUpdate : ServerApi.ArticleAdd
+      let res: any = await submitFunc({
+        id: route.name === 'creative-edit' ? route.params.id : void 0,
         title: DefaulArticleTitle.value,
         describe: DefaulArticleDescription.value,
         content: DefaultGfmValue.value,
@@ -89,13 +96,19 @@ const useCreateArticle = async () => {
         DefaulArticleTag.value = []
         DefaultGfmValue.value = ''
         close()
-      } 
-    } catch (error:any) { 
+        route.name === 'creative-edit' ? router.push({
+          name: "particulars",
+          params: route.params,
+        }) : router.push({
+          name: "newest"
+        })
+      }
+    } catch (error: any) {
       Notification.error({
         title: 'Error',
         content: error,
       });
-     }
+    }
   } else {
     Notification.warning({
       title: 'warning',
@@ -105,6 +118,4 @@ const useCreateArticle = async () => {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

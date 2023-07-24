@@ -71,7 +71,9 @@ export default {
     particulars: {
       catalogue: 'Catalogue',
       comment: 'Comment',
-      reply: 'Reply'
+      reply: 'Reply',
+      edit: 'Edit',
+      deletePlaceholder: 'Are you sure you want to delete?'
     },
     confabulate: {
       mine: 'Mine',

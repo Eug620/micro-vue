@@ -73,7 +73,9 @@ export default {
     particulars: {
       catalogue: '目录',
       comment: '评论',
-      reply: '回复'
+      reply: '回复',
+      edit: '编辑',
+      deletePlaceholder: '你确定要删除吗?'
     },
     confabulate: {
       mine: '我的',

@@ -2,28 +2,23 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-11-18 17:18:40
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-06-26 13:48:39
+ * @LastEditTime : 2023-07-24 11:18:05
  * @FilePath     : /micro-vue/src/views/creative/index.vue
  * @Description  : filename
  * 
  * Copyright (c) 2022 by eug yyh3531@163.com, All Rights Reserved. 
 -->
 <template>
-  <Editor 
-    :value="DefaultGfmValue" 
-    :mode="DefaultGfmMode" 
-    :locale="DefaultGfmLocaleValue"
-    :placeholder="DefaultGfmPlaceholder" 
-    :plugins="DefaultEditorPlugins" 
-    @change="handleChange" 
-  />
-  <a-button type="outline" status="danger" @click="useShowSetting" shape="circle" size="large" class="!fixed right-6 bottom-12">
+  <Editor :value="DefaultGfmValue" :mode="DefaultGfmMode" :locale="DefaultGfmLocaleValue"
+    :placeholder="DefaultGfmPlaceholder" :plugins="DefaultEditorPlugins" @change="handleChange" />
+  <a-button type="outline" status="danger" @click="useShowSetting" shape="circle" size="large"
+    class="!fixed right-6 bottom-12">
     <IconSettings size="22" />
   </a-button>
 </template>
 
 <script setup lang="ts">
-import { computed, onActivated } from "vue-demi";
+import { computed, onActivated, onMounted, onUnmounted, onBeforeUnmount } from "vue-demi";
 import { Editor } from "@bytemd/vue-next";
 // plugins
 import gfm from "@bytemd/plugin-gfm";
@@ -45,14 +40,47 @@ import {
   DefaultGfmMode,
   DefaultGfmPlaceholder,
   DefaultMermaidLocaleValue,
+  DefaulArticleTitle,
+  DefaulArticleTag,
+  DefaulArticleDescription,
 } from './config/variable'
 import { IconSettings } from "@arco-design/web-vue/es/icon";
+import { useRoute } from "vue-router";
+import ServerApi from "@/api";
+const route = useRoute()
 
 
 const mittStore = useMittStore()
 const { mitt } = storeToRefs(mittStore)
 onActivated(() => {
   mitt.value.emit('setting', Setting)
+})
+
+const useGetDetails = async () => {
+  try {
+    let res = await ServerApi.GetArticleDetail({
+      id: route.params.id
+    })
+    DefaultGfmValue.value = res.data.content
+    DefaulArticleTitle.value = res.data.title
+    DefaulArticleTag.value = res.data.tag.split(',').filter((v: string) => v)
+    DefaulArticleDescription.value = res.data.describe
+  } catch (e) {
+    console.log(e);
+  }
+}
+onMounted(() => {
+  if (route.name === "creative-edit") {
+    mitt.value.emit('setting', Setting)
+    useGetDetails()
+  }
+})
+
+onBeforeUnmount(() => {
+  DefaulArticleTitle.value = ''
+  DefaulArticleDescription.value = ''
+  DefaulArticleTag.value = []
+  DefaultGfmValue.value = ''
 })
 // const emit = defineEmits(["setting"]);
 // emit('setting', Setting)

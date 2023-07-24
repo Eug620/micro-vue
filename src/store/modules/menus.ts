@@ -49,6 +49,20 @@ const customMenus = [
         },
         component: 'views/creative/index'
     },
+    {
+        path: '/creative-edit/:id',
+        name: 'creative-edit',
+        redirect: '',
+        meta: {
+            keepAlive: false,
+            title: '编辑',
+            isEle: false,
+            auth: true,
+            affix: true,
+            icon: 'IconSubscribeAdd'
+        },
+        component: 'views/creative/index'
+    },
     // {
     //     path: '/hot',
     //     name: 'hot',
