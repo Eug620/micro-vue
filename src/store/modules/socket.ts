@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-04-03 17:49:33
+ * @LastEditTime : 2023-07-28 11:44:24
  * @FilePath     : /micro-vue/src/store/modules/socket.ts
  * @Description  : filename
  * 
@@ -13,6 +13,8 @@ import io from "socket.io-client";
 import { useUserStore } from "@/store/modules/user";
 import { Notification } from "@arco-design/web-vue";
 import ServerApi from "@/api";
+import { useDBStore } from '@/store/modules/db'
+import { DataBaseName, DATABASEPUBLIC } from '@/enums/database';
 interface MsgInterface {
     data: {
         payload: {
@@ -45,11 +47,11 @@ export const useSocketStore = defineStore({
             // 没有加入任何房间
             if (!room.length) {
                 // 断开原有链接
-                if (this.socket){
+                if (this.socket) {
                     this.socket.close()
                     this.socket = null
                 }
-                return 
+                return
             }
             const userStore = useUserStore();
             console.log('initSocket: UserID-->' + userStore.getInfo.id);
@@ -145,10 +147,19 @@ export const useSocketStore = defineStore({
         useEmit(...arg: any) {
             this.socket.emit(...arg)
         },
+        useSetMessageLen(RoomID: string) {
+            const db = useDBStore()
+            db.set({
+                dbName: DataBaseName.DATABASE, path: `${DATABASEPUBLIC.ROOMS}.${RoomID}`, value: {
+                    messageLen: this.rooms[RoomID].messageList.length - this.rooms[RoomID].messageCount
+                }
+            })
+        },
         initRooms(rooms: any[]) {
             const userStore = useUserStore();
             this.initSocket(rooms)
-
+            const db = useDBStore()
+            const defaultConfig = db.get({ dbName: DataBaseName.DATABASE, defaultValue: {} })
             // 对比已经失效的房间
             const NewRoomIds = new Set()
             // 循环生成对应的房间
@@ -162,9 +173,12 @@ export const useSocketStore = defineStore({
                     messageList: [],
                     onlineInfo: new Map()
                 }
-                ServerApi.RoomsRecords({room_id: room.id}).then((res: any) => {
+                ServerApi.RoomsRecords({ room_id: room.id }).then((res: any) => {
                     if (res.code === 200) {
                         this.rooms[room.id].messageList = res.data || []
+                        const messageLen = defaultConfig?.rooms[room.id] && defaultConfig?.rooms[room.id].messageLen
+                        const messageCount = res.data.length - messageLen >= 0 ? res.data.length - messageLen : 0
+                        this.rooms[room.id].messageCount = messageCount
                     }
                 })
 
@@ -188,6 +202,7 @@ export const useSocketStore = defineStore({
                         avatar: res.meta.clientAvatar,
                         message: res.data.payload.message,
                     });
+                    this.useSetMessageLen(room.id)
                 })
             }
             

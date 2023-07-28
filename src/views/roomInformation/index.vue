@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-05-23 15:53:12
+ * @LastEditTime : 2023-07-28 11:45:09
  * @FilePath     : /micro-vue/src/views/roomInformation/index.vue
  * @Description  : filename
  * 
@@ -194,7 +194,10 @@ const useClose = () => {
   SocketStore.socket.close();
 };
 onBeforeRouteLeave(() => {
-  if (SocketStore.rooms[id]) SocketStore.rooms[id]['messageCount'] = 0
+  if (SocketStore.rooms[id]) {
+      SocketStore.rooms[id]['messageCount'] = 0
+      SocketStore.useSetMessageLen(id)
+  }
 })
 const useOnlineInfo = computed(() => {
   return SocketStore.useGetOnlineInfo(id) || new Map()
