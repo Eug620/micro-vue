@@ -4,7 +4,7 @@
  * @LastEditTime: 2022-07-15 16:08:58
  * @LastEditors: eug yyh3531@163.com
  * @Descripttion : Descripttion
- * @FilePath     : /chat/src/utils/dayjs/index.js
+ * @FilePath     : /micro-vue/src/utils/dayjs/index.ts
  */
 import dayjs, { ConfigType } from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -13,18 +13,22 @@ import zh from 'dayjs/locale/zh'
 dayjs.extend(relativeTime)
 // dayjs.extend(updateLocale)
 dayjs.locale(zh)
-const FormatTimer = (time: ConfigType, fomattext = 'YYYY-MM-DD') => {
+export const FormatTimer = (time: ConfigType, fomattext = 'YYYY-MM-DD') => {
   return dayjs(time).format(fomattext)
 }
-const FormatTimerSecond = (time: ConfigType, fomattext = 'YYYY-MM-DD hh:mm:ss') => {
+export const FormatTimerSecond = (time: ConfigType, fomattext = 'YYYY-MM-DD hh:mm:ss') => {
   return dayjs(time).format(fomattext)
 }
 
-const FormatRelativeTime = (time: ConfigType) => {
+export const FormatRelativeTime = (time: ConfigType) => {
   return dayjs().to(dayjs(time))
+}
+export const FormatFromNow = (time: ConfigType) => {
+  return dayjs(time).from(Date.now() + 1000)
 }
 export default {
   FormatTimer,
   FormatTimerSecond,
-  FormatRelativeTime
+  FormatRelativeTime,
+  FormatFromNow
 }

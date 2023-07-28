@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-01 09:46:19
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-07-24 15:38:07
+ * @LastEditTime : 2023-07-28 15:05:30
  * @FilePath     : /micro-vue/src/views/particulars/index.vue
  * @Description  : filename
  * 
@@ -27,7 +27,11 @@
         <template #label>
           <IconTags />
         </template>
-        {{ ArticleInfo.tag?.split(',')?.join(' ') }}
+        <a-space>
+          <a-tag color="purple" v-for="(tag, idx) in  ArticleInfo.tag?.split(',')" :key="`${tag}_${idx}`">
+            {{ tag }}
+          </a-tag>
+        </a-space>
       </a-descriptions-item>
       <a-descriptions-item style="display:flex;">
         <template #label>

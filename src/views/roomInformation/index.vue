@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-21 10:03:12
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-07-28 11:45:09
+ * @LastEditTime : 2023-07-28 15:05:37
  * @FilePath     : /micro-vue/src/views/roomInformation/index.vue
  * @Description  : filename
  * 
@@ -13,10 +13,19 @@
     <div class="roomInformation-container">
       <div class="roomInformation-container-list">
         <div class="roomInformation-container-list-comment">
-          <a-comment v-for="(message, idx) in comRenderMessage" class="animate__fadeIn  animate__animated"
-            :id="`id_${idx}`" :key="idx" :author="message.name" :datetime="useTransformSecond(message.timestamp)">
+          <a-comment v-for="(message, idx) in comRenderMessage" :class="{
+            'bg-slate-300/25': message.id === userStore.getInfo.id,
+
+          }" class="rounded-tl-3xl rounded-tr rounded-bl rounded-br-3xl animate__fadeIn  animate__animated"
+            :id="`id_${idx}`" :key="idx" :author="message.name">
+            <template #datetime>
+              {{ FormatFromNow(message.timestamp) }}
+            </template>
+            
             <template #content>
-              <p v-html="message.message"></p>
+              <p v-html="message.message" :class="{
+                'text-sky-400': message.id === userStore.getInfo.id,
+              }"></p>
             </template>
             <template #avatar>
               <a-avatar :imageUrl="message.avatar" />
@@ -147,14 +156,13 @@
 import { useSocketStore } from "@/store/modules/socket";
 // import { useSocketStore } from "@/store/modules/resetSocket";
 import { useUserStore } from "@/store/modules/user";
-import { computed, ref, Ref, nextTick, watchEffect } from "vue-demi";
+import { computed, ref, nextTick, watchEffect } from "vue-demi";
 import { onBeforeRouteLeave, useRoute } from "vue-router";
-import { useTransformSecond } from "@/plugin/transform-time";
+import { FormatFromNow } from "@/utils/dayjs/index";
 
 import { IconSend, IconLink, IconUser, IconDelete, IconStop, IconLeftCircle } from "@arco-design/web-vue/es/icon";
 import ServerApi from "@/api";
 const sendMessage = ref("");
-const messageList: Ref<any[]> = ref([]);
 const SocketStore = useSocketStore();
 const userStore = useUserStore();
 const router = useRoute();
@@ -195,8 +203,8 @@ const useClose = () => {
 };
 onBeforeRouteLeave(() => {
   if (SocketStore.rooms[id]) {
-      SocketStore.rooms[id]['messageCount'] = 0
-      SocketStore.useSetMessageLen(id)
+    SocketStore.rooms[id]['messageCount'] = 0
+    SocketStore.useSetMessageLen(id)
   }
 })
 const useOnlineInfo = computed(() => {
@@ -220,6 +228,7 @@ const useDeleteUser = async (user_id: string) => {
 
   .arco-card-body {
     padding-top: 0;
+    padding-right: 8px;
   }
 
   &-container {
@@ -240,6 +249,7 @@ const useDeleteUser = async (user_id: string) => {
 
       &-comment {
         padding-top: 16px;
+        padding-right: 8px;
         flex: 1;
         overflow-y: auto;
       }
