@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-09-01 09:46:19
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-07-28 15:05:30
+ * @LastEditTime : 2023-07-28 15:31:16
  * @FilePath     : /micro-vue/src/views/particulars/index.vue
  * @Description  : filename
  * 
@@ -23,7 +23,7 @@
       <template #title>
         <a-divider orientation="left">{{ ArticleInfo.title }}</a-divider>
       </template>
-      <a-descriptions-item style="display:flex;">
+      <a-descriptions-item style="display:flex;" v-if="!!ArticleInfo.tag?.trim()">
         <template #label>
           <IconTags />
         </template>
