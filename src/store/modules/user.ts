@@ -89,7 +89,8 @@ export const useUserStore = defineStore({
         },
         async getVisitorInfo(status: boolean = false) {
             try {
-                let res = await ServerApi.VisitorInfo()
+                let result = await fetch('https://api.vvhan.com/api/visitor.info')
+                const res = await result.json()
                 this.visitorInfo = res
                 if (status) ServerApi.VisitorInfoAdd(res)
                 // ServerApi.VisitorInfoIndex()
