@@ -20,7 +20,8 @@ export const useUserStore = defineStore({
     id: 'user',
     state: () => ({
         isLogin: false,
-        info: null
+        info: null,
+        visitorInfo: null,
     }),
     getters: {
         getRouteOptions(store: any): any {
@@ -53,6 +54,7 @@ export const useUserStore = defineStore({
                         this.setInfo({ ...res.data, token: res.token })
                         resolove(res)
                         this.reloadSocket()
+                        this.getVisitorInfo(true)
                     } else {
                         Notification.error({
                             title: 'Login',
@@ -76,6 +78,7 @@ export const useUserStore = defineStore({
             this.isLogin = this.info?.token ? true : false
             if (this.isLogin) {
                 this.reloadSocket()
+                this.getVisitorInfo()
             }
         },
         reloadSocket() {
@@ -83,6 +86,17 @@ export const useUserStore = defineStore({
             const socketStore = useSocketStore()
             // socketStore.initSocket()
             socketStore.useGetRoomsOwn()
+        },
+        async getVisitorInfo(status: boolean = false) {
+            try {
+                let res = await ServerApi.VisitorInfo()
+                this.visitorInfo = res
+                if (status) ServerApi.VisitorInfoAdd(res)
+                // ServerApi.VisitorInfoIndex()
+                // ServerApi.VisitorInfoAll()
+            } catch (err) {
+                console.log(err);
+            }
         },
         removeSocket() {
             // websocket

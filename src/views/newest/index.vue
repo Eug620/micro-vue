@@ -1,7 +1,18 @@
 <template>
   <div class="newest">
-    <a-card hoverable :bordered="false" class="newest-prefix animate__fadeIn animate__animated"
-      v-show="isPrefixShow"></a-card>
+    <a-card hoverable :bordered="false" class="newest-prefix animate__fadeIn animate__animated" v-show="isPrefixShow">
+      <a-descriptions :align="{ label: 'center' }" class="w-full animate__fadeIn animate__animated" layout="horizontal"
+        :column="1">
+        <a-descriptions-item v-for="(key, val) in userStore.visitorInfo" :key="val" style="display:flex;">
+          <template #label>
+            {{ useGetLabel(val) }}
+          </template>
+          <a-space>
+            {{ key }}
+          </a-space>
+        </a-descriptions-item>
+      </a-descriptions>
+    </a-card>
     <div class="newest-box">
       <div class="newest-container" ref="refNewestContainer">
         <a-card hoverable :bordered="false" v-for="newes in newestList" :key="newes.id" @click="useJumpParticulars(newes)"
@@ -97,8 +108,29 @@ import {
 import { onBeforeRouteLeave, useRouter } from "vue-router";
 import { FamilyEnum } from "@/enums/system";
 import { useSystemStore } from "@/store/modules/app";
+import { useUserStore } from "@/store/modules/user";
 
+const LABEL:any = {
+  browser: '',
+  browser_ver: '',
+  fl: '',
+  high: '',
+  ip: '',
+  location: '',
+  low: '',
+  system: '',
+  time: '',
+  tq: '',
+  week: '',
+  tip: ''
+}
+
+const useGetLabel = (key: any) => {
+  return LABEL[key]
+}
 const system = useSystemStore();
+
+const userStore = useUserStore()
 const useFamilyChange = (val: any) => {
   system.setFamily(val as FamilyEnum)
 }
@@ -122,8 +154,8 @@ const isRefresh = ref(false);
 const isArticleEnd = ref(false);
 const percent = ref(0);
 
-const isPrefixShow = ref(false);
-const isSuffixShow = ref(false);
+const isPrefixShow = ref(true);
+const isSuffixShow = ref(true);
 
 const suffixStyle = computed(() => {
   return !unref(isSuffixShow) && {
