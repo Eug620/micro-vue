@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2022-08-31 15:08:14
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2023-08-03 17:06:59
+ * @LastEditTime : 2023-08-10 18:19:27
  * @FilePath     : /micro-vue/src/views/about/index.vue
  * @Description  : filename
  * 
@@ -33,7 +33,7 @@
         <base-user-info v-model:value="isInfoEdit" />
       </template>
 
-      <a-table :pagination="false" class="VisitorInfoTable mt-4" :bordered="{ cell: true }"
+      <a-table :pagination="false" :scroll="{ maxHeight: 440 }" class="VisitorInfoTable mt-4" :bordered="{ cell: true }"
         :columns="columns" :data="data" />
     </a-card>
   </mc-container>
@@ -69,7 +69,7 @@ const columns: TableColumnData[] = [
   {
     title: 'IP',
     dataIndex: 'ip',
-    width: 110,
+    width: 150,
     fixed: 'left',
   },
   {
@@ -153,8 +153,11 @@ const useGetTableData = async () => {
 useGetTableData()
 </script>
 
-<style>
-.VisitorInfoTable .arco-spin {
-  height: auto !important;
+<style lang="scss">
+.VisitorInfoTable {
+
+  .arco-spin {
+    height: auto !important;
+  }
 }
 </style>

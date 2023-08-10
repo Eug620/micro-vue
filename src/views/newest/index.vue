@@ -55,7 +55,10 @@
     <a-card hoverable :bordered="false" class="newest-suffix  animate__fadeIn animate__animated" :style="suffixStyle">
       <div v-if="isSuffixShow">
         <a-input-search style="border-radius: 1rem;" size="large" v-model="keyword" @press-enter="usePressEnter"
-          placeholder="请输入关键词检索" />
+          placeholder="请输入关键词检索" class="mb-1" />
+
+        <a-tag class="m-1 cursor-pointer" v-for="(word,idx) in wordClundList" @click="useWordClick(word.keyword)" :color="colors[idx]" :key="word.id">{{ word.keyword }}
+        </a-tag>
       </div>
       <div class="newest-suffix_bottom">
         <template v-if="!isSuffixShow">
@@ -110,7 +113,7 @@ import { FamilyEnum } from "@/enums/system";
 import { useSystemStore } from "@/store/modules/app";
 import { useUserStore } from "@/store/modules/user";
 
-const LABEL:any = {
+const LABEL: any = {
   browser: '',
   browser_ver: '',
   fl: '',
@@ -124,6 +127,22 @@ const LABEL:any = {
   week: '',
   tip: ''
 }
+
+const colors = [
+  'red',
+  'orangered',
+  'orange',
+  'gold',
+  'lime',
+  'green',
+  'cyan',
+  'blue',
+  'arcoblue',
+  'purple',
+  'pinkpurple',
+  'magenta',
+  'gray'
+];
 
 const useGetLabel = (key: any) => {
   return LABEL[key]
@@ -146,8 +165,15 @@ interface NewestType {
   title?: string;
   user_name?: string;
 }
+interface WordClund {
+  frequency: number;
+  id: string;
+  keyword: string;
+  statistics: string;
+}
 const router = useRouter();
 const newestList: Ref<NewestType[]> = ref([]);
+const wordClundList: Ref<WordClund[]> = ref([])
 const page = ref(1);
 const keyword = ref('')
 const isRefresh = ref(false);
@@ -168,6 +194,21 @@ watch(keyword, () => {
   isArticleEnd.value = false
 })
 
+const useWordClick = (k:string) => {
+  keyword.value = k
+  nextTick(() => {
+    useGetArticle()
+  })
+}
+
+const useGetWordClund = async () => {
+  try {
+    let res = await ServerApi.GetWordCloudAllByMonth()
+    wordClundList.value = res.data
+  } catch (error) {
+    console.error(error);
+  }
+}
 const useGetArticle = async () => {
   try {
     if (isRefresh.value) {
@@ -182,11 +223,14 @@ const useGetArticle = async () => {
     } else {
       page.value++;
     }
+    useGetWordClund()
   } catch (err) {
     console.error(err);
   }
 };
 useGetArticle();
+
+
 const useUnregisterEvent = () => {
   refNewestContainer.value.parentElement.scrollTop = 0
   refNewestContainer.value?.parentElement?.removeEventListener(
@@ -260,6 +304,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 const usePressEnter = () => {
+  isRefresh.value = true
   useGetArticle()
   isShowSearch.value = false
 }
